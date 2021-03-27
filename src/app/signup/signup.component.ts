@@ -1,7 +1,8 @@
-import { createOfflineCompileUrlResolver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { passwordIdentityValidator } from '../directives/password-identity-validator.directive';
+import { Signup } from '../models/Signup';
+import { UserServiceService } from '../services/user.service';
 import { EMAIL_REGEXP, PWD_REGEXP } from '../utils/constants';
 
 @Component({
@@ -15,8 +16,17 @@ export class SignupComponent implements OnInit {
   email: FormControl = {} as FormControl;
   password: FormControl = {} as FormControl;
   repeatPassword: FormControl = {} as FormControl;
+  signupError: string = '';
 
-  constructor() { }
+  constructor(private userService: UserServiceService) { }
+
+  onChanges(): void {
+    this.signupForm.valueChanges.subscribe(val => {
+      if (this.signupError) {
+        this.signupError = '';
+      }
+    });
+  }
 
   createFormControls() {
     this.name = new FormControl('', [Validators.required, Validators.minLength(4)]);
@@ -37,6 +47,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.createFormControls();
     this.createForm();
+    this.onChanges();
   }
 
   getEmailErrorMessage() {
@@ -69,6 +80,25 @@ export class SignupComponent implements OnInit {
       return 'Password and repeated password are different';
     }
     return '';
+  }
+
+  onSubmit() {
+    if (this.signupForm.valid) {
+      const signupData: Signup = {
+        name: this.signupForm.value.name,
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password
+      }
+
+      this.userService.signup(signupData).subscribe(response => {
+        console.log(response);
+        this.signupForm.reset();
+        this.signupForm.markAsUntouched();
+      },
+      err => { 
+        this.signupError = err.error.message;
+      })
+    }
   }
 
 }
