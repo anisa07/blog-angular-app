@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
 import { HttpErrorComponent } from './components/http-error/http-error.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { HttpErrorComponent } from './components/http-error/http-error.component
   declarations: [
     AppComponent,
     SignupComponent,
+    LoginComponent,
     HttpErrorComponent,
   ],
   imports: [

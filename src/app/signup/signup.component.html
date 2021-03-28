@@ -1,4 +1,4 @@
-<div class="signup-container">
+<div class="form-container">
   <h1>Signup</h1>
   <form novalidate [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <div>
@@ -35,8 +35,5 @@
       <button mat-flat-button color="accent" type="submit" [disabled]="signupForm.invalid || !!signupError">Submit</button>
     </div>
     <http-error [errorMessage]="signupError"></http-error>
-    <p *ngIf="!!signupError" class="server-error">
-      {{signupError}}
-    </p>
   </form>
 </div>
