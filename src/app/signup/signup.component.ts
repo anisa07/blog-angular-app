@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { passwordIdentityValidator } from '../directives/password-identity-validator.directive';
 import { Signup } from '../models/Signup';
 import { UserServiceService } from '../services/user.service';
-import { EMAIL_REGEXP, PWD_REGEXP } from '../utils/constants';
+import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP } from '../utils/constants';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'signup',
@@ -21,7 +22,9 @@ export class SignupComponent implements OnInit {
   constructor(private userService: UserServiceService) { }
 
   onChanges(): void {
-    this.signupForm.valueChanges.subscribe(val => {
+    this.signupForm.valueChanges.pipe(
+      distinctUntilChanged()
+    ).subscribe(() => {
       if (this.signupError) {
         this.signupError = '';
       }
@@ -29,7 +32,7 @@ export class SignupComponent implements OnInit {
   }
 
   createFormControls() {
-    this.name = new FormControl('', [Validators.required, Validators.minLength(4)]);
+    this.name = new FormControl('', [Validators.required, Validators.pattern(NAME_REGEXP)]);
     this.email = new FormControl('', [Validators.required, Validators.pattern(EMAIL_REGEXP)]);
     this.password = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEXP)]);
     this.repeatPassword = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEXP)]);
@@ -41,7 +44,7 @@ export class SignupComponent implements OnInit {
       email: this.email,
       password: this.password,
       repeatPassword: this.repeatPassword
-    }, { validators: passwordIdentityValidator });
+    }, { validators: [passwordIdentityValidator] });
   }
 
   ngOnInit(): void {
@@ -61,7 +64,7 @@ export class SignupComponent implements OnInit {
     if (this.name.hasError('required')) {
       return 'This field is required';
     }
-    return this.name.hasError('minlength') ? 'Name is too short' : '';
+    return this.name.hasError('pattern') ? 'Name is too invalid' : '';
   }
 
   getPasswordError() {
@@ -91,7 +94,8 @@ export class SignupComponent implements OnInit {
       }
 
       this.userService.signup(signupData).subscribe(response => {
-        console.log(response);
+        // console.log(response);
+        // save user data and token
         this.signupForm.reset();
         this.signupForm.markAsUntouched();
       },

@@ -34,6 +34,7 @@
     <div>
       <button mat-flat-button color="accent" type="submit" [disabled]="signupForm.invalid || !!signupError">Submit</button>
     </div>
+    <http-error [errorMessage]="signupError"></http-error>
     <p *ngIf="!!signupError" class="server-error">
       {{signupError}}
     </p>
