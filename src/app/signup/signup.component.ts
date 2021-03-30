@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { passwordIdentityValidator } from '../directives/password-identity-validator.directive';
 import { Signup } from '../models/Signup';
-import { UserServiceService } from '../services/user.service';
-import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP } from '../utils/constants';
+import { UserService } from '../services/user.service';
+import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../utils/constants';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { LocalstoreService } from '../services/localstore.service';
 
 @Component({
   selector: 'signup',
@@ -19,7 +20,7 @@ export class SignupComponent implements OnInit {
   repeatPassword: FormControl = {} as FormControl;
   signupError: string = '';
 
-  constructor(private userService: UserServiceService) { }
+  constructor(private userService: UserService, private localstoreService: LocalstoreService) { }
 
   onChanges(): void {
     this.signupForm.valueChanges.pipe(
@@ -94,8 +95,7 @@ export class SignupComponent implements OnInit {
       }
 
       this.userService.signup(signupData).subscribe(response => {
-        // console.log(response);
-        // save user data and token
+        this.localstoreService.setData(STORE_USER_KEY, response || '');
         this.signupForm.reset();
         this.signupForm.markAsUntouched();
       },
