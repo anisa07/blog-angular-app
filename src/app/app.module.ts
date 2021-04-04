@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { HttpErrorComponent } from './components/http-error/http-error.component';
+import { CreatePostComponent } from './create-post/create-post.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   exports: [
@@ -24,6 +26,8 @@ import { HttpErrorComponent } from './components/http-error/http-error.component
     SignupComponent,
     LoginComponent,
     HttpErrorComponent,
+    CreatePostComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

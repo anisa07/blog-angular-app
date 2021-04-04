@@ -10,7 +10,8 @@ p.server-error {
 }
 
 .form-container {
-    max-width: 400px;
+    min-width: 400px;
+    width: 40%;
     margin: 2rem auto;
 
     .mat-form-field {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { passwordIdentityValidator } from '../directives/password-identity-validator.directive';
+import { passwordIdentityValidator } from '../validators/password-identity-validator';
 import { Signup } from '../models/Signup';
 import { UserService } from '../services/user.service';
 import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../utils/constants';
@@ -13,11 +13,11 @@ import { LocalstoreService } from '../services/localstore.service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  signupForm: FormGroup = {} as FormGroup;
-  name: FormControl = {} as FormControl;
-  email: FormControl = {} as FormControl;
-  password: FormControl = {} as FormControl;
-  repeatPassword: FormControl = {} as FormControl;
+  signupForm: FormGroup;
+  name: FormControl;
+  email: FormControl;
+  password: FormControl;
+  repeatPassword: FormControl;
   signupError: string = '';
 
   constructor(private userService: UserService, private localstoreService: LocalstoreService) { }

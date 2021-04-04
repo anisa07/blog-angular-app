@@ -1,0 +1,26 @@
+<div class="form-container">
+    <h1>Create post</h1>
+    <form novalidate [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" required>
+          <mat-error *ngIf="title.invalid">{{getTitleErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+       <!-- upload image -->
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Text</mat-label>
+          <textarea matInput type="text" formControlName="text" required rows="20" class="post" ></textarea>
+          <mat-error *ngIf="text.invalid">{{getTextErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+        <!-- add label(s) -->
+      <div>
+        <button mat-flat-button color="accent" type="submit" [disabled]="postForm.invalid">Submit</button>
+      </div>
+      <http-error [errorMessage]="postError"></http-error>
+    </form>
+  </div>
+  
