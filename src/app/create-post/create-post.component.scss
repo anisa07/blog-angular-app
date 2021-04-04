@@ -1,1 +1,9 @@
-textarea.post { resize: none; }
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.form-action {
+    margin-top: 1rem;
+}

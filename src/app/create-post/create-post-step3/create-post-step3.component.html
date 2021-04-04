@@ -1,0 +1,9 @@
+<form novalidate [formGroup]="form">
+    <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Post topics</mat-label>
+          <input matInput type="text" formControlName="label" />
+          <mat-error>{{getLabelErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+</form>

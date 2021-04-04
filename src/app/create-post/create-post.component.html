@@ -1,26 +1,46 @@
 <div class="form-container">
-    <h1>Create post</h1>
-    <form novalidate [formGroup]="postForm" (ngSubmit)="onSubmit()">
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" required>
-          <mat-error *ngIf="title.invalid">{{getTitleErrorMessage()}}</mat-error>
-        </mat-form-field>
+  <h1>Create post</h1>
+
+  <mat-vertical-stepper linear labelPosition="bottom">
+
+    <mat-step [stepControl]="step1.form">
+      <ng-template matStepLabel>Post Title</ng-template>
+      <create-post-step1 #step1></create-post-step1>
+      <div class="action-container">
+        <button mat-flat-button color="accent" matStepperNext>Next</button>
       </div>
-       <!-- upload image -->
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Text</mat-label>
-          <textarea matInput type="text" formControlName="text" required rows="20" class="post" ></textarea>
-          <mat-error *ngIf="text.invalid">{{getTextErrorMessage()}}</mat-error>
-        </mat-form-field>
+    </mat-step>
+
+    <mat-step [stepControl]="step2.form">
+      <ng-template matStepLabel>Post Text</ng-template>
+      <create-post-step2 #step2></create-post-step2>
+      <div class="action-container">
+        <button mat-flat-button color="default" matStepperPrevious>Previous</button>
+        <button mat-flat-button color="accent" matStepperNext>Next</button>
       </div>
-        <!-- add label(s) -->
-      <div>
-        <button mat-flat-button color="accent" type="submit" [disabled]="postForm.invalid">Submit</button>
+    </mat-step>
+
+    <mat-step [stepControl]="step3.form">
+      <ng-template matStepLabel>Post Topics</ng-template>
+      <create-post-step3 #step3></create-post-step3>
+      <div class="action-container">
+        <button mat-flat-button color="default" matStepperPrevious>Previous</button>
+        <button mat-flat-button color="accent" matStepperNext>Next</button>
       </div>
-      <http-error [errorMessage]="postError"></http-error>
-    </form>
+    </mat-step>
+
+    <mat-step [stepControl]="step4.form" optional>
+      <ng-template matStepLabel>Post Image</ng-template>
+      <create-post-step4 #step4></create-post-step4>
+      <div class="action-container">
+        <button mat-flat-button color="default" matStepperPrevious>Previous</button>
+      </div>
+    </mat-step>
+
+  </mat-vertical-stepper>
+
+  <div class="form-action">
+    <button mat-flat-button color="primary" (click)="onSave()">Save post</button>
   </div>
-  
+  <http-error [errorMessage]="postError"></http-error>
+</div>

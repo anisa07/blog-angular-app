@@ -1,0 +1,9 @@
+<form novalidate [formGroup]="form">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" required>
+        <mat-error *ngIf="title.invalid">{{getTitleErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+</form>

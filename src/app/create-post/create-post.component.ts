@@ -1,61 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { emptyValueValidator } from '../validators/empty-value-validator';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
-  postForm: FormGroup;
+export class CreatePostComponent {
+  @ViewChild('step1', { static: true }) formStep1: NgForm;
+  @ViewChild('step2', { static: true }) formStep2: NgForm;
+  @ViewChild('step3', { static: true }) formStep3: NgForm;
+  @ViewChild('step4', { static: true }) formStep4: NgForm;
+
   postError: string = "";
   loading: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
   
   }
 
-  onSubmit(): void {}
-
-  get title() {
-    return this.postForm.controls['title']
+  onSave(): void {
+    console.log(this.formStep1.form.value);
+    console.log(this.formStep2.form.value);
+    console.log(this.formStep3.form.value)
   }
 
-  get text() {
-    return this.postForm.controls['text']
-  }
 
-  getTitleErrorMessage(): string {
-    if (this.title.errors.required) {
-      return "This filed is required"
-    }
-    if (this.title.errors.emptyValue) {
-      return "Seems this filed has only spaces"
-    }
-    return ""
-  }
-
-  getTextErrorMessage(): string {
-    if (this.text.errors.required) {
-      return "This filed is required"
-    }
-    if (this.text.errors.emptyValue) {
-      return "Seems this filed has only spaces"
-    }
-    return ""
-  }
-
-  ngOnInit(): void {
-    this.postForm = this.fb.group({
-      title: ['', {
-        validators: [Validators.required, emptyValueValidator],
-        updateOn: 'blur'
-      }],
-      text: ['', {
-        validators: [Validators.required, emptyValueValidator],
-        updateOn: 'blur'
-      }]
-    });
-  }
 }
