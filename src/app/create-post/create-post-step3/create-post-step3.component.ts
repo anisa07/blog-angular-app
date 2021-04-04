@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Label } from 'src/app/models/Label';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { distinctUntilChanged, throttle, throttleTime } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Label } from '../../models/Label';
+import { PostService } from '../../services/post.service';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'create-post-step3',
@@ -8,28 +12,57 @@ import { Label } from 'src/app/models/Label';
   styleUrls: ['./create-post-step3.component.scss']
 })
 export class CreatePostStep3Component implements OnInit {
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   form: FormGroup;
   label: FormControl;
   labels: Label[] = [];
-  
-  constructor() {
-    this.label = new FormControl('')
+
+  constructor(private postService: PostService) {
     this.form = new FormGroup({
-      label: this.label
+      labels: new FormControl(this.labels, Validators.required)
     });
   }
 
-  ngOnInit(): void {
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.postService.createLabel(value.trim()).subscribe((l: Label) => {
+        this.labels = [...this.labels, l];
+      })
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(fruit: Label): void {
+    const index = this.labels.indexOf(fruit);
+
+    if (index >= 0) {
+      this.labels.splice(index, 1);
+    }
+  }
+
+  ngOnInit(): void {}
+
+  get labelsControl() {
+    return this.form.controls['labels'];
   }
 
   getLabelErrorMessage() {
-    console.log(this.form)
-    if (this.form.touched && this.labels.length === 0) {
-      this.label.setErrors({'incorrect': true})
-      // this.form.controls['email'].setErrors({'incorrect': true});
-      return "At least one post topic required"
+    const labelError = this.labelsControl?.errors || null;
+    if (this.form.touched && labelError) {
+      return "At least one post tag required"
     }
-    this.label.setErrors(null)
     return ""
   }
 }

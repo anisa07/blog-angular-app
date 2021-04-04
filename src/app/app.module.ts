@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,7 +27,9 @@ import { CreatePostStep4Component } from './create-post/create-post-step4/create
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatStepperModule
+    MatStepperModule,
+    MatChipsModule,
+    MatIconModule
   ],
   declarations: [
     AppComponent,
@@ -48,6 +52,8 @@ import { CreatePostStep4Component } from './create-post/create-post-step4/create
     MatInputModule,
     MatButtonModule,
     MatStepperModule,
+    MatChipsModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule
   ],

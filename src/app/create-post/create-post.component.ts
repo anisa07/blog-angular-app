@@ -20,9 +20,9 @@ export class CreatePostComponent {
   }
 
   onSave(): void {
-    console.log(this.formStep1.form.value);
-    console.log(this.formStep2.form.value);
-    console.log(this.formStep3.form.value)
+    // console.log(this.formStep1.form.value);
+    // console.log(this.formStep2.form.value);
+    // console.log(this.formStep3.form.value)
   }
 
 

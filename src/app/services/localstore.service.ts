@@ -8,7 +8,6 @@ export class LocalstoreService {
   constructor() { }
 
   setData(key: string, value: string | Object) {
-    console.log(value)
     try {
       const val = typeof value === 'string' ? value : JSON.stringify(value); 
       localStorage.setItem(key, val);
