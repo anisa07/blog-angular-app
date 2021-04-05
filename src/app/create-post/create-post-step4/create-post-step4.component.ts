@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'create-post-step4',
@@ -8,12 +8,21 @@ import { FormGroup } from '@angular/forms';
 })
 export class CreatePostStep4Component implements OnInit {
   form: FormGroup;
+  file: FormControl;
 
   constructor() {
-    this.form = new FormGroup({}); 
+    this.file = new FormControl('');
+    this.form = new FormGroup({
+      file: this.file
+    }); 
+  }
+
+  onFileUpload(f: File) {
+    if (f) {
+      this.file.setValue(f);
+    }
   }
 
   ngOnInit(): void {
   }
-
 }

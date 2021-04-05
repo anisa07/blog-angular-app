@@ -21,6 +21,7 @@ import { CreatePostStep1Component } from './create-post/create-post-step1/create
 import { CreatePostStep2Component } from './create-post/create-post-step2/create-post-step2.component';
 import { CreatePostStep3Component } from './create-post/create-post-step3/create-post-step3.component';
 import { CreatePostStep4Component } from './create-post/create-post-step4/create-post-step4.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   exports: [
@@ -42,6 +43,7 @@ import { CreatePostStep4Component } from './create-post/create-post-step4/create
     CreatePostStep2Component,
     CreatePostStep3Component,
     CreatePostStep4Component,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,

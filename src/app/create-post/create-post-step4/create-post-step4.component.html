@@ -1,1 +1,3 @@
-<p>create-post-step4 works!</p>
+<form novalidate [formGroup]="form">
+    <file-upload (uploadFileEvent)="onFileUpload($event)"></file-upload>
+</form>
