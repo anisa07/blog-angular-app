@@ -8,4 +8,5 @@ export class UrlService {
   signupUrl: string = this.url + '/signup';
   loginUrl: string = this.url + '/login';
   postTagUrl: string = this.url + '/label';
+  postUrl: string = this.url + '/post';
 }

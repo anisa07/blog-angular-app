@@ -10,23 +10,22 @@ import { UrlService } from './url-service';
 export class PostService {
   constructor(private http: HttpClient, private urlService: UrlService, private storageService: LocalstoreService) { }
 
-  createLabel(label: string) {
+  createHeaders() {
     const userObject = this.storageService.getData(STORE_USER_KEY);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    return new HttpHeaders({
       'Authorization': `Bearer ${userObject.token}`,
       'id': userObject.id
     })
-    return this.http.post(this.urlService.postTagUrl, {
-      name: label
-    }, {headers: headers});
   }
 
-  // signup(data: Signup) {
-  //   return this.http.post(this.urlService.signupUrl, data);
-  // }
+  createLabel(label: string) {
+    return this.http.post(this.urlService.postTagUrl, {
+      name: label
+    }, {headers: this.createHeaders()});
+  }
 
-  // login(data: Login) {
-  //   return this.http.post(this.urlService.loginUrl, data);
-  // }
+  createPost(formData: FormData) {
+    const options = { headers: this.createHeaders()};
+    return this.http.post(this.urlService.postUrl, formData, options);
+  }
 }

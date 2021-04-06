@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'create-post',
@@ -15,15 +16,23 @@ export class CreatePostComponent {
   postError: string = "";
   loading: boolean = false;
 
-  constructor() {
+  constructor(private postService: PostService) {
   
   }
 
   onSave(): void {
-    // console.log(this.formStep1.form.value);
-    // console.log(this.formStep2.form.value);
-    // console.log(this.formStep3.form.value)
+    const formData: FormData = new FormData();
+    formData.append('labels', JSON.stringify(this.formStep3.form.value.labels));
+    formData.append('text', this.formStep2.form.value.text);
+    formData.append('title', this.formStep1.form.value.title);
+
+    const file: File = this.formStep4.form.value.file;
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    this.postService.createPost(formData).subscribe((response) => {
+      console.log(response)
+    })
   }
-
-
 }

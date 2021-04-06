@@ -40,7 +40,10 @@
   </mat-vertical-stepper>
 
   <div class="form-action">
-    <button mat-flat-button color="primary" (click)="onSave()">Save post</button>
+    <button mat-flat-button color="primary" (click)="onSave()"
+      [disabled]="step1.form.invalid || step2.form.invalid || step3.form.invalid">
+      Save post
+    </button>
   </div>
   <http-error [errorMessage]="postError"></http-error>
 </div>

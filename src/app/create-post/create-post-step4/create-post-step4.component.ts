@@ -19,7 +19,7 @@ export class CreatePostStep4Component implements OnInit {
 
   onFileUpload(f: File) {
     if (f) {
-      this.file.setValue(f);
+      this.form.controls['file'].setValue(f);
     }
   }
 

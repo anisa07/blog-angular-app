@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { distinctUntilChanged, throttle, throttleTime } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Label } from '../../models/Label';
 import { PostService } from '../../services/post.service';
@@ -18,12 +17,12 @@ export class CreatePostStep3Component implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   form: FormGroup;
-  label: FormControl;
   labels: Label[] = [];
 
   constructor(private postService: PostService) {
     this.form = new FormGroup({
-      labels: new FormControl(this.labels, Validators.required)
+      label: new FormControl('', Validators.required),
+      labels: new FormControl('')
     });
   }
 
@@ -35,6 +34,7 @@ export class CreatePostStep3Component implements OnInit {
     if ((value || '').trim()) {
       this.postService.createLabel(value.trim()).subscribe((l: Label) => {
         this.labels = [...this.labels, l];
+        this.form.controls['labels'].setValue([...this.labels])
       })
     }
 
@@ -49,13 +49,14 @@ export class CreatePostStep3Component implements OnInit {
 
     if (index >= 0) {
       this.labels.splice(index, 1);
+      this.form.controls['labels'].setValue([...this.labels]);
     }
   }
 
   ngOnInit(): void {}
 
   get labelsControl() {
-    return this.form.controls['labels'];
+    return this.form.controls['label'];
   }
 
   getLabelErrorMessage() {
