@@ -7,7 +7,7 @@
         <input matInput [disabled]=true [value]="filename"/>
     </mat-form-field>
 
-    <button mat-icon-button mat-mini-fab color="accent" class="upload-btn" (click)="fileUpload.click()">
+    <button mat-icon-button mat-mini-fab color="accent" class="upload-btn" (click)="onClick(fileUpload)" [disabled]="isDisabled">
         <mat-icon>attach_file</mat-icon>
     </button>
 </div>

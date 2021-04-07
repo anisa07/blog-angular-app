@@ -1,28 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'create-post-step4',
   templateUrl: './create-post-step4.component.html',
-  styleUrls: ['./create-post-step4.component.scss']
+  styleUrls: ['./create-post-step4.component.scss'],
 })
 export class CreatePostStep4Component implements OnInit {
   form: FormGroup;
-  file: FormControl;
+  fileUpload: FormControl;
 
   constructor() {
-    this.file = new FormControl('');
+    this.fileUpload = new FormControl();
     this.form = new FormGroup({
-      file: this.file
+      fileUpload: this.fileUpload
     }); 
   }
-
-  onFileUpload(f: File) {
-    if (f) {
-      this.form.controls['file'].setValue(f);
-    }
-  }
-
+  
   ngOnInit(): void {
   }
 }
