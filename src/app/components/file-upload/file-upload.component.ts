@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, Input  } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'file-upload',
@@ -9,17 +10,31 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: FileUploadComponent
-  }]
+  }, { provide: NG_VALIDATORS, multi: true, useExisting: FileUploadComponent }]
 })
-export class FileUploadComponent implements OnInit, ControlValueAccessor{
+export class FileUploadComponent implements OnInit, ControlValueAccessor, Validator {
   filename: string = "";
-  onChange: Function = (f: File) => {};
-  onTouched: Function = () => {};
+  onChange: Function = (f: File) => { };
+  onTouched: Function = () => { };
+  onValidatorChange: Function = () => { };
   isDisabled: boolean = false;
-
-  @Output() uploadFileEvent = new EventEmitter<File>();
+  @Input() validationRequired: boolean;
 
   constructor() { }
+  validate(control: AbstractControl): ValidationErrors {
+    if (!this.validationRequired) {
+      return null;
+    }
+
+    if (this.validationRequired && !this.filename && control.touched) {
+      return { required: true };
+    }
+
+    return null;
+  }
+  registerOnValidatorChange?(onValidatorChange: () => void): void {
+    this.onValidatorChange = onValidatorChange;
+  }
 
   writeValue(value: any): void {
     this.filename = value;
@@ -50,6 +65,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor{
     if (file) {
       this.onChange(file);
       this.filename = file.name;
+      this.onValidatorChange();
     }
   }
 }
