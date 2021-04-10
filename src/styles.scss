@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import './colors.scss';
 
 html, body { height: 100%; }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 p.server-error {
-    color: #f44336;
+    color: $error-color;
     margin: 0.5rem 0;
 }
 
@@ -19,3 +20,14 @@ p.server-error {
         width: 100%;
     }
 }
+
+.link {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0.5rem;
+    color: $default-text-color;
+}
+
+.accent {
+    color: $accent-color;
+} 

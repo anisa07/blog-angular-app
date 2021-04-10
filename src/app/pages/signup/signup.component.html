@@ -33,6 +33,7 @@
     </div>
     <div>
       <button mat-flat-button color="accent" type="submit" [disabled]="signupForm.invalid || !!signupError">Submit</button>
+      <a class="link accent" routerLink="/login">Have an account?</a>
     </div>
     <http-error [errorMessage]="signupError"></http-error>
   </form>
