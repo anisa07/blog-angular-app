@@ -10,7 +10,12 @@ import { retry } from 'rxjs/operators';
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: FileUploadComponent
-  }, { provide: NG_VALIDATORS, multi: true, useExisting: FileUploadComponent }]
+  }, 
+  { 
+    provide: NG_VALIDATORS, 
+    multi: true, 
+    useExisting: FileUploadComponent 
+  }]
 })
 export class FileUploadComponent implements OnInit, ControlValueAccessor, Validator {
   filename: string = "";

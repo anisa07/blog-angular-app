@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { passwordIdentityValidator } from '../validators/password-identity-validator';
-import { Signup } from '../models/Signup';
-import { UserService } from '../services/user.service';
-import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../utils/constants';
+import { passwordIdentityValidator } from '../../utils/validators/password-identity-validator';
+import { Signup } from '../../models/Signup';
+import { UserService } from '../../services/user.service';
+import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../utils/constants';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { LocalstoreService } from '../services/localstore.service';
+import { LocalstoreService } from '../../services/localstore.service';
 
 @Component({
   selector: 'signup',

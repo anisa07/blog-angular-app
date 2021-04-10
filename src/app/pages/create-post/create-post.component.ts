@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PostService } from '../services/post.service';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'create-post',

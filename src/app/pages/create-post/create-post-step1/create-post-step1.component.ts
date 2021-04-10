@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { emptyValueValidator } from '../../validators/empty-value-validator';
+import { emptyValueValidator } from '../../../utils/validators/empty-value-validator';
 
 @Component({
   selector: 'create-post-step1',

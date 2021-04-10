@@ -34,16 +34,13 @@
       <create-post-step4 #step4></create-post-step4>
       <div class="action-container">
         <button mat-flat-button color="default" matStepperPrevious>Previous</button>
+        <button mat-flat-button color="primary" (click)="onSave()"
+          [disabled]="step1.form.invalid || step2.form.invalid || step3.form.invalid">
+          Save post
+        </button>
       </div>
     </mat-step>
-
   </mat-vertical-stepper>
 
-  <div class="form-action">
-    <button mat-flat-button color="primary" (click)="onSave()"
-      [disabled]="step1.form.invalid || step2.form.invalid || step3.form.invalid">
-      Save post
-    </button>
-  </div>
   <http-error [errorMessage]="postError"></http-error>
 </div>

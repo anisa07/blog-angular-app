@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LocalstoreService } from '../services/localstore.service';
-import { UserService } from '../services/user.service';
-import { EMAIL_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../utils/constants';
+import { LocalstoreService } from '../../services/localstore.service';
+import { UserService } from '../../services/user.service';
+import { EMAIL_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../utils/constants';
 
 @Component({
   selector: 'login',

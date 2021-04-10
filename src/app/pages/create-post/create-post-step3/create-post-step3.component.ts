@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Label } from '../../models/Label';
-import { PostService } from '../../services/post.service';
+import { Label } from '../../../models/Label';
+import { PostService } from '../../../services/post.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
