@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Label } from '../../../models/Label';
 import { PostService } from '../../../services/post.service';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { emptyLabelsValidator } from '../../../utils/validators/empty-labels-validator';
 
 @Component({
   selector: 'create-post-step3',
@@ -18,15 +19,17 @@ export class CreatePostStep3Component implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   form: FormGroup;
   labels: Label[] = [];
+  error: string;
 
-  constructor(private postService: PostService) {
-    this.form = new FormGroup({
-      label: new FormControl('', Validators.required),
-      labels: new FormControl('')
+  constructor(private postService: PostService, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      label: ['', Validators.required],
+      labels: [this.labels, emptyLabelsValidator]
     });
   }
 
   add(event: MatChipInputEvent): void {
+    this.error = "";
     const input = event.input;
     const value = event.value;
 
@@ -34,8 +37,12 @@ export class CreatePostStep3Component implements OnInit {
     if ((value || '').trim()) {
       this.postService.createLabel(value.trim()).subscribe((l: Label) => {
         this.labels = [...this.labels, l];
-        this.form.controls['labels'].setValue([...this.labels])
-      })
+        this.form.controls['labels'].setValue([...this.labels]);
+      },
+        err => {
+          this.error = err?.error?.message;
+        }
+      )
     }
 
     // Reset the input value
@@ -53,15 +60,21 @@ export class CreatePostStep3Component implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   get labelsControl() {
+    return this.form.controls['labels'];
+  }
+
+  get labelInput() {
     return this.form.controls['label'];
   }
 
   getLabelErrorMessage() {
-    const labelError = this.labelsControl?.errors || null;
-    if (this.form.touched && labelError) {
+    if (this.error) {
+      return this.error;
+    }
+    if (this.labelInput.touched && this.labelsControl?.errors?.emptyLabels) {
       return "At least one post tag required"
     }
     return ""

@@ -16,6 +16,6 @@
                  (matChipInputTokenEnd)="add($event)">      
         </mat-chip-list>
       </mat-form-field>
-      <div *ngIf="labelsControl.errors?.required" class="chips-error">{{getLabelErrorMessage()}}</div>  
+      <div *ngIf="form.invalid" class="chips-error">{{getLabelErrorMessage()}}</div>  
 </form>
 

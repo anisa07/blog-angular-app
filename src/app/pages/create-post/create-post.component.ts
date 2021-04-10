@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class CreatePostComponent {
   postError: string = "";
   loading: boolean = false;
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService, private router: Router) {
   
   }
 
@@ -31,8 +32,8 @@ export class CreatePostComponent {
       formData.append('image', file, file.name);
     }
 
-    this.postService.createPost(formData).subscribe((response) => {
-      console.log(response)
+    this.postService.createPost(formData).subscribe((response: {id: string}) => {
+      this.router.navigate(['post', response.id])
     })
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'create-post-step4',
@@ -8,15 +8,17 @@ import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CreatePostStep4Component implements OnInit {
   form: FormGroup;
-  fileUpload: FormControl;
 
-  constructor() {
-    this.fileUpload = new FormControl();
-    this.form = new FormGroup({
-      fileUpload: this.fileUpload
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      fileUpload: ['']
     }); 
   }
   
+  get fileUpload() {
+    return this.form.controls['fileUpload']
+  }
+
   ngOnInit(): void {
   }
 }
