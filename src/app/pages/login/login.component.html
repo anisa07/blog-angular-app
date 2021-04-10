@@ -1,20 +1,18 @@
 <div class="form-container">
     <h1>Login</h1>
-    <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)">
+    <form novalidate [formGroup]="loginForm" (ngSubmit)="submit()">
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" name="email" required ngModel [pattern]="emailPattern" #email="ngModel">
-                <mat-error *ngIf="email.errors?.required">This field is required</mat-error>
-                <mat-error *ngIf="email.errors?.pattern">Email is invalid</mat-error>
+                <input matInput type="email" formControlName="email" required>
+                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" name="password" required ngModel [pattern]="passwordPattern" #password="ngModel">
-                <mat-error *ngIf="password.errors?.required">This field is required</mat-error>
-                <mat-error *ngIf="password.errors?.pattern">Password is invalid</mat-error>
+                <input matInput type="password" formControlName="password" required>
+                <mat-error *ngIf="password.invalid">{{getPasswordError()}}</mat-error>
             </mat-form-field>
         </div>
         <div class="action">

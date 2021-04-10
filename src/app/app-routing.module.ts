@@ -14,7 +14,7 @@ import { SuperUserPageComponent } from './pages/super-user-page/super-user-page.
 const routes: Routes = [
   { path: '', component: AllPostsComponent },
   { path: 'post/:id', component: PostComponent },
-  { path: 'post/create', component: CreatePostComponent },
+  { path: 'post-create', component: CreatePostComponent },
   { path: 'user-profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignupComponent },

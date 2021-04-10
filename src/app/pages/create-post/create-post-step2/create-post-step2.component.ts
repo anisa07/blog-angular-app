@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { emptyValueValidator } from '../../../utils/validators/empty-value-validator';
 
 @Component({
@@ -9,19 +9,19 @@ import { emptyValueValidator } from '../../../utils/validators/empty-value-valid
 })
 export class CreatePostStep2Component implements OnInit {
   form: FormGroup;
-  text: FormControl;
 
-  constructor() {
-    this.text = new FormControl('', {
-      validators: [Validators.required, emptyValueValidator]
-    })
-    this.form = new FormGroup({
-      text: this.text
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      text: ['', [Validators.required, emptyValueValidator]]
     });
   }
 
   ngOnInit(): void {
    
+  }
+
+  get text() {
+    return this.form.controls['text'];
   }
 
   getTextErrorMessage(): string {

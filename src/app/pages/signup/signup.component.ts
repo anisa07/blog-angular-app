@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { passwordIdentityValidator } from '../../utils/validators/password-identity-validator';
 import { Signup } from '../../models/Signup';
 import { UserService } from '../../services/user.service';
 import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../utils/constants';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { LocalstoreService } from '../../services/localstore.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'signup',
@@ -14,13 +15,9 @@ import { LocalstoreService } from '../../services/localstore.service';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  name: FormControl;
-  email: FormControl;
-  password: FormControl;
-  repeatPassword: FormControl;
   signupError: string = '';
 
-  constructor(private userService: UserService, private localstoreService: LocalstoreService) { }
+  constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router) { }
 
   onChanges(): void {
     this.signupForm.valueChanges.pipe(
@@ -32,26 +29,31 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  createFormControls() {
-    this.name = new FormControl('', [Validators.required, Validators.pattern(NAME_REGEXP)]);
-    this.email = new FormControl('', [Validators.required, Validators.pattern(EMAIL_REGEXP)]);
-    this.password = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEXP)]);
-    this.repeatPassword = new FormControl('', [Validators.required, Validators.pattern(PWD_REGEXP)]);
-  }
-
-  createForm() {
-    this.signupForm = new FormGroup({
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      repeatPassword: this.repeatPassword
-    }, { validators: [passwordIdentityValidator] });
-  }
-
   ngOnInit(): void {
-    this.createFormControls();
-    this.createForm();
+    this.signupForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.pattern(NAME_REGEXP)]],
+      email: ['', [Validators.required, Validators.pattern(EMAIL_REGEXP)]],
+      password: ['', [Validators.required, Validators.pattern(PWD_REGEXP)]],
+      repeatPassword: ['']
+    }, { validators: [passwordIdentityValidator] });
+
     this.onChanges();
+  }
+
+  get name() {
+    return this.signupForm.controls['name'];
+  }
+
+  get email() {
+    return this.signupForm.controls['email'];
+  }
+
+  get password() {
+    return this.signupForm.controls['password'];
+  }
+
+  get repeatPassword() {
+    return this.signupForm.controls['repeatPassword'];
   }
 
   getEmailErrorMessage() {
@@ -97,7 +99,8 @@ export class SignupComponent implements OnInit {
       this.userService.signup(signupData).subscribe(response => {
         this.localstoreService.setData(STORE_USER_KEY, response || '');
         this.signupForm.reset();
-        this.signupForm.markAsUntouched();
+        this.signupForm.markAsPristine();
+        this.router.navigate([""]);
       },
       err => { 
         this.signupError = err.error.message;

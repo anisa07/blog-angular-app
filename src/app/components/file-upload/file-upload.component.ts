@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
-import { retry } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
+import { CustomBaseComponent } from '../custom-base/custom-base.component';
 
 @Component({
   selector: 'file-upload',
@@ -17,15 +17,15 @@ import { retry } from 'rxjs/operators';
     useExisting: FileUploadComponent 
   }]
 })
-export class FileUploadComponent implements OnInit, ControlValueAccessor, Validator {
+export class FileUploadComponent extends CustomBaseComponent {
+  
   filename: string = "";
-  onChange: Function = (f: File) => { };
-  onTouched: Function = () => { };
-  onValidatorChange: Function = () => { };
-  isDisabled: boolean = false;
   @Input() validationRequired: boolean;
 
-  constructor() { }
+  constructor() {
+    super();
+  }
+
   validate(control: AbstractControl): ValidationErrors {
     if (!this.validationRequired) {
       return null;
@@ -37,27 +37,9 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor, Valida
 
     return null;
   }
-  registerOnValidatorChange?(onValidatorChange: () => void): void {
-    this.onValidatorChange = onValidatorChange;
-  }
 
   writeValue(value: any): void {
     this.filename = value;
-  }
-
-  registerOnChange(onChange: any): void {
-    this.onChange = onChange;
-  }
-
-  registerOnTouched(onTouched: any): void {
-    this.onTouched = onTouched;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  ngOnInit(): void {
   }
 
   onClick(e: HTMLInputElement) {

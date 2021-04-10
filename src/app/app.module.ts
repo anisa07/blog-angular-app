@@ -30,6 +30,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { CustomBaseComponent } from './components/custom-base/custom-base.component';
 
 @NgModule({
   exports: [
@@ -60,6 +61,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     ChangePasswordComponent,
     HeaderComponent,
     NotFoundComponent,
+    CustomBaseComponent,
   ],
   imports: [
     BrowserModule,
