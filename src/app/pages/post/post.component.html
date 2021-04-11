@@ -1,1 +1,5 @@
-<p>post works!</p>
+<div *ngIf="post" class="container">
+    <h1>{{post.title}}</h1>
+    <img class="post-image" *ngIf="image" [src]="image" />
+    <h4 class="text">{{post.text}}</h4>
+</div>  

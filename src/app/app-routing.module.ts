@@ -10,11 +10,12 @@ import { PostComponent } from './pages/post/post.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SuperUserPageComponent } from './pages/super-user-page/super-user-page.component';
+import { OnlyLoggedInUsersGuard } from './services/only-logged-in-users-guard';
 
 const routes: Routes = [
   { path: '', component: AllPostsComponent },
+  { path: 'create-post', canActivate: [OnlyLoggedInUsersGuard], component: CreatePostComponent },
   { path: 'post/:id', component: PostComponent },
-  { path: 'post-create', component: CreatePostComponent },
   { path: 'user-profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignupComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [OnlyLoggedInUsersGuard]
 })
 export class AppRoutingModule { }

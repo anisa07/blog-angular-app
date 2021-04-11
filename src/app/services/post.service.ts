@@ -29,4 +29,12 @@ export class PostService {
     const options = { headers: this.createHeaders()};
     return this.http.post<{id: string}>(this.urlService.postUrl, formData, options);
   }
+
+  readPost(id: string) {
+    return this.http.get<Post>(`${this.urlService.postUrl}/${id}`)
+  }
+
+  getImage(filename: string) {
+    return `${this.urlService.postUrl}/image/${filename}`;
+  }
 }

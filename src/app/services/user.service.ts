@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UrlService } from './url-service';
 import { Signup } from '../models/Signup';
 import { Login } from '../models/Login';
+import { LocalstoreService } from './localstore.service';
+import { STORE_USER_KEY } from '../utils/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient, private urlService: UrlService) { }
+  constructor(private http: HttpClient, private urlService: UrlService, private storageService: LocalstoreService) { }
 
   signup(data: Signup) {
     return this.http.post(this.urlService.signupUrl, data);
@@ -17,5 +19,14 @@ export class UserService {
 
   login(data: Login) {
     return this.http.post(this.urlService.loginUrl, data);
+  }
+
+  isAuth() {
+    const userObject = this.storageService.getData(STORE_USER_KEY);
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userObject.token || ""}`,
+      'id': userObject.id || ""
+    });
+    return this.http.get<boolean>(this.urlService.authUrl, {headers})
   }
 }
