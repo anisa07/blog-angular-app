@@ -1,9 +1,14 @@
 <div *ngIf="post" class="container">
-    <h1>{{post.title}}</h1>
-    <img class="post-image" *ngIf="image" [src]="image" />
+    <div class="title">
+        <h1>{{post.title}}</h1>
+        <span class="likes-value">
+            {{post.likesValue}}
+        </span>
+    </div>
     <div class="labels">
         <span class="label" *ngFor="let label of post.labels">{{label.name}}</span>
     </div>
+    <img class="post-image" *ngIf="image" [src]="image" />
     <h4 class="text">{{post.text}}</h4>
     <div class="author">{{post.author}}</div>
 </div>  

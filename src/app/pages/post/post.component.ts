@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Post } from 'src/app/models/Post';
 import { PostService } from 'src/app/services/post.service';
@@ -11,6 +12,7 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class PostComponent implements OnInit {
   post: Post = null;
+  currentUserLike: number;
   image: string = "";
 
   constructor(private route: ActivatedRoute, private postService: PostService) {
@@ -20,14 +22,18 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       mergeMap(
-        params => this.postService.readPost(params.id)
-      ),
-    ).subscribe((post) => {
-      console.log(post)
-      this.post = post;
-      if (post.filename) {
-        this.image = this.postService.getImage(post.filename)
+        params => forkJoin(
+          [this.postService.readPost(params.id),
+            this.postService.readLikesValue(params.id)]
+        ),
+      )
+    ).subscribe((data) => {
+      console.log(data)
+      this.post = data[0];
+      if (this.post.filename) {
+        this.image = this.postService.getImage(this.post.filename)
       }
+      this.currentUserLike = data[1].value;
     });
   }
 

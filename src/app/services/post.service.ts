@@ -17,7 +17,7 @@ export class PostService {
       'Authorization': `Bearer ${userObject.token || ""}`,
       'id': userObject.id || ""
     })
-  }
+  } 
 
   createLabel(label: string) {
     return this.http.post(this.urlService.postTagUrl, {
@@ -36,5 +36,9 @@ export class PostService {
 
   getImage(filename: string) {
     return `${this.urlService.postUrl}/image/${filename}`;
+  }
+
+  readLikesValue(postId: string) {
+    return this.http.get<{value: number}>(`${this.urlService.likeUrl}/${postId}`, {headers: this.createHeaders()});
   }
 }

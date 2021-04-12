@@ -9,5 +9,6 @@ export class UrlService {
   loginUrl: string = this.url + '/login';
   postTagUrl: string = this.url + '/label';
   postUrl: string = this.url + '/post';
-  authUrl: string = this.url + '/auth'
+  authUrl: string = this.url + '/auth';
+  likeUrl: string = this.url + '/like';
 }

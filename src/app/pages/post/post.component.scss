@@ -1,5 +1,17 @@
 @import '../../../colors.scss';
 
+.title {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.likes-value {
+    color: $accent-color
+}
+
 .text {
     text-indent: 2rem;
     text-align: justify;
