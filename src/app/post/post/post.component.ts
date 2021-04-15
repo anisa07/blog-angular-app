@@ -1,8 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
-import { catchError, mergeMap, take } from 'rxjs/operators';
 import { Post } from '../../models/Post';
 import { PostService } from '../../services/post.service';
 
@@ -14,6 +12,7 @@ import { PostService } from '../../services/post.service';
 export class PostComponent implements OnInit {
   post: Post = null;
   currentUserLike: number;
+  postData = []
   image: string = "";
 
   constructor(private route: ActivatedRoute, private postService: PostService) {
@@ -21,33 +20,16 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const readPost = (id: string) => this.postService.readPost(id).pipe(
-      take(1),
-      catchError((e) => of(e))
-    )
-
-    const readLikesValue = (id: string) => this.postService.readLikesValue(id).pipe(
-      take(1),
-      catchError((e) => of(e))
-    )
-
-    this.route.params.pipe(
-      mergeMap(
-        params => forkJoin([readPost(params.id), readLikesValue(params.id)])
-      )
-    )
-    .subscribe((data) => {
-      console.log(data)
-      if (!(data[0] instanceof HttpErrorResponse)) {
-        this.post = data[0];
-        if (this.post.filename) {
-          this.image = this.postService.getImage(this.post.filename)
-        }
+    this.postData = this.route.snapshot.data["postData"];
+    if (!(this.postData[0] instanceof HttpErrorResponse)) {
+      this.post = this.postData[0];
+      if (this.post.filename) {
+        this.image = this.postService.getImage(this.post.filename)
       }
-      if (!(data[1] instanceof HttpErrorResponse)) {
-        this.currentUserLike = data[1].value;
-      }
-    });
+    }
+    if (!(this.postData[1] instanceof HttpErrorResponse)) {
+      this.currentUserLike = this.postData[1].value;
+    }
   }
 
 }

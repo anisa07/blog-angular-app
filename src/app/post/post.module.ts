@@ -12,6 +12,7 @@ import { ComponentsModule } from '../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PostRoutingModule } from './post-routing.module';
 import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users-guard';
+import { PostResolver } from '../services/post.resolver';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users-guard';
     PostRoutingModule,
   ],
   providers: [
-    OnlyLoggedInUsersGuard
+    OnlyLoggedInUsersGuard, PostResolver
   ]
 })
 export class PostModule { }
