@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Like } from '../models/Like';
 import { Post } from '../models/Post';
 import { STORE_USER_KEY } from '../utils/constants';
 import { LocalstoreService } from './localstore.service';
@@ -39,6 +40,20 @@ export class PostService {
   }
 
   readLikesValue(postId: string) {
-    return this.http.get<{value: number}>(`${this.urlService.likeUrl}/${postId}`, {headers: this.createHeaders()});
+    return this.http.get<{value: number}>(`${this.urlService.likeUrl}/user/post/${postId}`, {headers: this.createHeaders()});
+  }
+
+  readLikesForPost(postId: string) {
+    return this.http.get<{value: number}>(`${this.urlService.likeUrl}/post/${postId}`);
+  }
+
+  setLike(like: Like) {
+    const options = { headers: this.createHeaders()};
+    return this.http.post<Like>(this.urlService.likeUrl, like, options)
+  }
+
+  updateLike(like: Like) {
+    const options = { headers: this.createHeaders()};
+    return this.http.put<Like>(`${this.urlService.likeUrl}`, like, options)
   }
 }

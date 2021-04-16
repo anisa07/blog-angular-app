@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { Like } from 'src/app/models/Like';
 import { Post } from '../../models/Post';
 import { PostService } from '../../services/post.service';
 
@@ -12,6 +14,7 @@ import { PostService } from '../../services/post.service';
 export class PostComponent implements OnInit {
   post: Post = null;
   currentUserLike: number;
+  loginRequired: boolean;
   postData = []
   image: string = "";
 
@@ -29,7 +32,33 @@ export class PostComponent implements OnInit {
     }
     if (!(this.postData[1] instanceof HttpErrorResponse)) {
       this.currentUserLike = this.postData[1].value;
+    } else {
+      this.loginRequired = true;
     }
   }
 
+  likePost(l: number) {
+    const like: Like = {
+      value: l,
+      userId: '',
+      postId: this.post.id
+    }
+    let observable; 
+    if (!this.currentUserLike) {
+      observable = this.postService.setLike(like)
+    } else {
+      observable = this.postService.updateLike(like)
+    }
+
+    observable
+    .pipe(
+      switchMap(() => this.postService.readLikesForPost(this.post.id))
+    )
+    .subscribe((response) => {
+      this.post = {...this.post, likesValue: response.value}
+      this.currentUserLike = l;
+    }, err => {
+      this.currentUserLike = undefined;
+    })
+  }
 }

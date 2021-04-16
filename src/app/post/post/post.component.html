@@ -2,7 +2,13 @@
     <div class="title">
         <h1>{{post.title}}</h1>
         <span class="likes-value">
+            <button mat-icon-button aria-label="dislike" (click)="likePost(-1)" [disabled]="loginRequired || currentUserLike === -1">
+                <mat-icon aria-hidden="false">thumb_down</mat-icon>
+            </button>
             {{post.likesValue}}
+            <button mat-icon-button aria-label="like" (click)="likePost(1)" [disabled]="loginRequired || currentUserLike === 1">
+                <mat-icon aria-hidden="false">thumb_up</mat-icon>
+            </button>
         </span>
     </div>
     <div class="labels">
