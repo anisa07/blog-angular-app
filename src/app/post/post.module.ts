@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PostRoutingModule } from './post-routing.module';
 import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users-guard';
 import { PostResolver } from '../services/post.resolver';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PostResolver } from '../services/post.resolver';
     CreatePostStep4Component,
     AllPostsComponent,
     PostComponent,
+    CommentComponent,
   ],
   imports: [
     CommonModule,

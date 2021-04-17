@@ -5,6 +5,7 @@ import { Post } from '../models/Post';
 import { STORE_USER_KEY } from '../utils/constants';
 import { LocalstoreService } from './localstore.service';
 import { UrlService } from './url-service';
+import {CommentModel} from '../models/CommentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class PostService {
       'Authorization': `Bearer ${userObject.token || ""}`,
       'id': userObject.id || ""
     })
-  } 
+  }
 
   createLabel(label: string) {
     return this.http.post(this.urlService.postTagUrl, {
@@ -54,6 +55,15 @@ export class PostService {
 
   updateLike(like: Like) {
     const options = { headers: this.createHeaders()};
-    return this.http.put<Like>(`${this.urlService.likeUrl}`, like, options)
+    return this.http.put<Like>(this.urlService.likeUrl, like, options)
+  }
+
+  createComment(comment: CommentModel) {
+    const options = { headers: this.createHeaders()};
+    return this.http.post<CommentModel>(this.urlService.commentUrl, comment, options)
+  }
+
+  readAllComments(postId: string, createAt?: number) {
+    return this.http.get<{comments: CommentModel[]}>(`${this.urlService.commentUrl}/post/${postId}/?size=${5}`)
   }
 }

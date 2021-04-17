@@ -2,11 +2,11 @@
     <div class="title">
         <h1>{{post.title}}</h1>
         <span class="likes-value">
-            <button mat-icon-button aria-label="dislike" (click)="likePost(-1)" [disabled]="loginRequired || currentUserLike === -1">
+            <button mat-icon-button aria-label="dislike" (click)="likePost(-1)" [disabled]="likeIsDisabled(-1)">
                 <mat-icon aria-hidden="false">thumb_down</mat-icon>
             </button>
             {{post.likesValue}}
-            <button mat-icon-button aria-label="like" (click)="likePost(1)" [disabled]="loginRequired || currentUserLike === 1">
+            <button mat-icon-button aria-label="like" (click)="likePost(1)" [disabled]="likeIsDisabled(1)">
                 <mat-icon aria-hidden="false">thumb_up</mat-icon>
             </button>
         </span>
@@ -17,4 +17,7 @@
     <img class="post-image" *ngIf="image" [src]="image" />
     <h4 class="text">{{post.text}}</h4>
     <div class="author">{{post.author}}</div>
-</div>  
+    <button mat-flat-button color="accent" [disabled]="commentIsDisabled()" (click)="showComment()" *ngIf="!showCommentForm">Comment Post</button>
+</div>
+<comment *ngIf="showCommentForm" (leaveComment)="submitComment($event)"></comment>
+

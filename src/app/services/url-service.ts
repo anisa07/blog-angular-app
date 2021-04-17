@@ -11,4 +11,5 @@ export class UrlService {
   postUrl: string = this.url + '/post';
   authUrl: string = this.url + '/auth';
   likeUrl: string = this.url + '/like';
+  commentUrl: string = this.url + '/comment'
 }

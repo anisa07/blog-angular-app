@@ -1,4 +1,5 @@
 import {Label} from './Label';
+import {CommentModel} from './CommentModel';
 
 export interface Post {
     name: string;
@@ -6,7 +7,7 @@ export interface Post {
     author: string;
     authorId: string;
     labels: Label[];
-    comments?: any[];
+    comments?: CommentModel[];
     likesValue: number;
     title: string;
     text: string;
