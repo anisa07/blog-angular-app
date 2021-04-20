@@ -1,0 +1,14 @@
+<div *ngFor="let comment of comments; index as i" class="comment">
+  <h4>{{comment.text}}</h4>
+  <h5 class="user">
+    <div class="action">
+      <button mat-icon-button aria-label="edit" *ngIf="isCommentAuthor(comment.userId)" [disabled]="!isAuth">
+        <mat-icon aria-hidden="false" [ngClass]="{'disabled-icon': !isAuth}">edit</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="delete" *ngIf="isCommentAuthor(comment.userId)" [disabled]="!isAuth">
+        <mat-icon aria-hidden="false" [ngClass]="{'disabled-icon': !isAuth}">delete</mat-icon>
+      </button>
+    </div>
+    {{comment.username}}
+  </h5>
+</div>

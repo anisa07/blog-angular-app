@@ -1,0 +1,22 @@
+@import '../../../colors.scss';
+
+.comment {
+  margin: 1rem 0;
+  border-bottom: 2px solid $accent-color;
+}
+.user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.action {
+  .material-icons {
+    font-size: 18px;
+    color: $accent-color;
+  }
+
+  .disabled-icon {
+    color: #e0e0e0;
+  }
+}

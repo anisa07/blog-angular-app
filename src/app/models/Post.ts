@@ -8,6 +8,7 @@ export interface Post {
     authorId: string;
     labels: Label[];
     comments?: CommentModel[];
+    showMoreComments?: boolean;
     likesValue: number;
     title: string;
     text: string;

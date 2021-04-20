@@ -29,4 +29,9 @@ export class UserService {
     });
     return this.http.get<boolean>(this.urlService.authUrl, {headers})
   }
+
+  getUserId() {
+    const userObject = this.storageService.getData(STORE_USER_KEY);
+    return userObject.id;
+  }
 }

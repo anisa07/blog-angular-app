@@ -63,7 +63,14 @@ export class PostService {
     return this.http.post<CommentModel>(this.urlService.commentUrl, comment, options)
   }
 
-  readAllComments(postId: string, createAt?: number) {
-    return this.http.get<{comments: CommentModel[]}>(`${this.urlService.commentUrl}/post/${postId}/?size=${5}`)
+  readAllComments(postId: string, createAt?: number, size?: number) {
+    let url = `${this.urlService.commentUrl}/post/${postId}`;
+    if (createAt) {
+      url = `${url}/?createAt=${createAt}`;
+      if (size) {
+        url = `${url}/?size=${size}`
+      }
+    }
+    return this.http.get<{comments: CommentModel[], showMoreComments: boolean}>(url)
   }
 }

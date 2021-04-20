@@ -4,11 +4,11 @@ import {PostService} from '../../services/post.service';
 import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
 
 @Component({
-  selector: 'comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  selector: 'create-comment',
+  templateUrl: './create-comment.component.html',
+  styleUrls: ['./create-comment.component.scss']
 })
-export class CommentComponent implements OnInit {
+export class CreateCommentComponent implements OnInit {
   @Output()
   leaveComment = new EventEmitter<{[key: string]: string}>();
   commentForm: FormGroup;

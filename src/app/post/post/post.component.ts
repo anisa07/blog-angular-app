@@ -5,6 +5,7 @@ import {finalize, switchMap} from 'rxjs/operators';
 import {Like} from '../../models/Like';
 import {Post} from '../../models/Post';
 import {PostService} from '../../services/post.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'post',
@@ -19,10 +20,9 @@ export class PostComponent implements OnInit {
   image: string = '';
   isLoading: boolean = false;
   showCommentForm: boolean = false;
+  errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private postService: PostService) {
-
-  }
+  constructor(private route: ActivatedRoute, private postService: PostService) {}
 
   ngOnInit(): void {
     this.postData = this.route.snapshot.data['postData'];
@@ -82,7 +82,7 @@ export class PostComponent implements OnInit {
 
   submitComment(e) {
     this.isLoading = true;
-    this.postService.createComment({
+    const $createCommentObservable = this.postService.createComment({
       text: e.comment,
       userId: '',
       postId: this.post.id
@@ -91,11 +91,19 @@ export class PostComponent implements OnInit {
       finalize(() => {
         this.isLoading = false;
       })
-    ).subscribe((response) => {
+    )
+    this.getComments($createCommentObservable);
+  }
+
+  showMoreComments(e) {}
+
+  getComments($observable: Observable<any>) {
+    $observable.subscribe((response) => {
       this.showCommentForm = false;
       this.post.comments = response.comments;
+      this.post.showMoreComments = response.showMoreComments;
     }, err => {
-      // todo handle error
+      this.errorMessage = err.message;
     });
   }
 }
