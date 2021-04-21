@@ -81,8 +81,9 @@ export class PostComponent implements OnInit {
   }
 
   submitComment(e) {
+    this.errorMessage = undefined;
     this.isLoading = true;
-    const $createCommentObservable = this.postService.createComment({
+    const createCommentObservable$ = this.postService.createComment({
       text: e.comment,
       userId: '',
       postId: this.post.id
@@ -92,15 +93,21 @@ export class PostComponent implements OnInit {
         this.isLoading = false;
       })
     )
-    this.getComments($createCommentObservable);
+    this.getComments(createCommentObservable$);
   }
 
-  showMoreComments(e) {}
+  showMoreComments({
+                     observable$,
+                     addComments
+  }: {observable$: Observable<any>, addComments?: boolean}) {
+    this.getComments(observable$, addComments);
+  }
 
-  getComments($observable: Observable<any>) {
-    $observable.subscribe((response) => {
+  getComments(observable$: Observable<any>, addComments?: boolean) {
+    this.errorMessage = undefined;
+    observable$.subscribe((response) => {
       this.showCommentForm = false;
-      this.post.comments = response.comments;
+      this.post.comments = addComments ? [...this.post.comments, ...response.comments] : response.comments;
       this.post.showMoreComments = response.showMoreComments;
     }, err => {
       this.errorMessage = err.message;

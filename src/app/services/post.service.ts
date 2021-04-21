@@ -66,11 +66,22 @@ export class PostService {
   readAllComments(postId: string, createAt?: number, size?: number) {
     let url = `${this.urlService.commentUrl}/post/${postId}`;
     if (createAt) {
-      url = `${url}/?createAt=${createAt}`;
+      url = `${url}/?createdAt=${createAt}`;
       if (size) {
-        url = `${url}/?size=${size}`
+        url = `${url}&size=${size}`
       }
     }
     return this.http.get<{comments: CommentModel[], showMoreComments: boolean}>(url)
+  }
+
+  editComment(comment: CommentModel) {
+    let url = `${this.urlService.commentUrl}/${comment.id}`;
+    const options = { headers: this.createHeaders()};
+    return this.http.put<CommentModel>(url, comment, options);
+  }
+
+  deleteComment(id: String) {
+    const options = { headers: this.createHeaders()};
+    return this.http.delete<string>(`${this.urlService.commentUrl}/${id}`, options);
   }
 }

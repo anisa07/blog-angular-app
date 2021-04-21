@@ -4,5 +4,5 @@ export interface CommentModel {
   username?:string;
   text: string;
   postId: string;
-  createdAt?: number | Date;
+  createdAt?: number;
 }

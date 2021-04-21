@@ -1,7 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PostService} from '../../services/post.service';
 import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
+import {CommentModel} from '../../models/CommentModel';
 
 @Component({
   selector: 'create-comment',
@@ -11,13 +12,15 @@ import {emptyValueValidator} from '../../utils/validators/empty-value-validator'
 export class CreateCommentComponent implements OnInit {
   @Output()
   leaveComment = new EventEmitter<{[key: string]: string}>();
+  @Input()
+  current: CommentModel;
   commentForm: FormGroup;
 
   constructor(private postService: PostService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.commentForm = this.fb.group({
-      comment: ['', [Validators.required, emptyValueValidator]],
+      comment: [this.current?.text || '', [Validators.required, emptyValueValidator]],
     })
   }
 
