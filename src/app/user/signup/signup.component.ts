@@ -96,13 +96,12 @@ export class SignupComponent implements OnInit {
         password: this.signupForm.value.password
       }
 
-      this.userService.signup(signupData).subscribe(response => {
-        this.localstoreService.setData(STORE_USER_KEY, response || '');
+      this.userService.signup(signupData).subscribe(() => {
         this.signupForm.reset();
         this.signupForm.markAsPristine();
         this.router.navigate([""]);
       },
-      err => { 
+      err => {
         this.signupError = err.error.message;
       })
     }

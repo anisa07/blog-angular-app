@@ -11,7 +11,7 @@ import { MaterialModule } from '../material/material.module';
 import { ComponentsModule } from '../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PostRoutingModule } from './post-routing.module';
-import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users-guard';
+import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users.guard';
 import { PostResolver } from '../services/post.resolver';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { CommentsComponent } from './comments/comments.component';

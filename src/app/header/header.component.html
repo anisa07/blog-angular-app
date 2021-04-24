@@ -1,1 +1,6 @@
-<p>header works!</p>
+<div class="header">
+  <button mat-stroked-button color="accent" routerLink="/post">All Posts</button>
+  <button mat-stroked-button color="accent" routerLink="/post/create" *ngIf="isLoggedIn$ | async">Create Post</button>
+  <button mat-button color="accent" routerLink="/user/login" *ngIf="isLoggedOut$ | async">Sign In</button>
+  <button mat-button color="accent" (click)="logout()" *ngIf="isLoggedIn$ | async">Logout</button>
+</div>

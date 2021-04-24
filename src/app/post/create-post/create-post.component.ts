@@ -18,7 +18,11 @@ export class CreatePostComponent {
   loading: boolean = false;
 
   constructor(private postService: PostService, private router: Router) {
-  
+
+  }
+
+  confirmExit() {
+    return confirm(`Are you sure you want to exit create post page without saving changes?`)
   }
 
   onSave(): void {
