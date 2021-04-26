@@ -4,12 +4,14 @@ import { HttpErrorComponent } from './http-error/http-error.component';
 import { CustomBaseComponent } from './custom-base/custom-base.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { MaterialModule } from '../material/material.module';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
     HttpErrorComponent,
     FileUploadComponent,
     CustomBaseComponent,
+    DialogComponent,
   ],
   exports: [
     HttpErrorComponent,
@@ -19,6 +21,9 @@ import { MaterialModule } from '../material/material.module';
   imports: [
     CommonModule,
     MaterialModule
+  ],
+  entryComponents: [
+    DialogComponent
   ]
 })
 export class ComponentsModule { }

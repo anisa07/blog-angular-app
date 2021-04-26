@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot} from '@angular/router';
-import {UserService} from './user.service';
 import {CreatePostComponent} from '../post/create-post/create-post.component';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class ConfirmExitGuard implements CanDeactivate<CreatePostComponent> {
-  constructor(private userService: UserService) {
+  constructor() {
   };
 
   canDeactivate(component: CreatePostComponent,
                 currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot,
-                nextState?: RouterStateSnapshot): boolean {
+                nextState?: RouterStateSnapshot): Observable<boolean> {
     return component.confirmExit();
   }
 }

@@ -30,4 +30,18 @@ p.server-error {
 
 .accent {
     color: $accent-color;
-} 
+}
+
+.mat-dialog-container {
+  padding: 0!important;
+  dialog.ng-star-inserted{
+    border-color: $accent-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -40px;
+    background: $default-background-color;
+    color: $default-text-color;
+    width: 250px;
+  }
+}

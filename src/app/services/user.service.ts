@@ -5,31 +5,20 @@ import { Signup } from '../models/Signup';
 import { Login } from '../models/Login';
 import { LocalstoreService } from './localstore.service';
 import { STORE_USER_KEY } from '../utils/constants';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {User} from '../models/User';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
+import {StoreService} from './store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private subject = new BehaviorSubject<boolean>(false);
-
-  isLoggedIn$: Observable<boolean> = this.subject.asObservable();
-  isLoggedOut$: Observable<boolean>;
-
-  constructor(private http: HttpClient, private urlService: UrlService, private storageService: LocalstoreService) {
-    this.isLoggedOut$ = this.isLoggedIn$.pipe(map(loggedIn => !loggedIn));
+  constructor(private http: HttpClient, private urlService: UrlService, private storageService: LocalstoreService, private storeService: StoreService) {
     this.isAuth()
       .subscribe((response) => {
-        this.subject.next(response);
+        this.storeService.setLoggedState(response);
       }, () => {
         // TODO emit common http error
       })
-
-  }
-
-  ngOnInit() {
 
   }
 
@@ -37,7 +26,7 @@ export class UserService {
     return this.http.post(this.urlService.signupUrl, data)
       .pipe(tap((response) => {
         this.storageService.setData(STORE_USER_KEY, response || '');
-        this.subject.next(true);
+        this.storeService.setLoggedState(true);
       }))
   }
 
@@ -45,7 +34,7 @@ export class UserService {
     return this.http.post(this.urlService.loginUrl, data)
       .pipe(tap((response) => {
         this.storageService.setData(STORE_USER_KEY, response || '');
-        this.subject.next(true);
+        this.storeService.setLoggedState(true);
       }))
   }
 

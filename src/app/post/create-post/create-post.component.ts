@@ -2,6 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
+import {StoreService} from '../../services/store.service';
+import {map} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from '../../components/dialog/dialog.component';
 
 @Component({
   selector: 'create-post',
@@ -17,12 +21,27 @@ export class CreatePostComponent {
   postError: string = "";
   loading: boolean = false;
 
-  constructor(private postService: PostService, private router: Router) {
+  constructor(private postService: PostService,
+              private router: Router,
+              private storeService: StoreService,
+              public dialog: MatDialog) {
 
   }
 
   confirmExit() {
-    return confirm(`Are you sure you want to exit create post page without saving changes?`)
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {
+        text: "Are you sure you want to exit create post page without saving changes?",
+      }
+    });
+
+    return dialogRef.afterClosed();
+
+    // this.storeService.setDialogMessage("Are you sure you want to exit create post page without saving changes?");
+    // return this.storeService.dialog$.pipe(
+    //   map(d => !!d.text)
+    // );
   }
 
   onSave(): void {
