@@ -20,6 +20,7 @@ export class CreatePostComponent {
 
   postError: string = "";
   loading: boolean = false;
+  submitCalled: boolean = false;
 
   constructor(private postService: PostService,
               private router: Router,
@@ -37,14 +38,10 @@ export class CreatePostComponent {
     });
 
     return dialogRef.afterClosed();
-
-    // this.storeService.setDialogMessage("Are you sure you want to exit create post page without saving changes?");
-    // return this.storeService.dialog$.pipe(
-    //   map(d => !!d.text)
-    // );
   }
 
   onSave(): void {
+    this.submitCalled = true;
     const formData: FormData = new FormData();
     formData.append('labels', JSON.stringify(this.formStep3.form.value.labels));
     formData.append('text', this.formStep2.form.value.text);

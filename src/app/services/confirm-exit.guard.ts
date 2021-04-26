@@ -11,7 +11,7 @@ export class ConfirmExitGuard implements CanDeactivate<CreatePostComponent> {
   canDeactivate(component: CreatePostComponent,
                 currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot,
-                nextState?: RouterStateSnapshot): Observable<boolean> {
-    return component.confirmExit();
+                nextState?: RouterStateSnapshot): Observable<boolean> | boolean {
+    return component.submitCalled || component.confirmExit();
   }
 }
