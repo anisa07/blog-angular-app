@@ -14,9 +14,9 @@ export class CommentsComponent implements OnInit {
   @Input()
   comments: CommentModel[] = [];
   @Input()
-  moreButton: boolean =  false;
+  moreButton: boolean = false;
   @Output()
-  loadComments = new EventEmitter<{observable$: Observable<any>, addComments?: boolean}>();
+  loadComments = new EventEmitter<{ observable$: Observable<any>, addComments?: boolean }>();
   // show more comments
   currentUserId = undefined;
   selectedComment: CommentModel = undefined;
@@ -32,7 +32,7 @@ export class CommentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.isAuth().subscribe((response) => this.isAuth = response)
+    this.userService.isAuth().subscribe((response) => this.isAuth = response);
   }
 
   showEditFormForComment(comment: CommentModel) {
@@ -45,17 +45,19 @@ export class CommentsComponent implements OnInit {
 
   showMoreComments() {
     const lastComment = this.comments[this.comments.length - 1];
-    const showMore$ = this.postService.readAllComments(lastComment.postId, lastComment.createdAt, this.size)
+    const showMore$ = this.postService.readAllComments({
+      postId: lastComment.postId, createdAt: lastComment.createdAt, size: this.size
+    });
     this.loadComments.emit({observable$: showMore$, addComments: true});
   }
 
   deleteComment(comment: CommentModel) {
     const deleteObservable$ = this.postService.deleteComment(comment.id).pipe(
-        switchMap(() => this.postService.readAllComments(comment.postId, this.comments[0].createdAt, this.size)),
-        finalize(() => {
-          this.closeCommentForm()
-        })
-      )
+      switchMap(() => this.postService.readAllComments({postId: comment.postId, createdAt: this.comments[0].createdAt, size: this.size})),
+      finalize(() => {
+        this.closeCommentForm();
+      })
+    );
     this.loadComments.emit({observable$: deleteObservable$});
   }
 
@@ -66,11 +68,14 @@ export class CommentsComponent implements OnInit {
       text: v.comment,
       id: this.selectedComment.id
     }).pipe(
-      switchMap(() => this.postService.readAllComments(this.selectedComment.postId, this.selectedComment.createdAt, this.size)),
-      finalize(() => {
-        this.closeCommentForm()
+      switchMap(() => this.postService.readAllComments({
+        postId: this.selectedComment.postId,
+        createdAt: this.selectedComment.createdAt,
+        size: this.size
+      })), finalize(() => {
+        this.closeCommentForm();
       })
-    )
+    );
     this.loadComments.emit({observable$: editObservable$});
   }
 }

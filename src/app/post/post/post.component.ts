@@ -91,7 +91,7 @@ export class PostComponent implements OnInit {
       userId: '',
       postId: this.post.id
     }).pipe(
-      switchMap(() => this.postService.readAllComments(this.post.id)),
+      switchMap(() => this.postService.readAllComments({postId: this.post.id})),
       finalize(() => {
         this.isLoading = false;
       })

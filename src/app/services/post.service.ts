@@ -7,6 +7,25 @@ import { LocalstoreService } from './localstore.service';
 import { UrlService } from './url-service';
 import {CommentModel} from '../models/CommentModel';
 
+interface PostsQuery {
+  createdAt?: number,
+  size?: number,
+  labelIds?: string[],
+  authorId?: string
+}
+
+interface CommentsQuery {
+  createdAt?: number,
+  size?: number,
+  postId: string
+}
+
+export interface AllPosts {
+  posts: Post[],
+  showMorePosts: boolean
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +55,24 @@ export class PostService {
     return this.http.get<Post>(`${this.urlService.postUrl}/${id}`)
   }
 
+  readPosts(query?: PostsQuery) {
+    let url = `${this.urlService.postUrl}`;
+    if (query?.createdAt) {
+      url = `${url}/?createdAt=${query.createdAt}`;
+      if (query.size) {
+        url = `${url}&size=${query.size}`
+      }
+      if (query.labelIds) {
+        url = `${url}&labelIds=${query.labelIds}`
+      }
+      if (query.authorId) {
+        url = `${url}&authorId=${query.authorId}`
+      }
+    }
+
+    return this.http.get<AllPosts>(url)
+  }
+
   getImage(filename: string) {
     return `${this.urlService.postUrl}/image/${filename}`;
   }
@@ -63,12 +100,12 @@ export class PostService {
     return this.http.post<CommentModel>(this.urlService.commentUrl, comment, options)
   }
 
-  readAllComments(postId: string, createAt?: number, size?: number) {
-    let url = `${this.urlService.commentUrl}/post/${postId}`;
-    if (createAt) {
-      url = `${url}/?createdAt=${createAt}`;
-      if (size) {
-        url = `${url}&size=${size}`
+  readAllComments(query: CommentsQuery) {
+    let url = `${this.urlService.commentUrl}/post/${query.postId}`;
+    if (query.createdAt) {
+      url = `${url}/?createdAt=${query.createdAt}`;
+      if (query.size) {
+        url = `${url}&size=${query.size}`
       }
     }
     return this.http.get<{comments: CommentModel[], showMoreComments: boolean}>(url)

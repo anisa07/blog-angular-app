@@ -25,5 +25,4 @@ export class PostResolver implements Resolve<[Post, number]> {
 
         return forkJoin([readPost(id), readLikesValue(id)])
     }
-
 }
