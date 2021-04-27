@@ -1,11 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { PostService } from '../../services/post.service';
-import {StoreService} from '../../services/store.service';
-import {map} from 'rxjs/operators';
+import {Component, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {Router} from '@angular/router';
+import {PostService} from '../../services/post.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Error} from '../../models/Error';
+import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 
 @Component({
   selector: 'create-post',
@@ -13,27 +14,25 @@ import {DialogComponent} from '../../components/dialog/dialog.component';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent {
-  @ViewChild('step1', { static: true }) formStep1: NgForm;
-  @ViewChild('step2', { static: true }) formStep2: NgForm;
-  @ViewChild('step3', { static: true }) formStep3: NgForm;
-  @ViewChild('step4', { static: true }) formStep4: NgForm;
+  @ViewChild('step1', {static: true}) formStep1: NgForm;
+  @ViewChild('step2', {static: true}) formStep2: NgForm;
+  @ViewChild('step3', {static: true}) formStep3: NgForm;
+  @ViewChild('step4', {static: true}) formStep4: NgForm;
 
-  postError: string = "";
   loading: boolean = false;
   submitCalled: boolean = false;
 
   constructor(private postService: PostService,
               private router: Router,
-              private storeService: StoreService,
+              private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
-
   }
 
   confirmExit() {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
       data: {
-        text: "Are you sure you want to exit create post page without saving changes?",
+        text: 'Are you sure you want to exit create post page without saving changes?',
       }
     });
 
@@ -52,8 +51,15 @@ export class CreatePostComponent {
       formData.append('image', file, file.name);
     }
 
-    this.postService.createPost(formData).subscribe((response: {id: string}) => {
-      this.router.navigate(['post', response.id])
-    })
+    this.postService.createPost(formData)
+      .subscribe((response: { id: string }) => {
+        this.router.navigate(['post', response.id]);
+      }, (error: Error) => {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: error.message, type: 'ERROR'
+          }
+        });
+      });
   }
 }

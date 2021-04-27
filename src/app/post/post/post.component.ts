@@ -6,6 +6,9 @@ import {Like} from '../../models/Like';
 import {Post} from '../../models/Post';
 import {PostService} from '../../services/post.service';
 import {Observable} from 'rxjs';
+import {Error} from '../../models/Error';
+import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'post',
@@ -22,7 +25,7 @@ export class PostComponent implements OnInit {
   showCommentForm: boolean = false;
   errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private postService: PostService) {}
+  constructor(private route: ActivatedRoute, private postService: PostService, private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.postData = this.route.snapshot.data['postData'];
@@ -109,8 +112,12 @@ export class PostComponent implements OnInit {
       this.showCommentForm = false;
       this.post.comments = addComments ? [...this.post.comments, ...response.comments] : response.comments;
       this.post.showMoreComments = response.showMoreComments;
-    }, err => {
-      this.errorMessage = err.message;
+    }, (error: Error) => {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: error.message, type: 'ERROR'
+        }
+      });
     });
   }
 }

@@ -7,6 +7,10 @@ import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../uti
 import { distinctUntilChanged } from 'rxjs/operators';
 import { LocalstoreService } from '../../services/localstore.service';
 import { Router } from '@angular/router';
+import {PostService} from '../../services/post.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Error} from '../../models/Error';
+import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 
 @Component({
   selector: 'signup',
@@ -17,16 +21,14 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   signupError: string = '';
 
-  constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router, private _snackBar: MatSnackBar) { }
 
   onChanges(): void {
     this.signupForm.valueChanges.pipe(
       distinctUntilChanged()
     ).subscribe(() => {
-      if (this.signupError) {
-        this.signupError = '';
-      }
-    });
+      this.signupError = "";
+    })
   }
 
   ngOnInit(): void {
@@ -100,9 +102,13 @@ export class SignupComponent implements OnInit {
         this.signupForm.reset();
         this.signupForm.markAsPristine();
         this.router.navigate([""]);
-      },
-      err => {
-        this.signupError = err.error.message;
+      }, (error: Error) => {
+        this.signupError = error.message;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: error.message, type: 'ERROR'
+          }
+        });
       })
     }
   }

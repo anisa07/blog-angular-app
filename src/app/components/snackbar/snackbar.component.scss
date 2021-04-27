@@ -1,0 +1,15 @@
+@import '../../../colors.scss';
+
+.snackbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error {
+  color: $error-color;
+}
+
+.success {
+  color: $accent-color;
+}
