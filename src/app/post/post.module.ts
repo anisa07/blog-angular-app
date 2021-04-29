@@ -15,6 +15,7 @@ import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users.guard';
 import { PostResolver } from '../services/post.resolver';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { CommentsComponent } from './comments/comments.component';
+import { PostListItemComponent } from './post-list-item/post-list-item.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CommentsComponent } from './comments/comments.component';
     PostComponent,
     CreateCommentComponent,
     CommentsComponent,
+    PostListItemComponent,
   ],
   imports: [
     CommonModule,

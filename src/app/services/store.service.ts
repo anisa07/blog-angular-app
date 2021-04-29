@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Post} from '../models/Post';
 import {AllPosts} from './post.service';
 
 @Injectable({
@@ -16,7 +15,10 @@ export class StoreService {
   isLoggedOut$: Observable<boolean>;
 
   constructor() {
-    this.isLoggedOut$ = this.isLoggedIn$.pipe(map(loggedIn => !loggedIn));
+    this.isLoggedOut$ = this.isLoggedIn$.pipe(
+      map(loggedIn => {
+      return !loggedIn
+    }));
   }
 
   setLoggedState(state: boolean) {

@@ -7,6 +7,8 @@ import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {Post} from '../../models/Post';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Label} from '../../models/Label';
+import {User} from '../../models/User';
 
 @Component({
   selector: 'all-posts',
@@ -17,6 +19,9 @@ export class AllPostsComponent implements OnInit {
   showMorePosts: boolean = false;
   postData: AllPosts;
   posts: Post[];
+  labels: Label[];
+  author: User;
+  size: 10;
 
   constructor(private postService: PostService, private storeService: StoreService, private _snackBar: MatSnackBar) { }
 
@@ -33,6 +38,17 @@ export class AllPostsComponent implements OnInit {
         })
       )
     )
+  }
+
+  getMorePosts() {
+    this.getPosts(
+      this.postService.readPosts({
+        createdAt: this.posts[this.posts.length - 1].createdAt,
+        size: this.size,
+        labelIds: this.labels?.map(l => l.id),
+        authorId: this.author?.id
+      }), true
+    );
   }
 
   getPosts(observable$: Observable<AllPosts>, addPosts?: boolean) {

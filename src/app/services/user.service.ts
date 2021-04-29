@@ -5,7 +5,7 @@ import { Signup } from '../models/Signup';
 import { Login } from '../models/Login';
 import { LocalstoreService } from './localstore.service';
 import { STORE_USER_KEY } from '../utils/constants';
-import {tap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
 import {StoreService} from './store.service';
 
 @Injectable({
@@ -13,12 +13,6 @@ import {StoreService} from './store.service';
 })
 export class UserService {
   constructor(private http: HttpClient, private urlService: UrlService, private storageService: LocalstoreService, private storeService: StoreService) {
-    this.isAuth()
-      .subscribe((response) => {
-        this.storeService.setLoggedState(response);
-      }, () => {
-        // TODO emit common http error
-      })
 
   }
 

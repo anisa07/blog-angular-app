@@ -1,1 +1,7 @@
-<p>all-posts works!</p>
+<div class="container">
+  <div *ngFor="let post of posts; index as i">
+    <!--List Representation-->
+    <post-list-item [post]="post"></post-list-item>
+  </div>
+  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts">Load More Comments</button>
+</div>

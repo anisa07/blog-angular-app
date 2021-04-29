@@ -12,8 +12,8 @@ import {NotLoggedInUsersGuard} from '../services/not-logged-in-users.guard';
 const routes: Routes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'login', canActivate: [NotLoggedInUsersGuard], component: LoginComponent },
-    { path: 'sign-up', component: SignupComponent },
-    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'sign-up', canActivate: [NotLoggedInUsersGuard], component: SignupComponent },
+    { path: 'forgot-password', canActivate: [NotLoggedInUsersGuard], component: ForgotPasswordComponent },
     { path: 'change-password', component: ChangePasswordComponent },
     { path: 'super', component: SuperUserPageComponent },
 ];

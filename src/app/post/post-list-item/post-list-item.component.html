@@ -1,0 +1,20 @@
+<div class="post">
+  <div class="title">
+    <h3>{{post.title}}</h3>
+    <div class="labels">
+      <span class="label" *ngFor="let label of post.labels">{{label.name}}</span>
+    </div>
+  </div>
+  <div class="text">
+    {{post.text}}
+  </div>
+  <div class="action">
+    <button mat-button color="accent">Read Post</button>
+    <div class="like">
+      <mat-icon color="accent">favorite</mat-icon>
+      <span class="value">
+        {{post.likesValue}}
+      </span>
+    </div>
+  </div>
+</div>
