@@ -9,7 +9,10 @@
     {{post.text}}
   </div>
   <div class="action">
-    <button mat-button color="accent">Read Post</button>
+    <button mat-button color="accent" [routerLink]="'/post/' + post.id">Read Post</button>
+    <div>
+      Comments: {{post.commentsCount}}
+    </div>
     <div class="like">
       <mat-icon color="accent">favorite</mat-icon>
       <span class="value">

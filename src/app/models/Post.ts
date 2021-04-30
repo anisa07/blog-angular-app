@@ -2,11 +2,11 @@ import {Label} from './Label';
 import {CommentModel} from './CommentModel';
 
 export interface Post {
-    name: string;
     id?: string;
     author: string;
     authorId: string;
     labels: Label[];
+    commentsCount?: number;
     comments?: CommentModel[];
     showMoreComments?: boolean;
     likesValue: number;
