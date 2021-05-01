@@ -46,14 +46,14 @@ export class CommentsComponent implements OnInit {
   showMoreComments() {
     const lastComment = this.comments[this.comments.length - 1];
     const showMore$ = this.postService.readAllComments({
-      postId: lastComment.postId, createdAt: lastComment.createdAt, size: this.size
+      postId: lastComment.postId, updatedAt: lastComment.updatedAt, size: this.size
     });
     this.loadComments.emit({observable$: showMore$, addComments: true});
   }
 
   deleteComment(comment: CommentModel) {
     const deleteObservable$ = this.postService.deleteComment(comment.id).pipe(
-      switchMap(() => this.postService.readAllComments({postId: comment.postId, createdAt: this.comments[0].createdAt, size: this.size})),
+      switchMap(() => this.postService.readAllComments({postId: comment.postId, updatedAt: this.comments[0].updatedAt, size: this.size})),
       finalize(() => {
         this.closeCommentForm();
       })
@@ -70,7 +70,7 @@ export class CommentsComponent implements OnInit {
     }).pipe(
       switchMap(() => this.postService.readAllComments({
         postId: this.selectedComment.postId,
-        createdAt: this.selectedComment.createdAt,
+        updatedAt: this.selectedComment.updatedAt,
         size: this.size
       })), finalize(() => {
         this.closeCommentForm();

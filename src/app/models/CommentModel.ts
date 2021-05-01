@@ -5,4 +5,5 @@ export interface CommentModel {
   text: string;
   postId: string;
   createdAt?: number;
+  updatedAt?: number;
 }

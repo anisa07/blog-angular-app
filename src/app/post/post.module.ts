@@ -9,7 +9,7 @@ import { AllPostsComponent } from './all-posts/all-posts.component';
 import { PostComponent } from './post/post.component';
 import { MaterialModule } from '../material/material.module';
 import { ComponentsModule } from '../components/components.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PostRoutingModule } from './post-routing.module';
 import { OnlyLoggedInUsersGuard } from '../services/only-logged-in-users.guard';
 import { PostResolver } from '../services/post.resolver';
@@ -30,13 +30,14 @@ import { PostListItemComponent } from './post-list-item/post-list-item.component
     CommentsComponent,
     PostListItemComponent,
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    ComponentsModule,
-    ReactiveFormsModule,
-    PostRoutingModule,
-  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        ComponentsModule,
+        ReactiveFormsModule,
+        PostRoutingModule,
+        FormsModule,
+    ],
   providers: [
     OnlyLoggedInUsersGuard, PostResolver
   ]

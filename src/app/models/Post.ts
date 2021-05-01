@@ -14,4 +14,5 @@ export interface Post {
     text: string;
     filename?: string;
     createdAt?: number;
+    updatedAt?: number;
 }

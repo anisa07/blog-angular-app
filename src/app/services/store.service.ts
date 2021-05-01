@@ -8,7 +8,7 @@ import {AllPosts} from './post.service';
 })
 export class StoreService {
   private loggedSubject = new BehaviorSubject<boolean>(false);
-  private posts = new BehaviorSubject<AllPosts>({posts: [], showMorePosts: false})
+  private posts = new BehaviorSubject<AllPosts>({posts: [], hasNextPage: false})
 
   posts$: Observable<AllPosts> = this.posts.asObservable();
   isLoggedIn$: Observable<boolean> = this.loggedSubject.asObservable();

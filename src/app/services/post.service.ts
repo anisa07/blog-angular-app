@@ -8,21 +8,24 @@ import { UrlService } from './url-service';
 import {CommentModel} from '../models/CommentModel';
 
 interface PostsQuery {
-  createdAt?: number,
+  updatedAt?: number,
   size?: number,
   labelIds?: string[],
-  authorId?: string
+  authorId?: string,
+  sortBy?: string,
+  searchText?: string,
+  page?: number
 }
 
 interface CommentsQuery {
-  createdAt?: number,
+  updatedAt?: number,
   size?: number,
   postId: string
 }
 
 export interface AllPosts {
   posts: Post[],
-  showMorePosts: boolean
+  hasNextPage: boolean
 }
 
 
@@ -57,8 +60,10 @@ export class PostService {
 
   readPosts(query?: PostsQuery) {
     let url = `${this.urlService.postUrl}`;
-    if (query?.createdAt) {
-      url = `${url}/?createdAt=${query.createdAt}`;
+    const generateUrl = (wOSearchText?: boolean) => {
+      if (query.page) {
+        url = `${url}&page=${query.page}`
+      }
       if (query.size) {
         url = `${url}&size=${query.size}`
       }
@@ -68,6 +73,19 @@ export class PostService {
       if (query.authorId) {
         url = `${url}&authorId=${query.authorId}`
       }
+      if (query.searchText && !wOSearchText) {
+        url = `${url}&searchText=${query.searchText}`
+      }
+    }
+    if(query?.sortBy) {
+      url = `${url}/?sortBy=${query.sortBy}`;
+      generateUrl();
+    } else if (query?.updatedAt) {
+      url = `${url}/?updatedAt=${query.updatedAt}`;
+      generateUrl();
+    } else if (query?.searchText) {
+      url = `${url}/?searchText=${query.searchText}`;
+      generateUrl(true);
     }
 
     return this.http.get<AllPosts>(url)
@@ -102,8 +120,8 @@ export class PostService {
 
   readAllComments(query: CommentsQuery) {
     let url = `${this.urlService.commentUrl}/post/${query.postId}`;
-    if (query.createdAt) {
-      url = `${url}/?createdAt=${query.createdAt}`;
+    if (query.updatedAt) {
+      url = `${url}/?updatedAt=${query.updatedAt}`;
       if (query.size) {
         url = `${url}&size=${query.size}`
       }
