@@ -1,23 +1,53 @@
+<form novalidate [formGroup]="form" class="search-sort">
+  <!-- Search -->
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input matInput formControlName="search">
+  </mat-form-field>
+  <!-- SortBy -->
+  <mat-form-field appearance="fill">
+    <mat-label>Sort by</mat-label>
+    <select matNativeControl formControlName="sortBy">
+      <option value="author">Author</option>
+      <option value="alphabet">Alphabet</option>
+      <option value="" selected>Update Date</option>
+    </select>
+  </mat-form-field>
+  <!-- View -->
+  <mat-form-field appearance="fill">
+    <mat-label>Select view</mat-label>
+    <select matNativeControl formControlName="view">
+      <option value="list" selected>List</option>
+      <option value="grid">Grid</option>
+    </select>
+  </mat-form-field>
+  <mat-form-field *ngIf="view.value === 'grid'" [ngStyle]="{width: '70px'}">
+    <mat-label>Cols</mat-label>
+    <select matNativeControl formControlName="cols">
+      <option value="4" selected>4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+  </mat-form-field>
+  <!--Select labels to search by-->
+</form>
 <div class="container">
-  <form novalidate [formGroup]="form" class="search-sort">
-    <!-- Search -->
-    <mat-form-field appearance="fill">
-      <mat-label>Search</mat-label>
-      <input matInput formControlName="search">
-    </mat-form-field>
-    <!-- SortBy -->
-    <mat-form-field appearance="fill">
-      <mat-label>Sort by</mat-label>
-      <select matNativeControl formControlName="sortBy">
-        <option value="author">Author</option>
-        <option value="alphabet">Alphabet</option>
-        <option value="" selected>Update Date</option>
-      </select>
-    </mat-form-field>
-  </form>
-  <div *ngFor="let post of posts; index as i">
-    <!--List Representation-->
-    <post-list-item [post]="post"></post-list-item>
-  </div>
-  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts">Load More Comments</button>
+  <!--List Representation-->
+  <ng-container *ngIf="view.value === 'list'">
+    <div *ngFor="let post of posts; index as i">
+      <post-list-item [post]="post"></post-list-item>
+    </div>
+  </ng-container>
+</div>
+<!--Grid Representation cols.value -->
+<mat-grid-list [cols]="cols.value" [rowHeight]="rowHeight" *ngIf="view.value === 'grid'">
+  <ng-container *ngFor="let post of posts; index as i">
+    <mat-grid-tile>
+      <post-grid-item [post]="post"></post-grid-item>
+    </mat-grid-tile>
+  </ng-container>
+</mat-grid-list>
+
+<div class="container">
+  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts" [disabled]="loading">Load More Comments</button>
 </div>

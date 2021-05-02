@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AllPosts, PostService} from '../../services/post.service';
 import {StoreService} from '../../services/store.service';
 import {debounce, distinctUntilChanged, switchMap, take} from 'rxjs/operators';
@@ -10,7 +10,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Label} from '../../models/Label';
 import {User} from '../../models/User';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
 
 @Component({
   selector: 'all-posts',
@@ -26,12 +25,16 @@ export class AllPostsComponent implements OnInit {
   size = 10;
   currentPage = 1;
   form: FormGroup;
+  rowHeight: string = '2:2';
+  loading: boolean = false;
 
   constructor(private postService: PostService, private storeService: StoreService, private _snackBar: MatSnackBar, private fb: FormBuilder) {
     this.form = this.fb.group({
       search: [''],
-      sortBy: ['']
-    })
+      sortBy: [''],
+      view: ['list'],
+      cols: ['4']
+    });
   }
 
   get search() {
@@ -42,14 +45,22 @@ export class AllPostsComponent implements OnInit {
     return this.form.controls['sortBy'];
   }
 
+  get view() {
+    return this.form.controls['view'];
+  }
+
+  get cols() {
+    return this.form.controls['cols'];
+  }
+
   onChanges(): void {
-    this.currentPage = 1;
+    this.loading = true;
     this.getPosts(
       this.form.valueChanges.pipe(
         distinctUntilChanged(),
-        debounce(() => timer(1000)),
+        debounce(() => timer(700)),
         switchMap(v => {
-            console.log(v)
+            this.currentPage = 1;
             return this.postService.readPosts({
               updatedAt: undefined,
               size: this.size,
@@ -58,31 +69,33 @@ export class AllPostsComponent implements OnInit {
               searchText: v.search,
               sortBy: v.sortBy,
               page: this.currentPage
-            })
+            });
           }
         )
       )
-    )
+    );
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.getPosts(
       this.storeService.posts$.pipe(
         take(1),
         switchMap(data => {
           if (data.posts.length > 0) {
-            return of(data)
+            return of(data);
           } else {
-            return this.postService.readPosts()
+            return this.postService.readPosts();
           }
         })
       )
-    )
+    );
 
     this.onChanges();
   }
 
   getMorePosts() {
+    this.loading = true;
     this.currentPage++;
     this.getPosts(
       this.postService.readPosts({
@@ -102,7 +115,8 @@ export class AllPostsComponent implements OnInit {
       this.posts = addPosts ? [...this.posts, ...response.posts] : response.posts;
       this.showMorePosts = response.hasNextPage;
       this.storeService.setPosts(response);
-      console.log(response)
+      this.loading = false;
+      console.log(response);
     }, (error: Error) => {
       this._snackBar.openFromComponent(SnackbarComponent, {
         data: {

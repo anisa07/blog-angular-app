@@ -1,0 +1,19 @@
+<div class="post">
+  <div>
+    <img class="post-image" [src]="image" />
+    <div class="title">
+      <h3>{{post.title}}</h3>
+      <button mat-button color="accent" [routerLink]="'/post/' + post.id">Read Post</button>
+    </div>
+  </div>
+
+  <div class="action">
+    Comments: {{post.commentsCount}}
+    <div class="like">
+      <mat-icon color="accent">favorite</mat-icon>
+      <span class="value">
+        {{post.likesValue}}
+      </span>
+    </div>
+  </div>
+</div>
