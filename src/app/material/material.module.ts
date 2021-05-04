@@ -10,6 +10,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatOptionModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 // noinspection AngularInvalidImportedOrDeclaredSymbol
@@ -25,7 +28,10 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatSnackBarModule,
     MatGridListModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   declarations: [],
   imports: [
@@ -40,7 +46,10 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatSnackBarModule,
     MatGridListModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},

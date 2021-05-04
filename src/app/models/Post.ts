@@ -15,4 +15,5 @@ export interface Post {
     filename?: string;
     createdAt?: number;
     updatedAt?: number;
+    canUpdate?: boolean;
 }

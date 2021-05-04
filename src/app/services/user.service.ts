@@ -43,6 +43,6 @@ export class UserService {
 
   getUserId() {
     const userObject = this.storageService.getData(STORE_USER_KEY);
-    return userObject.id;
+    return userObject?.id;
   }
 }

@@ -3,13 +3,17 @@ import {AllPosts, PostService} from '../../services/post.service';
 import {StoreService} from '../../services/store.service';
 import {debounce, distinctUntilChanged, switchMap, take} from 'rxjs/operators';
 import {Observable, of, timer} from 'rxjs';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {Post} from '../../models/Post';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Label} from '../../models/Label';
 import {User} from '../../models/User';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'all-posts',
@@ -17,6 +21,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./all-posts.component.scss']
 })
 export class AllPostsComponent implements OnInit {
+  dataSource: MatTableDataSource<Post>;
   showMorePosts: boolean = false;
   postData: AllPosts;
   posts: Post[];
@@ -27,11 +32,11 @@ export class AllPostsComponent implements OnInit {
   form: FormGroup;
   rowHeight: string = '2:2';
   loading: boolean = false;
-  columnsList: string[] = ['Author', 'Title', 'Updated Date', 'Comments', 'Likes', 'Edit/Delete'];
+  columnsList: string[] = ['Author', 'Title', 'Updated Date', 'Comments Count', 'Likes Value', 'Edit/Delete'];
   tableColumns = new FormControl(this.columnsList);
   cols = new FormControl('4');
 
-  constructor(private postService: PostService, private storeService: StoreService, private _snackBar: MatSnackBar, private fb: FormBuilder) {
+  constructor(private postService: PostService, private userService: UserService, private storeService: StoreService, private _snackBar: MatSnackBar, private fb: FormBuilder) {
     this.form = this.fb.group({
       search: [''],
       sortBy: [''],
@@ -39,9 +44,6 @@ export class AllPostsComponent implements OnInit {
       view: ['list'],
     });
   }
-
-  // cols: ['4'],
-  // tableColumns: [this.columnsList],
 
   get search() {
     return this.form.controls['search'];
@@ -60,14 +62,12 @@ export class AllPostsComponent implements OnInit {
   }
 
   onChanges(): void {
-    console.log('TEST');
     this.loading = true;
     this.getPosts(
       this.form.valueChanges.pipe(
         distinctUntilChanged(),
         debounce(() => timer(700)),
         switchMap(v => {
-            console.log('TEST2');
             this.currentPage = 1;
             let searchBy = this.searchBy.value;
             if (this.view.value !== 'table') {
@@ -125,7 +125,13 @@ export class AllPostsComponent implements OnInit {
 
   getPosts(observable$: Observable<AllPosts>, addPosts?: boolean) {
     observable$.subscribe((response) => {
+      const userId = this.userService.getUserId();
       this.posts = addPosts ? [...this.posts, ...response.posts] : response.posts;
+      this.posts = this.posts.map(p => {
+        p.canUpdate = p.authorId === userId;
+        return p;
+      })
+      this.dataSource = new MatTableDataSource(this.posts);
       this.showMorePosts = response.hasNextPage;
       this.storeService.setPosts(response);
       this.loading = false;
