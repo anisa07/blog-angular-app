@@ -14,7 +14,8 @@ interface PostsQuery {
   authorId?: string,
   sortBy?: string,
   searchText?: string,
-  page?: number
+  page?: number,
+  searchBy?:string
 }
 
 interface CommentsQuery {
@@ -72,6 +73,9 @@ export class PostService {
       }
       if (query.authorId) {
         url = `${url}&authorId=${query.authorId}`
+      }
+      if (query.searchBy) {
+        url = `${url}&searchBy=${query.searchBy}`
       }
       if (query.searchText && !wOSearchText) {
         url = `${url}&searchText=${query.searchText}`

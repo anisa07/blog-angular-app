@@ -45,3 +45,13 @@ p.server-error {
     width: 250px;
   }
 }
+
+div.mat-select-panel {
+  mat-option.mat-option {
+    color: $default-text-color!important;
+
+    .mat-pseudo-checkbox-checked {
+      background: $accent-color!important;
+    }
+  }
+}

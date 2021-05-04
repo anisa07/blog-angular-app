@@ -1,11 +1,19 @@
 <form novalidate [formGroup]="form" class="search-sort">
-  <!-- Search -->
+  <!-- Search && Search title or author for table view -->
   <mat-form-field appearance="fill">
     <mat-label>Search</mat-label>
     <input matInput formControlName="search">
   </mat-form-field>
+  <!-- Select search field -->
+  <mat-form-field appearance="fill" *ngIf="view.value === 'table'">
+    <mat-label>Search by</mat-label>
+    <select matNativeControl formControlName="searchBy">
+      <option value="author">Author</option>
+      <option value="title" selected>Title</option>
+    </select>
+  </mat-form-field>
   <!-- SortBy -->
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" *ngIf="view.value !== 'table'">
     <mat-label>Sort by</mat-label>
     <select matNativeControl formControlName="sortBy">
       <option value="author">Author</option>
@@ -13,23 +21,32 @@
       <option value="" selected>Update Date</option>
     </select>
   </mat-form-field>
+  <!-- Show Columns-->
+  <mat-form-field appearance="fill" *ngIf="view.value === 'table'">
+    <mat-label>Columns</mat-label>
+    <mat-select [formControl]="tableColumns" multiple>
+      <mat-option *ngFor="let column of columnsList" [value]="column">{{column}}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <!-- View -->
   <mat-form-field appearance="fill">
     <mat-label>Select view</mat-label>
     <select matNativeControl formControlName="view">
       <option value="list" selected>List</option>
       <option value="grid">Grid</option>
+      <option value="table">Table</option>
     </select>
   </mat-form-field>
+  <!-- Cols for Table -->
   <mat-form-field *ngIf="view.value === 'grid'" [ngStyle]="{width: '70px'}">
     <mat-label>Cols</mat-label>
-    <select matNativeControl formControlName="cols">
+    <select matNativeControl [formControl]="cols">
       <option value="4" selected>4</option>
       <option value="5">5</option>
       <option value="6">6</option>
     </select>
   </mat-form-field>
-  <!--Select labels to search by-->
+  <!--Select labels to search by, multiselect-->
 </form>
 <div class="container">
   <!--List Representation-->
@@ -47,7 +64,8 @@
     </mat-grid-tile>
   </ng-container>
 </mat-grid-list>
-
 <div class="container">
-  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts" [disabled]="loading">Load More Comments</button>
+  <!--Posts table-->
+  <posts-table [posts]="posts"></posts-table>
+  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'" [disabled]="loading" >Load More Comments</button>
 </div>

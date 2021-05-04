@@ -17,6 +17,7 @@ import { CreateCommentComponent } from './create-comment/create-comment.componen
 import { CommentsComponent } from './comments/comments.component';
 import { PostListItemComponent } from './post-list-item/post-list-item.component';
 import { PostGridItemComponent } from './post-grid-item/post-grid-item.component';
+import { PostsTableComponent } from './posts-table/posts-table.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PostGridItemComponent } from './post-grid-item/post-grid-item.component
     CommentsComponent,
     PostListItemComponent,
     PostGridItemComponent,
+    PostsTableComponent,
   ],
     imports: [
         CommonModule,

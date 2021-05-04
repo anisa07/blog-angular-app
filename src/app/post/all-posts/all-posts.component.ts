@@ -9,7 +9,7 @@ import {Post} from '../../models/Post';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Label} from '../../models/Label';
 import {User} from '../../models/User';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'all-posts',
@@ -27,15 +27,21 @@ export class AllPostsComponent implements OnInit {
   form: FormGroup;
   rowHeight: string = '2:2';
   loading: boolean = false;
+  columnsList: string[] = ['Author', 'Title', 'Updated Date', 'Comments', 'Likes', 'Edit/Delete'];
+  tableColumns = new FormControl(this.columnsList);
+  cols = new FormControl('4');
 
   constructor(private postService: PostService, private storeService: StoreService, private _snackBar: MatSnackBar, private fb: FormBuilder) {
     this.form = this.fb.group({
       search: [''],
       sortBy: [''],
+      searchBy: ['title'],
       view: ['list'],
-      cols: ['4']
     });
   }
+
+  // cols: ['4'],
+  // tableColumns: [this.columnsList],
 
   get search() {
     return this.form.controls['search'];
@@ -49,18 +55,24 @@ export class AllPostsComponent implements OnInit {
     return this.form.controls['view'];
   }
 
-  get cols() {
-    return this.form.controls['cols'];
+  get searchBy() {
+    return this.form.controls['searchBy'];
   }
 
   onChanges(): void {
+    console.log('TEST');
     this.loading = true;
     this.getPosts(
       this.form.valueChanges.pipe(
         distinctUntilChanged(),
         debounce(() => timer(700)),
         switchMap(v => {
+            console.log('TEST2');
             this.currentPage = 1;
+            let searchBy = this.searchBy.value;
+            if (this.view.value !== 'table') {
+              searchBy = '';
+            }
             return this.postService.readPosts({
               updatedAt: undefined,
               size: this.size,
@@ -68,7 +80,8 @@ export class AllPostsComponent implements OnInit {
               authorId: this.author?.id,
               searchText: v.search,
               sortBy: v.sortBy,
-              page: this.currentPage
+              page: this.currentPage,
+              searchBy,
             });
           }
         )
