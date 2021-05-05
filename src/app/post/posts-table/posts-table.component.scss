@@ -1,9 +1,8 @@
+.table {
+  width: 100%
+}
 
-.filter {
-  display: flex;
-  justify-content: space-between;
-
-  mat-form-field {
-    width: 49%;
-  }
+td, th {
+  text-align: center!important;
+  width: 50px!important;
 }

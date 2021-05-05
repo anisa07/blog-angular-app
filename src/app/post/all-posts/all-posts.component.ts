@@ -3,8 +3,6 @@ import {AllPosts, PostService} from '../../services/post.service';
 import {StoreService} from '../../services/store.service';
 import {debounce, distinctUntilChanged, switchMap, take} from 'rxjs/operators';
 import {Observable, of, timer} from 'rxjs';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Error} from '../../models/Error';
@@ -74,7 +72,6 @@ export class AllPostsComponent implements OnInit {
               searchBy = '';
             }
             return this.postService.readPosts({
-              updatedAt: undefined,
               size: this.size,
               labelIds: this.labels?.map(l => l.id),
               authorId: this.author?.id,
@@ -107,12 +104,27 @@ export class AllPostsComponent implements OnInit {
     this.onChanges();
   }
 
+  sortTable(sort: {sortBy: string, sortDir: string}) {
+    this.currentPage = 1;
+    this.getPosts(
+      this.postService.readPosts({
+        size: this.size,
+        labelIds: this.labels?.map(l => l.id),
+        authorId: this.author?.id,
+        searchText: this.search?.value || '',
+        sortBy: sort.sortBy,
+        sortDir: sort.sortDir,
+        page: this.currentPage
+      })
+    )
+  }
+
   getMorePosts() {
     this.loading = true;
     this.currentPage++;
     this.getPosts(
       this.postService.readPosts({
-        updatedAt: this.posts[this.posts.length - 1].updatedAt,
+        // updatedAt: this.posts[this.posts.length - 1].updatedAt,
         size: this.size,
         labelIds: this.labels?.map(l => l.id),
         authorId: this.author?.id,

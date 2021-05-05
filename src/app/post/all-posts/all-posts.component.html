@@ -66,6 +66,6 @@
 </mat-grid-list>
 <div class="container">
   <!--Posts table-->
-  <posts-table [posts]="posts" [tableColumns]="tableColumns.value" *ngIf="view.value === 'table'"></posts-table>
+  <posts-table (sortTable)="sortTable($event)" [posts]="posts" [tableColumns]="tableColumns.value" *ngIf="view.value === 'table'"></posts-table>
   <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'" [disabled]="loading" >Load More Comments</button>
 </div>

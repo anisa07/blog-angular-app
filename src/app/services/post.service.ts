@@ -13,6 +13,7 @@ interface PostsQuery {
   labelIds?: string[],
   authorId?: string,
   sortBy?: string,
+  sortDir?: string;
   searchText?: string,
   page?: number,
   searchBy?:string
@@ -28,7 +29,6 @@ export interface AllPosts {
   posts: Post[],
   hasNextPage: boolean
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -81,11 +81,10 @@ export class PostService {
         url = `${url}&searchText=${query.searchText}`
       }
     }
+
     if(query?.sortBy) {
       url = `${url}/?sortBy=${query.sortBy}`;
-      generateUrl();
-    } else if (query?.updatedAt) {
-      url = `${url}/?updatedAt=${query.updatedAt}`;
+      url = `${url}&sortDir=${query.sortDir}`;
       generateUrl();
     } else if (query?.searchText) {
       url = `${url}/?searchText=${query.searchText}`;
