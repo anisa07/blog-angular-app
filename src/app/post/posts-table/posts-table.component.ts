@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {Post} from '../../models/Post';
@@ -16,15 +16,19 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort;
 
   @Input()
+  length: number;
+  @Input()
   posts: Post[];
   @Input()
   tableColumns: string[] = [];
   @Output()
   sortTable = new EventEmitter<{ sortBy: string, sortDir: string }>();
-
+  @Output()
+  paginateTable = new EventEmitter<{ pageSize: number, page: number }>();
   cols: string[] = [];
   dataSource: MatTableDataSource<Post>;
   isLoggedIn$:  Observable<boolean>;
+  pageSize = 10;
 
   constructor(private storeService: StoreService) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
@@ -47,6 +51,13 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
     if(changes.posts && changes.posts.currentValue !== changes.posts.previousValue) {
       this.dataSource = new MatTableDataSource(changes.posts.currentValue);
     }
+  }
+
+  paginate(e: PageEvent) {
+    this.pageSize = e.pageSize;
+    this.paginateTable.emit({pageSize: this.pageSize, page: e.pageIndex + 1});
+    console.log(e)
+    // {previousPageIndex: 1, pageIndex: 0, pageSize: 10, length: 10}
   }
 
   changeSort(e: Sort) {

@@ -32,6 +32,6 @@
 
   <tr mat-header-row *matHeaderRowDef="cols"></tr>
   <tr mat-row *matRowDef="let row; columns: cols"></tr>
-
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+<mat-paginator [length]="length" [pageSize]="pageSize" (page)="paginate($event)" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

@@ -26,6 +26,7 @@ export class AllPostsComponent implements OnInit {
   labels: Label[];
   author: User;
   size = 10;
+  length = 0;
   currentPage = 1;
   form: FormGroup;
   rowHeight: string = '2:2';
@@ -119,6 +120,20 @@ export class AllPostsComponent implements OnInit {
     )
   }
 
+  paginateTable(page: {pageSize: number, page: number}) {
+    this.size = page.pageSize;
+    this.currentPage = page.page;
+    this.getPosts(
+      this.postService.readPosts({
+        size: this.size,
+        labelIds: this.labels?.map(l => l.id),
+        authorId: this.author?.id,
+        searchText: this.search?.value || '',
+        page: this.currentPage,
+      })
+    )
+  }
+
   getMorePosts() {
     this.loading = true;
     this.currentPage++;
@@ -147,7 +162,8 @@ export class AllPostsComponent implements OnInit {
       this.showMorePosts = response.hasNextPage;
       this.storeService.setPosts(response);
       this.loading = false;
-      console.log(response);
+      this.length = response.totalDocs;
+      console.log('response', response);
     }, (error: Error) => {
       this._snackBar.openFromComponent(SnackbarComponent, {
         data: {

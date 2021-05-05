@@ -27,7 +27,8 @@ interface CommentsQuery {
 
 export interface AllPosts {
   posts: Post[],
-  hasNextPage: boolean
+  hasNextPage: boolean,
+  totalDocs: number
 }
 
 @Injectable({
@@ -89,6 +90,9 @@ export class PostService {
     } else if (query?.searchText) {
       url = `${url}/?searchText=${query.searchText}`;
       generateUrl(true);
+    } else if (query?.size && query?.page) {
+      url = `${url}?page=${query.page}`
+      url = `${url}&size=${query.size}`
     }
 
     return this.http.get<AllPosts>(url)
