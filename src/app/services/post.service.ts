@@ -61,6 +61,11 @@ export class PostService {
     return this.http.put<{id: string}>(`${this.urlService.postUrl}/${formData.get('id')}`, formData, options);
   }
 
+  deletePost(id: string) {
+    const options = { headers: this.createHeaders()};
+    return this.http.delete(`${this.urlService.postUrl}/${id}`, options)
+  }
+
   readPost(id: string) {
     return this.http.get<Post>(`${this.urlService.postUrl}/${id}`)
   }

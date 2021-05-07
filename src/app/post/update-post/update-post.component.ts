@@ -85,7 +85,7 @@ export class UpdatePostComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.data['postData']);
+    // console.log(this.route.snapshot.data['postData']);
   }
 
   onSave() {

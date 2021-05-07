@@ -3,9 +3,12 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {Post} from '../../models/Post';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {StoreService} from '../../services/store.service';
 import {Router} from '@angular/router';
+import {DialogComponent} from '../../components/dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {switchMap, take} from 'rxjs/operators';
 
 @Component({
   selector: 'posts-table',
@@ -25,13 +28,15 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Output()
   sortTable = new EventEmitter<{ sortBy: string, sortDir: string }>();
   @Output()
+  confirmDeletePost = new EventEmitter<string>();
+  @Output()
   paginateTable = new EventEmitter<{ pageSize: number, page: number }>();
   cols: string[] = [];
   dataSource: MatTableDataSource<Post>;
   isLoggedOut$:  Observable<boolean>;
   pageSize = 10;
 
-  constructor(private storeService: StoreService, private router: Router) {
+  constructor(private storeService: StoreService, private router: Router, public dialog: MatDialog) {
     this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }
 
@@ -82,5 +87,24 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   editPost(p: Post) {
     this.router.navigate(['post', 'update', p.id]);
+  }
+
+  confirmDelete() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {
+        text: 'Are you sure you want to delete this post completely?',
+      }
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  deletePost(p: Post) {
+    this.confirmDelete().subscribe(response => {
+      if(response) {
+        this.confirmDeletePost.emit(p.id)
+      }
+    })
   }
 }

@@ -120,6 +120,20 @@ export class AllPostsComponent implements OnInit {
     )
   }
 
+  deletePost(id: string) {
+    this.getPosts(
+      this.postService.deletePost(id).pipe(
+        switchMap(() => this.postService.readPosts({
+          size: this.size,
+          labelIds: this.labels?.map(l => l.id),
+          authorId: this.author?.id,
+          searchText: this.search?.value || '',
+          page: this.currentPage,
+        }))
+      )
+    )
+  }
+
   paginateTable(page: {pageSize: number, page: number}) {
     this.size = page.pageSize;
     this.currentPage = page.page;

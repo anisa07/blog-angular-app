@@ -32,7 +32,7 @@
         <button mat-icon-button [disabled]="(isLoggedOut$ | async)" (click)="editPost(row)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button [disabled]="(isLoggedOut$ | async)">
+        <button mat-icon-button [disabled]="(isLoggedOut$ | async)" (click)="deletePost(row)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
