@@ -12,7 +12,6 @@ import { emptyLabelsValidator } from '../../../utils/validators/empty-labels-val
   styleUrls: ['./create-post-step3.component.scss']
 })
 export class CreatePostStep3Component implements OnInit {
-  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -33,7 +32,6 @@ export class CreatePostStep3Component implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.postService.createLabel(value.trim()).subscribe((l: Label) => {
         this.labels = [...this.labels, l];
@@ -45,7 +43,6 @@ export class CreatePostStep3Component implements OnInit {
       )
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }

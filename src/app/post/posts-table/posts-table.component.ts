@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {Post} from '../../models/Post';
 import {Observable} from 'rxjs';
 import {StoreService} from '../../services/store.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'posts-table',
@@ -27,11 +28,11 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
   paginateTable = new EventEmitter<{ pageSize: number, page: number }>();
   cols: string[] = [];
   dataSource: MatTableDataSource<Post>;
-  isLoggedIn$:  Observable<boolean>;
+  isLoggedOut$:  Observable<boolean>;
   pageSize = 10;
 
-  constructor(private storeService: StoreService) {
-    this.isLoggedIn$ = this.storeService.isLoggedIn$;
+  constructor(private storeService: StoreService, private router: Router) {
+    this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
   paginate(e: PageEvent) {
     this.pageSize = e.pageSize;
     this.paginateTable.emit({pageSize: this.pageSize, page: e.pageIndex + 1});
-    console.log(e)
+    // console.log(e)
     // {previousPageIndex: 1, pageIndex: 0, pageSize: 10, length: 10}
   }
 
@@ -79,4 +80,7 @@ export class PostsTableComponent implements OnInit, AfterViewInit, OnChanges {
     return date.toLocaleDateString()
   }
 
+  editPost(p: Post) {
+    this.router.navigate(['post', 'update', p.id]);
+  }
 }

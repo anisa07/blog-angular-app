@@ -56,6 +56,11 @@ export class PostService {
     return this.http.post<{id: string}>(this.urlService.postUrl, formData, options);
   }
 
+  updatePost(formData: FormData) {
+    const options = { headers: this.createHeaders()};
+    return this.http.put<{id: string}>(`${this.urlService.postUrl}/${formData.get('id')}`, formData, options);
+  }
+
   readPost(id: string) {
     return this.http.get<Post>(`${this.urlService.postUrl}/${id}`)
   }

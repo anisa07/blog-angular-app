@@ -6,12 +6,18 @@ import {PostComponent} from './post/post.component';
 import {OnlyLoggedInUsersGuard} from '../services/only-logged-in-users.guard';
 import {PostResolver} from '../services/post.resolver';
 import {ConfirmExitGuard} from '../services/confirm-exit.guard';
+import {UpdatePostComponent} from './update-post/update-post.component';
 
 const routes: Routes = [
   {
     path: '', component: AllPostsComponent
   },
   {path: 'create', canActivate: [OnlyLoggedInUsersGuard], canDeactivate: [ConfirmExitGuard], component: CreatePostComponent},
+  {
+    path: 'update/:id', canActivate: [OnlyLoggedInUsersGuard], canDeactivate: [ConfirmExitGuard], component: UpdatePostComponent, resolve: {
+      postData: PostResolver
+    }
+  },
   {
     path: ':id', component: PostComponent, resolve: {
       postData: PostResolver
