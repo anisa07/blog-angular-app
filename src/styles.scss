@@ -56,3 +56,11 @@ div.mat-select-panel {
     }
   }
 }
+
+.action {
+  display: flex;
+  margin: 1rem 0;
+  button {
+    margin-right: 1rem;
+  }
+}

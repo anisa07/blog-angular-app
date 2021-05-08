@@ -1,1 +1,19 @@
-<p>profile works!</p>
+<div class="container">
+  <h1>{{ownProfile() ? 'My Profile Info' : userData.name + '\'s Profile Info' }}</h1>
+  <img *ngIf="image" [src]="image"/>
+  <p *ngIf="userData.email">Email: {{userData.email}}</p>
+  <p *ngIf="userData.name">Name: {{userData.name}}</p>
+  <div *ngIf="userData.bio">
+    <p>Bio</p>
+    <p>{{userData.bio}}</p>
+  </div>
+  <div class="action" *ngIf="ownProfile() && (isLoggedIn$ | async)">
+    <button mat-flat-button color="accent" (click)="onEdit()">Edit Info</button>
+    <button mat-flat-button color="primary" (click)="onOpenFollowPosts()">Show Follow Posts List</button>
+    <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
+  </div>
+  <div class="action" *ngIf="!ownProfile()">
+    <button mat-flat-button color="accent" (click)="onFollow()" *ngIf="!(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Follow This User</button>
+    <button mat-flat-button color="warn" (click)="onUnFollow()" *ngIf="(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Unfollow This User</button>
+  </div>
+</div>

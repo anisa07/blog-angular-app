@@ -28,7 +28,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [OnlyLoggedInUsersGuard, ConfirmExitGuard]
+  providers: [OnlyLoggedInUsersGuard, ConfirmExitGuard, PostResolver]
 })
 export class PostRoutingModule {
 }
