@@ -90,16 +90,7 @@ export class AllPostsComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.getPosts(
-      this.storeService.posts$.pipe(
-        take(1),
-        switchMap(data => {
-          if (data.posts.length > 0) {
-            return of(data);
-          } else {
-            return this.postService.readPosts();
-          }
-        })
-      )
+      this.postService.readPosts()
     );
 
     this.onChanges();

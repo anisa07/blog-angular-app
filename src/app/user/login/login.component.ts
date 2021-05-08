@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.userService.login(this.loginForm.value).subscribe(response => {
-      this.localstoreService.setData(STORE_USER_KEY, response || '');
       this.loginForm.reset();
       this.loginForm.markAsPristine();
       this.router.navigate([""]);

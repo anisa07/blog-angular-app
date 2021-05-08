@@ -1,21 +1,4 @@
 <form novalidate [formGroup]="form">
-      <mat-form-field class="example-chip-list" appearance="fill">
-        <mat-label>Tags separated by commas</mat-label>
-        <mat-chip-list #chipList aria-label="Tags selection">
-          <mat-chip *ngFor="let label of labels" [selectable]="selectable"
-                   [removable]="removable" (removed)="remove(label)">
-            {{label.name}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input placeholder="New tag..."
-                 matInput
-                 formControlName="label"
-                 [matChipInputFor]="chipList"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="add($event)">      
-        </mat-chip-list>
-      </mat-form-field>
-      <div *ngIf="form.invalid" class="chips-error">{{getLabelErrorMessage()}}</div>  
+      <post-label formControlName="labels"></post-label>
 </form>
 

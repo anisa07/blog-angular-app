@@ -4,13 +4,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
 import {Post} from '../../models/Post';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Label} from '../../models/Label';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {PostService} from '../../services/post.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
+import {emptyLabelsValidator} from '../../utils/validators/empty-labels-validator';
 
 @Component({
   selector: 'update-post',
@@ -36,6 +36,7 @@ export class UpdatePostComponent implements OnInit {
         emptyValueValidator
       ]],
       text: [this.post.text, [Validators.required, emptyValueValidator]],
+      labels: [this.post.labels, [emptyLabelsValidator]],
       fileUpload: [this.post.filename]
     });
   }
@@ -50,6 +51,10 @@ export class UpdatePostComponent implements OnInit {
 
   get fileUpload() {
     return this.form.controls['fileUpload'];
+  }
+
+  get labels() {
+    return this.form.controls['labels'];
   }
 
   getTitleErrorMessage(): string {
@@ -85,21 +90,23 @@ export class UpdatePostComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log(this.route.snapshot.data['postData']);
+
   }
 
   onSave() {
     this.submitCalled = true;
     const formData: FormData = new FormData();
-    formData.append('labels', JSON.stringify(this.post.labels));
-    formData.append('text', this.form.value.text);
-    formData.append('title', this.form.value.title);
+    formData.append('labels', JSON.stringify(this.labels.value));
+    formData.append('text', this.text.value);
+    formData.append('title', this.title.value);
     formData.append('id', this.post.id);
 
     const file: File = this.form.value.fileUpload;
 
-    if (file) {
+    if (file && file instanceof File) {
       formData.append('image', file, file.name);
+    } else if (file && typeof file === "string") {
+      formData.append('filename', file);
     }
 
     this.postService.updatePost(formData)

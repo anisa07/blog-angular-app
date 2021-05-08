@@ -1,14 +1,17 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {finalize, switchMap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {finalize, switchMap, take} from 'rxjs/operators';
 import {Like} from '../../models/Like';
 import {Post} from '../../models/Post';
 import {PostService} from '../../services/post.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {UserService} from '../../services/user.service';
+import {DialogComponent} from '../../components/dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'post',
@@ -24,8 +27,16 @@ export class PostComponent implements OnInit {
   isLoading: boolean = false;
   showCommentForm: boolean = false;
   errorMessage: string = '';
+  currentUserId: string = '';
 
-  constructor(private route: ActivatedRoute, private postService: PostService, private _snackBar: MatSnackBar) {}
+  constructor(private route: ActivatedRoute,
+              private userService: UserService,
+              private postService: PostService,
+              private _snackBar: MatSnackBar,
+              private router: Router,
+              public dialog: MatDialog) {
+    this.currentUserId = userService.getUserId();
+  }
 
   ngOnInit(): void {
     this.postData = this.route.snapshot.data['postData'];
@@ -42,6 +53,11 @@ export class PostComponent implements OnInit {
     }
   }
 
+
+  isPostAuthor() {
+    return this.post.authorId === this.currentUserId;
+  }
+
   likePost(l: number) {
     this.isLoading = true;
     const like: Like = {
@@ -49,14 +65,14 @@ export class PostComponent implements OnInit {
       userId: '',
       postId: this.post.id
     };
-    let observable;
+    let observable$;
     if (!this.currentUserLike) {
-      observable = this.postService.setLike(like);
+      observable$ = this.postService.setLike(like);
     } else {
-      observable = this.postService.updateLike(like);
+      observable$ = this.postService.updateLike(like);
     }
 
-    observable
+    observable$
       .pipe(
         switchMap(() => this.postService.readLikesForPost(this.post.id)),
         finalize(() => {
@@ -75,8 +91,40 @@ export class PostComponent implements OnInit {
     return this.loginRequired || this.currentUserLike === v || this.isLoading;
   }
 
-  commentIsDisabled() {
+  isDisabled() {
     return this.loginRequired || this.isLoading;
+  }
+
+  editPost() {
+    this.router.navigate(['post', 'update', this.post.id]);
+  }
+
+  confirmDelete() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {
+        text: 'Are you sure you want to delete this post completely?',
+      }
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  deletePost() {
+    this.confirmDelete().pipe(
+      take(1),
+      switchMap((val) => {
+        if(val) {
+          return this.postService.deletePost(this.post.id)
+        } else {
+          return of(false)
+        }
+      })
+    ).subscribe((response) => {
+        if (response === null) {
+          this.router.navigate(['post']);
+        }
+      })
   }
 
   showComment() {
@@ -95,14 +143,14 @@ export class PostComponent implements OnInit {
       finalize(() => {
         this.isLoading = false;
       })
-    )
+    );
     this.getComments(createCommentObservable$);
   }
 
   showMoreComments({
                      observable$,
                      addComments
-  }: {observable$: Observable<any>, addComments?: boolean}) {
+                   }: { observable$: Observable<any>, addComments?: boolean }) {
     this.getComments(observable$, addComments);
   }
 

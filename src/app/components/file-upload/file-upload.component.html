@@ -1,13 +1,19 @@
 <input type="file" class="file-input" accept="image/png, image/jpeg, image/gif, image/jpg" (change)="onUpload($event)"
-    #fileUpload />
+       #fileUpload data-testid="true-file-upload"/>
 
-<div class="file-upload">
+<div class="file-upload" data-testid="file-upload">
 
-    <mat-form-field>
-        <input matInput [disabled]=true [value]="filename"/>
-    </mat-form-field>
+  <mat-form-field>
+    <input matInput [disabled]=true [value]="filename"/>
+  </mat-form-field>
 
-    <button mat-icon-button mat-mini-fab color="accent" class="upload-btn" (click)="onClick(fileUpload)" [disabled]="isDisabled">
-        <mat-icon>attach_file</mat-icon>
-    </button>
+  <button mat-icon-button mat-mini-fab color="accent" class="upload-btn" (click)="onClick(fileUpload)"
+          [disabled]="isDisabled">
+    <mat-icon>attach_file</mat-icon>
+  </button>
+
+  <button mat-icon-button mat-mini-fab color="warn" class="upload-btn" (click)="onCancel()"
+          [disabled]="!filename">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>

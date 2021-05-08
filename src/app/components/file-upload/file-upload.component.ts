@@ -10,15 +10,15 @@ import { CustomBaseComponent } from '../custom-base/custom-base.component';
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: FileUploadComponent
-  }, 
-  { 
-    provide: NG_VALIDATORS, 
-    multi: true, 
-    useExisting: FileUploadComponent 
+  },
+  {
+    provide: NG_VALIDATORS,
+    multi: true,
+    useExisting: FileUploadComponent
   }]
 })
 export class FileUploadComponent extends CustomBaseComponent {
-  
+
   filename: string = "";
   @Input() validationRequired: boolean;
 
@@ -54,5 +54,11 @@ export class FileUploadComponent extends CustomBaseComponent {
       this.filename = file.name;
       this.onValidatorChange();
     }
+  }
+
+  onCancel() {
+    this.onChange(null);
+    this.filename = '';
+    this.onValidatorChange();
   }
 }

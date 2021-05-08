@@ -52,3 +52,11 @@
         color: $default-background-color;
     }
 }
+
+.action {
+  display: flex;
+  margin: 1rem 0;
+  button {
+    margin-right: 0.5rem;
+  }
+}

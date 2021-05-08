@@ -6,6 +6,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { MaterialModule } from '../material/material.module';
 import { DialogComponent } from './dialog/dialog.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { LabelComponent } from './label/label.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +15,13 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     CustomBaseComponent,
     DialogComponent,
     SnackbarComponent,
+    LabelComponent,
   ],
   exports: [
     HttpErrorComponent,
     FileUploadComponent,
     CustomBaseComponent,
+    LabelComponent,
   ],
   imports: [
     CommonModule,

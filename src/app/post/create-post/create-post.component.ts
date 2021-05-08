@@ -47,6 +47,7 @@ export class CreatePostComponent {
     formData.append('title', this.formStep1.form.value.title);
 
     const file: File = this.formStep4.form.value.fileUpload;
+
     if (file) {
       formData.append('image', file, file.name);
     }

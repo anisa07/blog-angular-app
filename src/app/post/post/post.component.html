@@ -17,7 +17,11 @@
     <img class="post-image" *ngIf="image" [src]="image" />
     <h4 class="text">{{post.text}}</h4>
     <div class="author">{{post.author}}</div>
-    <button mat-flat-button color="accent" [disabled]="commentIsDisabled()" (click)="showComment()" *ngIf="!showCommentForm">Comment Post</button>
+    <div class="action">
+      <button mat-flat-button color="accent" [disabled]="isDisabled()" (click)="showComment()" *ngIf="!showCommentForm">Comment Post</button>
+      <button mat-flat-button color="primary" [disabled]="isDisabled()" (click)="editPost()" *ngIf="isPostAuthor()">Edit Post</button>
+      <button mat-flat-button color="warn" [disabled]="isDisabled()" (click)="deletePost()" *ngIf="isPostAuthor()">Delete Post</button>
+    </div>
     <create-comment *ngIf="showCommentForm" (leaveComment)="submitComment($event)"></create-comment>
     <http-error *ngIf="errorMessage" [errorMessage]="errorMessage"></http-error>
     <comments [comments]="post.comments" [moreButton]="post.showMoreComments" (loadComments)="showMoreComments($event)"></comments>

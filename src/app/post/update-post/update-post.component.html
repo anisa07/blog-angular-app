@@ -1,6 +1,5 @@
 <div class="container">
   <h1>Update post</h1>
-
   <form novalidate [formGroup]="form">
     <div>
       <mat-form-field appearance="fill">
@@ -16,6 +15,7 @@
         <mat-error *ngIf="text.invalid">{{getTextErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
+    <post-label formControlName="labels"></post-label>
     <file-upload formControlName="fileUpload" [validationRequired]="false"></file-upload>
     <button mat-flat-button color="primary" (click)="onSave()"
             [disabled]="form.invalid || submitCalled">
