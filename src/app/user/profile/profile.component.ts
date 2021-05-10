@@ -85,4 +85,20 @@ export class ProfileComponent implements OnInit {
   checkFollow() {
     return this.userService.doIFollowUser(this.userData.id).pipe(shareReplay(1))
   }
+
+  getUserInfo(id: string) {
+    this.userService.getUserInfo(id).subscribe((response) => {
+      this.showEditForm = false;
+      if (response.filename) {
+        this.image = this.userService.getUserPhoto(response.filename);
+      }
+      this.userData = response;
+    }, (error: Error) => {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: error.message, type: 'ERROR'
+        }
+      });
+    })
+  }
 }

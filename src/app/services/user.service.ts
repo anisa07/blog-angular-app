@@ -84,4 +84,9 @@ export class UserService {
     const headers = this.createHeaders();
     return this.http.delete(`${this.urlService.followUrl}/${followId}`, {headers})
   }
+
+  updateUser(formData: FormData) {
+    const options = { headers: this.createHeaders()};
+    return this.http.post(`${this.urlService.userInfoUrl}`, formData, options)
+  }
 }

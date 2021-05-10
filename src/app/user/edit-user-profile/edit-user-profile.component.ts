@@ -1,8 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NAME_REGEXP} from '../../utils/constants';
 import {User} from '../../models/User';
 import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
+import {UserService} from '../../services/user.service';
+import {Error} from '../../models/Error';
+import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'edit-user-profile',
@@ -13,9 +17,11 @@ export class UserProfileComponent implements OnInit {
   form: FormGroup;
   @Input()
   userData: User;
+  @Output()
+  getUserInfo = new EventEmitter<string>();
   submitCalled: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService, private _snackBar: MatSnackBar,) {
 
   }
 
@@ -29,6 +35,28 @@ export class UserProfileComponent implements OnInit {
 
   onSave() {
     this.submitCalled = true;
+    const formData: FormData = new FormData();
+    formData.append('name', this.name.value);
+    formData.append('bio', this.bio.value);
+
+    const file: File = this.form.value.fileUpload;
+
+    if (file && file instanceof File) {
+      formData.append('photo', file, file.name);
+    } else if (file && typeof file === "string") {
+      formData.append('filename', file);
+    }
+
+    this.userService.updateUser(formData)
+      .subscribe(() => {
+        this.getUserInfo.emit(this.userData.id);
+      }, (error: Error) => {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: error.message, type: 'ERROR'
+          }
+        });
+      });
   }
 
   get name() {
