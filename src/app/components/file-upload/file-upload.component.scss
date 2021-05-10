@@ -3,7 +3,9 @@
 }
 .file-upload {
     display: flex;
+    margin-bottom: 15px;
 }
+
 .upload-btn {
     margin-top: 12px;
     margin-left: 5px
@@ -14,4 +16,13 @@
 }
 .progress-bar {
     margin-bottom: 10px;
+}
+
+.input-container {
+  flex: 1;
+  .error {
+    margin-top: -20px;
+    font-size: 75%;
+    padding-left: 10px;
+  }
 }

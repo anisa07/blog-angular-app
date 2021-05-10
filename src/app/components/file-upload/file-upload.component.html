@@ -3,9 +3,13 @@
 
 <div class="file-upload" data-testid="file-upload">
 
-  <mat-form-field>
-    <input matInput [disabled]=true [value]="filename"/>
-  </mat-form-field>
+  <div class="input-container">
+    <mat-form-field>
+      <input matInput [disabled]=true [value]="filename"/>
+    </mat-form-field>
+    <mat-error *ngIf="error" class="error">{{error}}</mat-error>
+  </div>
+
 
   <button mat-icon-button mat-mini-fab color="accent" class="upload-btn" (click)="onClick(fileUpload)"
           [disabled]="isDisabled">

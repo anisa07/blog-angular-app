@@ -16,4 +16,5 @@
     <button mat-flat-button color="accent" (click)="onFollow()" *ngIf="!(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Follow This User</button>
     <button mat-flat-button color="warn" (click)="onUnFollow()" *ngIf="(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Unfollow This User</button>
   </div>
+  <edit-user-profile [userData]="userData" *ngIf="showEditForm"></edit-user-profile>
 </div>

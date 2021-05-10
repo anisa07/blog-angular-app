@@ -3,7 +3,7 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Comment</mat-label>
-        <textarea matInput type="text" formControlName="comment" required rows="5" class="comment"></textarea>
+        <textarea matInput type="text" formControlName="comment" required rows="5" class="static"></textarea>
         <mat-error *ngIf="comment.invalid">{{getCommentErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>

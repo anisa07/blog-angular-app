@@ -11,7 +11,7 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Text</mat-label>
-        <textarea matInput type="text" formControlName="text" required rows="20" class="post" ></textarea>
+        <textarea matInput type="text" formControlName="text" required rows="20" class="static" ></textarea>
         <mat-error *ngIf="text.invalid">{{getTextErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>

@@ -16,7 +16,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
   userData: User;
   image: string;
   isLoggedIn$: Observable<boolean>;

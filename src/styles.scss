@@ -1,41 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 @import './colors.scss';
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+}
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 p.server-error {
-    color: $error-color;
-    margin: 0.5rem 0;
+  color: $error-color;
+  margin: 0.5rem 0;
 }
 
 .container {
-    min-width: 400px;
-    width: 40%;
-    margin: 2rem auto;
-    overflow: hidden;
+  min-width: 400px;
+  width: 40%;
+  margin: 2rem auto;
+  overflow: hidden;
 
-    .mat-form-field {
-        margin: 0.5rem 0;
-        width: 100%;
-    }
+  .mat-form-field {
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+
+  textarea.static {
+    resize: none;
+  }
+
 }
 
 .link {
-    display: inline-block;
-    text-decoration: none;
-    margin: 0.5rem;
-    color: $default-text-color;
+  display: inline-block;
+  text-decoration: none;
+  margin: 0.5rem;
+  color: $default-text-color;
 }
 
 .accent {
-    color: $accent-color;
+  color: $accent-color;
 }
 
 .mat-dialog-container {
-  padding: 0!important;
-  dialog.ng-star-inserted{
+  padding: 0 !important;
+
+  dialog.ng-star-inserted {
     border-color: $accent-color;
     display: flex;
     flex-direction: column;
@@ -49,10 +60,10 @@ p.server-error {
 
 div.mat-select-panel {
   mat-option.mat-option {
-    color: $default-text-color!important;
+    color: $default-text-color !important;
 
     .mat-pseudo-checkbox-checked {
-      background: $accent-color!important;
+      background: $accent-color !important;
     }
   }
 }
@@ -60,6 +71,7 @@ div.mat-select-panel {
 .action {
   display: flex;
   margin: 1rem 0;
+
   button {
     margin-right: 1rem;
   }

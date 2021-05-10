@@ -21,6 +21,7 @@ export class FileUploadComponent extends CustomBaseComponent {
 
   filename: string = "";
   @Input() validationRequired: boolean;
+  error: string = "";
 
   constructor() {
     super();
@@ -30,11 +31,13 @@ export class FileUploadComponent extends CustomBaseComponent {
     if (!this.validationRequired) {
       return null;
     }
-
+    
     if (this.validationRequired && !this.filename && control.touched) {
+      this.error = "Image file is required"
       return { required: true };
     }
 
+    this.error = "";
     return null;
   }
 
