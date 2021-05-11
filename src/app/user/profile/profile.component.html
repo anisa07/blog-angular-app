@@ -4,11 +4,11 @@
   <p *ngIf="userData.email">Email: {{userData.email}}</p>
   <p *ngIf="userData.name">Name: {{userData.name}}</p>
   <div *ngIf="userData.bio">
-    <p>Bio</p>
+    <p>Bio:</p>
     <p>{{userData.bio}}</p>
   </div>
   <div class="action" *ngIf="ownProfile() && (isLoggedIn$ | async)">
-    <button mat-flat-button color="accent" (click)="onEdit()">Edit Info</button>
+    <button mat-flat-button color="accent" (click)="onEdit()">{{showEditForm ? 'Hide' : 'Show'}} Edit Form</button>
     <button mat-flat-button color="primary" (click)="onOpenFollowPosts()">Show Follow Posts List</button>
     <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
   </div>

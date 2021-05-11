@@ -22,6 +22,8 @@ export class ProfileComponent implements OnInit {
   isLoggedOut$: Observable<boolean>;
   iFollow$: Observable<boolean>
   showEditForm: boolean = false;
+  page: number = 0;
+  size: number = 10;
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -47,11 +49,22 @@ export class ProfileComponent implements OnInit {
   }
 
   onEdit() {
-    this.showEditForm = true;
+    this.showEditForm = !this.showEditForm;
   }
 
   onOpenFollowPosts() {
     this.showEditForm = false;
+    this.page += 1;
+    this.userService.getFollowPosts(this.page, this.size)
+      .subscribe(response => {
+        console.log('response', response)
+      }, (error: Error) => {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: error.message, type: 'ERROR'
+          }
+        });
+      })
   }
 
   onFollow() {

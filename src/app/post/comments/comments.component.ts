@@ -22,6 +22,7 @@ export class CommentsComponent implements OnInit {
   selectedComment: CommentModel = undefined;
   isAuth = undefined;
   size: number = 10;
+  page: number = 1;
 
   constructor(private userService: UserService, private postService: PostService) {
     this.currentUserId = userService.getUserId();
@@ -45,15 +46,16 @@ export class CommentsComponent implements OnInit {
 
   showMoreComments() {
     const lastComment = this.comments[this.comments.length - 1];
+    this.page +=1;
     const showMore$ = this.postService.readAllComments({
-      postId: lastComment.postId, updatedAt: lastComment.updatedAt, size: this.size
+      postId: lastComment.postId, updatedAt: lastComment.updatedAt, size: this.size, page: this.page,
     });
     this.loadComments.emit({observable$: showMore$, addComments: true});
   }
 
   deleteComment(comment: CommentModel) {
     const deleteObservable$ = this.postService.deleteComment(comment.id).pipe(
-      switchMap(() => this.postService.readAllComments({postId: comment.postId, updatedAt: this.comments[0].updatedAt, size: this.size})),
+      switchMap(() => this.postService.readAllComments({postId: comment.postId, updatedAt: this.comments[0].updatedAt, size: this.size, page: this.page})),
       finalize(() => {
         this.closeCommentForm();
       })
@@ -71,7 +73,8 @@ export class CommentsComponent implements OnInit {
       switchMap(() => this.postService.readAllComments({
         postId: this.selectedComment.postId,
         updatedAt: this.selectedComment.updatedAt,
-        size: this.size
+        size: this.size,
+        page: this.page
       })), finalize(() => {
         this.closeCommentForm();
       })

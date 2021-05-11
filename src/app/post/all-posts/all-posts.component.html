@@ -67,5 +67,5 @@
 <div class="container">
   <!--Posts table-->
   <posts-table (confirmDeletePost)="deletePost($event)" (paginateTable)="paginateTable($event)" (sortTable)="sortTable($event)" [posts]="posts" [tableColumns]="tableColumns.value" [length]="length" *ngIf="view.value === 'table'"></posts-table>
-  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'" [disabled]="loading" >Load More Comments</button>
+  <button mat-flat-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'" [disabled]="loading" >Load More Posts</button>
 </div>

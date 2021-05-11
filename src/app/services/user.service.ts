@@ -89,4 +89,9 @@ export class UserService {
     const options = { headers: this.createHeaders()};
     return this.http.post(`${this.urlService.userInfoUrl}`, formData, options)
   }
+
+  getFollowPosts(page: number, size: number) {
+    const options = { headers: this.createHeaders()};
+    return this.http.get(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options)
+  }
 }

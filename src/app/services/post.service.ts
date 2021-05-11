@@ -22,6 +22,7 @@ interface PostsQuery {
 interface CommentsQuery {
   updatedAt?: number,
   size?: number,
+  page?: number,
   postId: string
 }
 
@@ -141,6 +142,9 @@ export class PostService {
       url = `${url}/?updatedAt=${query.updatedAt}`;
       if (query.size) {
         url = `${url}&size=${query.size}`
+      }
+      if (query.page) {
+        url = `${url}&page=${query.page}`
       }
     }
     return this.http.get<{comments: CommentModel[], showMoreComments: boolean}>(url)
