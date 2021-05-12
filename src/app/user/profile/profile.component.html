@@ -17,4 +17,8 @@
     <button mat-flat-button color="warn" (click)="onUnFollow()" *ngIf="(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Unfollow This User</button>
   </div>
   <edit-user-profile [userData]="userData" (getUserInfo)="getUserInfo($event)" *ngIf="showEditForm"></edit-user-profile>
+  <div *ngFor="let post of posts; index as i">
+    <post-list-item [post]="post"></post-list-item>
+  </div>
+  <button mat-flat-button color="accent" (click)="onOpenFollowPosts()" *ngIf="showMorePosts">Load More Posts</button>
 </div>

@@ -21,29 +21,32 @@ import {PostsTableComponent} from './posts-table/posts-table.component';
 import {UpdatePostComponent} from './update-post/update-post.component';
 
 @NgModule({
-  declarations: [
-    CreatePostComponent,
-    CreatePostStep1Component,
-    CreatePostStep2Component,
-    CreatePostStep3Component,
-    CreatePostStep4Component,
-    AllPostsComponent,
-    PostComponent,
-    CreateCommentComponent,
-    CommentsComponent,
-    PostListItemComponent,
-    PostGridItemComponent,
-    PostsTableComponent,
-    UpdatePostComponent,
-  ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    ComponentsModule,
-    ReactiveFormsModule,
-    PostRoutingModule,
-    FormsModule,
-  ],
+    declarations: [
+        CreatePostComponent,
+        CreatePostStep1Component,
+        CreatePostStep2Component,
+        CreatePostStep3Component,
+        CreatePostStep4Component,
+        AllPostsComponent,
+        PostComponent,
+        CreateCommentComponent,
+        CommentsComponent,
+        PostListItemComponent,
+        PostGridItemComponent,
+        PostsTableComponent,
+        UpdatePostComponent,
+    ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        ComponentsModule,
+        ReactiveFormsModule,
+        PostRoutingModule,
+        FormsModule,
+    ],
+    exports: [
+        PostListItemComponent
+    ]
 })
 export class PostModule {
 }

@@ -16,4 +16,5 @@ export class UrlService {
   userInfoUrl: string = this.url + '/user-info';
   userPhotoUrl: string = this.url + '/user-photo';
   followUrl: string = this.url + '/follow'
+  userUrl: string = this.url + '/user'
 }

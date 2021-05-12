@@ -8,6 +8,7 @@ import {STORE_USER_KEY} from '../utils/constants';
 import {switchMap, tap} from 'rxjs/operators';
 import {StoreService} from './store.service';
 import {User} from '../models/User';
+import {AllPosts} from './post.service';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,11 @@ export class UserService {
     return `${this.urlService.userPhotoUrl}/${filename}`;
   }
 
+  deleteUser() {
+    const headers = this.createHeaders();
+    return this.http.delete(this.urlService.userUrl, {headers})
+  }
+
   doIFollowUser(followId: string) {
     const headers = this.createHeaders();
     return this.http.get<boolean>(`${this.urlService.followUrl}/${followId}`, {headers})
@@ -92,6 +98,6 @@ export class UserService {
 
   getFollowPosts(page: number, size: number) {
     const options = { headers: this.createHeaders()};
-    return this.http.get(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options)
+    return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options)
   }
 }

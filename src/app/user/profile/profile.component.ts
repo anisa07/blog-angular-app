@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user.service';
 import {StoreService} from '../../services/store.service';
-import {Observable} from 'rxjs';
-import {shareReplay, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {shareReplay, switchMap, take} from 'rxjs/operators';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
-import {FormBuilder} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Post} from '../../models/Post';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from '../../components/dialog/dialog.component';
 
 @Component({
   selector: 'profile',
@@ -17,6 +19,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class ProfileComponent implements OnInit {
   userData: User;
+  posts: Post[] = [];
+  showMorePosts: boolean = false;
   image: string;
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
@@ -26,6 +30,8 @@ export class ProfileComponent implements OnInit {
   size: number = 10;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
+              public dialog: MatDialog,
               private userService: UserService,
               private storeService: StoreService,
               private _snackBar: MatSnackBar) {
@@ -57,7 +63,8 @@ export class ProfileComponent implements OnInit {
     this.page += 1;
     this.userService.getFollowPosts(this.page, this.size)
       .subscribe(response => {
-        console.log('response', response)
+        this.posts = [...this.posts, ...response.posts];
+        this.showMorePosts = response.hasNextPage;
       }, (error: Error) => {
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {
@@ -93,7 +100,39 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  onDeleteProfile() {}
+  confirmDelete() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {
+        text: 'Are you sure you want to delete this user?',
+      }
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  onDeleteProfile() {
+    this.confirmDelete().pipe(
+      take(1),
+      switchMap((val) => {
+        if(val) {
+          return this.userService.deleteUser()
+        } else {
+          return of(false)
+        }
+      })
+    ).subscribe((response) => {
+      if (response === null) {
+        this.router.navigate(['post']);
+      }
+    }, (error: Error) => {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: error.message, type: 'ERROR'
+        }
+      });
+    })
+  }
 
   checkFollow() {
     return this.userService.doIFollowUser(this.userData.id).pipe(shareReplay(1))

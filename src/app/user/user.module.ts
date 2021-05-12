@@ -11,6 +11,7 @@ import { MaterialModule } from '../material/material.module';
 import { ComponentsModule } from '../components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user-routing.module';
+import {PostModule} from '../post/post.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +23,13 @@ import { UserRoutingModule } from './user-routing.module';
     LoginComponent,
     UserProfileComponent,
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    ComponentsModule,
-    UserRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        ComponentsModule,
+        UserRoutingModule,
+        PostModule
+    ]
 })
 export class UserModule { }

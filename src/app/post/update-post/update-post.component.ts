@@ -23,7 +23,11 @@ export class UpdatePostComponent implements OnInit {
   post: Post;
   submitCalled: boolean = false;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private postService: PostService, private router: Router, private _snackBar: MatSnackBar,
+  constructor(private route: ActivatedRoute,
+              private fb: FormBuilder,
+              private postService: PostService,
+              private router: Router,
+              private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
     this.postData = this.route.snapshot.data['postData'];
     if (!(this.postData[0] instanceof HttpErrorResponse)) {
