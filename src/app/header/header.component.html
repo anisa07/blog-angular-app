@@ -1,7 +1,24 @@
 <div class="header">
-  <button mat-stroked-button color="accent" routerLink="/post">All Posts</button>
-  <button mat-stroked-button color="accent" routerLink="/post/create" *ngIf="isLoggedIn$ | async">Create Post</button>
-  <button mat-button color="accent" routerLink="/user/login" *ngIf="isLoggedOut$ | async">Sign In</button>
-  <button mat-stroked-button color="accent" routerLink="/user/profile" *ngIf="isLoggedIn$ | async">Profile</button>
-  <button mat-button color="accent" (click)="logout()" *ngIf="isLoggedIn$ | async">Logout</button>
+  <div class="left-part">
+    <button mat-icon-button mat-mini-fab class="back-btn" (click)="backClicked()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <div class="right-part">
+    <button mat-stroked-button color="primary" routerLink="/post">All Posts</button>
+    <button mat-stroked-button color="primary" routerLink="/post/create" *ngIf="isLoggedIn$ | async">Create Post</button>
+    <button mat-button color="primary" routerLink="/user/login" *ngIf="isLoggedOut$ | async">Sign In</button>
+    <button mat-stroked-button color="primary" routerLink="/user/profile" *ngIf="isLoggedIn$ | async">Profile</button>
+    <button mat-button color="primary" (click)="logout()" *ngIf="isLoggedIn$ | async">Logout</button>
+
+    <mat-button-toggle-group (change)="switchAppTheme($event)" [value]="currentTheme" class="toggle">
+      <mat-button-toggle value="light" aria-label="Light theme">
+        Light
+      </mat-button-toggle>
+      <mat-button-toggle value="dark" aria-label="Dark theme">
+        Dark
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 </div>

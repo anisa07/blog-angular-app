@@ -1,8 +1,6 @@
 @import '../../../colors.scss';
 
 .post {
-  border-left: 1px solid $accent-color;
-  border-bottom: 1px solid $accent-color;
   padding: 1rem;
   margin: 1rem;
 
@@ -39,10 +37,10 @@
       justify-content: space-between;
     }
 
-    .value {
-      margin-left: 5px;
-      margin-top: 3px;
-      color: $accent-color;
-    }
+    //.value {
+    //  margin-left: 5px;
+    //  margin-top: 3px;
+    //  color: $accent-color;
+    //}
   }
 }

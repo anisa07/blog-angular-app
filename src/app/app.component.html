@@ -1,4 +1,4 @@
-<div class="mat-typography app-frame mat-app-background">
-    <header></header>
+<div id="root" class="mat-typography app-frame mat-app-background" [ngClass]="{'alternate-theme': appTheme === 'light'}">
+    <app-header (switchTheme)="switchTheme($event)" [currentTheme]="appTheme"></app-header>
     <router-outlet></router-outlet>
 </div>

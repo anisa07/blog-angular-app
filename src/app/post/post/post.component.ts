@@ -53,7 +53,6 @@ export class PostComponent implements OnInit {
     }
   }
 
-
   isPostAuthor() {
     return this.post.authorId === this.currentUserId;
   }

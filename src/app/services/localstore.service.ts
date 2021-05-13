@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {APP_THEME} from '../utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,13 @@ export class LocalstoreService {
 
   deleteItem(key: string) {
     localStorage.removeItem(key);
+  }
+  
+  getTheme() {
+    return this.getData(APP_THEME);
+  }
+  
+  setTheme(theme: string) {
+    this.setData(APP_THEME, theme);
   }
 }

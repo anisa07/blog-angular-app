@@ -7,8 +7,7 @@
   margin: 1rem 0;
   padding: 0.5rem;
   height: 120px;
-  border-left: 1px solid $accent-color;
-  border-bottom: 1px solid $accent-color;
+  width: 95%;
 
   .title {
     margin: 0.5rem 0;
@@ -19,18 +18,10 @@
 
     h3 {
       font-weight: bold;
-      span {
+      a {
         font-style: italic;
         font-size: 0.7rem;
       }
-    }
-
-    .label {
-      color: $default-text-color;
-      background: $primary-color;
-      margin-right: 5px;
-      padding: 5px;
-      border-radius: 5px;
     }
   }
 
@@ -48,12 +39,6 @@
     .like {
       display: flex;
       justify-content: space-between;
-    }
-
-    .value {
-      margin-left: 5px;
-      margin-top: 3px;
-      color: $accent-color;
     }
   }
 }

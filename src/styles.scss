@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import './colors.scss';
+@import './new-theme.scss';
+
+@mixin bottom-shadow {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
 
 html, body {
   height: 100%;
@@ -11,8 +16,65 @@ body {
 }
 
 p.server-error {
-  color: $error-color;
+  color: $warn;
   margin: 0.5rem 0;
+}
+
+button.mat-stroked-button.mat-primary {
+  border-color: $primary;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0.5rem;
+  // color: $default-text-color;
+}
+
+.likes-value {
+  display: flex;
+  align-items: center;
+  color: $accent;
+}
+
+.comment {
+  padding: 1rem;
+  margin: 1rem 0;
+  @include bottom-shadow;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+mat-button-toggle-group.toggle {
+  border-color: $primary;
+  .mat-button-toggle-checked {
+    background: $primary;
+  }
+  span.mat-button-toggle-label-content {
+    line-height: 36px;
+  }
+}
+
+.label {
+  color: $text-color-1;
+  background: $primary;
+  margin-right: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.value {
+  margin-left: 5px;
+  margin-top: 3px;
+  color: $accent;
+}
+
+a {
+  color: $accent
+}
+
+.post {
+  background: rgba(0, 0, 0, 0.04);
+  @include bottom-shadow;
 }
 
 .container {
@@ -29,50 +91,97 @@ p.server-error {
   textarea.static {
     resize: none;
   }
-
 }
 
-.link {
-  display: inline-block;
-  text-decoration: none;
-  margin: 0.5rem;
-  color: $default-text-color;
+.header {
+  @include bottom-shadow;
+}
+
+#root.alternate-theme {
+  mat-button-toggle-group.toggle {
+    border-color: $alt-primary;
+    .mat-button-toggle-checked {
+      background: $alt-primary;
+      color: $text-color-1
+    }
+  }
+  p.server-error {
+    color: $alt-warn;
+    margin: 0.5rem 0;
+  }
+  button.mat-stroked-button.mat-primary {
+    border-color: $alt-primary;
+  }
+  .label {
+    background: $alt-primary;
+  }
+  a {
+    color: $alt-accent;
+  }
+  .value {
+    color:$alt-accent;
+  }
+  .likes-value {
+    color: $alt-accent;
+  }
+  .material-icons {
+    color: $alt-accent;
+  }
+  .disabled-icon {
+    color: $default-text-color;
+  }
+  .mat-button-disabled {
+    mat-icon {
+      color: $default-text-color;
+    }
+  }
 }
 
 .accent {
-  color: $accent-color;
+  //color: $accent-color;
 }
 
 .mat-dialog-container {
   padding: 0 !important;
 
   dialog.ng-star-inserted {
-    border-color: $accent-color;
+    border-color: $accent;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: -40px;
-    background: $default-background-color;
-    color: $default-text-color;
+    background: $background-color-1;
+    color: $text-color-1;
     width: 250px;
   }
 }
 
 div.mat-select-panel {
   mat-option.mat-option {
-    color: $default-text-color !important;
+    //color: $default-text-color !important;
 
     .mat-pseudo-checkbox-checked {
-      background: $accent-color !important;
+      //background: $accent-color !important;
     }
   }
 }
 
 .action {
+  align-items: center;
   display: flex;
   margin: 1rem 0;
+  flex-wrap: wrap;
+
+  .material-icons {
+    color: $accent;
+  }
 
   button {
     margin-right: 1rem;
+    margin-top: 1rem;
+  }
+
+  .disabled-icon {
+    color: $default-text-color;
   }
 }

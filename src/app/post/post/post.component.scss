@@ -8,12 +8,6 @@
     align-items: center;
 }
 
-.likes-value {
-    display: flex;
-    align-items: center;
-    color: $accent-color
-}
-
 .text {
     text-indent: 2rem;
     text-align: justify;
@@ -43,13 +37,6 @@
         border-radius: 5px;
         display: inline-block;
         margin-right: 0.5rem;
-    }
-    .label:nth-of-type(odd) {
-        background-color: $primary-color;
-    }
-    .label:nth-of-type(even) {
-        background-color: $accent-color;
-        color: $default-background-color;
     }
 }
 
