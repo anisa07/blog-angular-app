@@ -11,6 +11,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Post} from '../../models/Post';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
+import {LocalstoreService} from '../../services/localstore.service';
 
 @Component({
   selector: 'profile',
@@ -34,7 +35,7 @@ export class ProfileComponent implements OnInit {
               public dialog: MatDialog,
               private userService: UserService,
               private storeService: StoreService,
-              private _snackBar: MatSnackBar) {
+              private _snackBar: MatSnackBar, private localstoreService: LocalstoreService) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
     this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }

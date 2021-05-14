@@ -6,6 +6,10 @@
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
+@mixin transparent-background {
+  background: rgba(0, 0, 0, 0.04);
+}
+
 html, body {
   height: 100%;
 }
@@ -28,7 +32,7 @@ button.mat-stroked-button.mat-primary {
   display: inline-block;
   text-decoration: none;
   margin: 0.5rem;
-  // color: $default-text-color;
+  color: $light-color-2;
 }
 
 .likes-value {
@@ -41,7 +45,13 @@ button.mat-stroked-button.mat-primary {
   padding: 1rem;
   margin: 1rem 0;
   @include bottom-shadow;
-  background: rgba(0, 0, 0, 0.04);
+  @include transparent-background;
+}
+
+.info {
+  padding: 1rem;
+  @include bottom-shadow;
+  @include transparent-background;
 }
 
 mat-button-toggle-group.toggle {
@@ -55,7 +65,7 @@ mat-button-toggle-group.toggle {
 }
 
 .label {
-  color: $text-color-1;
+  color: $light-color-1;
   background: $primary;
   margin-right: 5px;
   padding: 5px;
@@ -73,7 +83,7 @@ a {
 }
 
 .post {
-  background: rgba(0, 0, 0, 0.04);
+  @include transparent-background;
   @include bottom-shadow;
 }
 
@@ -102,7 +112,7 @@ a {
     border-color: $alt-primary;
     .mat-button-toggle-checked {
       background: $alt-primary;
-      color: $text-color-1
+      color: $light-color-1
     }
   }
   p.server-error {
@@ -124,21 +134,70 @@ a {
   .likes-value {
     color: $alt-accent;
   }
-  .material-icons {
-    color: $alt-accent;
+  .action {
+    .material-icons {
+      color: $alt-accent;
+    }
   }
   .disabled-icon {
-    color: $default-text-color;
+    color: $light-color-2;
   }
   .mat-button-disabled {
     mat-icon {
-      color: $default-text-color;
+      color: $light-color-2;
+    }
+  }
+  .accent {
+    color: $alt-accent;
+  }
+  .link {
+    color: $dark-color-1;
+  }
+}
+
+.alternate-theme {
+  div.mat-select-panel {
+    background: $light-color-2;
+
+    mat-option.mat-option {
+      color: $dark-color-1 !important;
+
+      .mat-pseudo-checkbox {
+        color: $alt-accent !important;
+      }
+      .mat-pseudo-checkbox::after {
+        color: $light-color-2;
+      }
+
+      .mat-pseudo-checkbox-checked {
+        background: $alt-accent !important;
+      }
+    }
+  }
+  .mat-dialog-container {
+    padding: 0 !important;
+
+    dialog.ng-star-inserted {
+      border-color: $alt-accent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: -40px;
+      color: $dark-color-1;
+      background: $light-color-1;
+      width: 250px;
+
+      .mat-dialog-actions {
+        button.mat-accent {
+          background: $alt-accent;
+        }
+      }
     }
   }
 }
 
 .accent {
-  //color: $accent-color;
+  color: $accent;
 }
 
 .mat-dialog-container {
@@ -150,18 +209,18 @@ a {
     flex-direction: column;
     justify-content: center;
     margin-top: -40px;
-    background: $background-color-1;
-    color: $text-color-1;
+    background: $dark-color-1;
+    color: $light-color-1;
     width: 250px;
   }
 }
 
 div.mat-select-panel {
   mat-option.mat-option {
-    //color: $default-text-color !important;
+    color: $light-color-2 !important;
 
     .mat-pseudo-checkbox-checked {
-      //background: $accent-color !important;
+      background: $accent !important;
     }
   }
 }
@@ -182,6 +241,6 @@ div.mat-select-panel {
   }
 
   .disabled-icon {
-    color: $default-text-color;
+    color: $light-color-2;
   }
 }

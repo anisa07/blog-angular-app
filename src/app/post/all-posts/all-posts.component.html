@@ -7,19 +7,19 @@
   <!-- Select search field -->
   <mat-form-field appearance="fill" *ngIf="view.value === 'table'">
     <mat-label>Search by</mat-label>
-    <select matNativeControl formControlName="searchBy">
-      <option value="author">Author</option>
-      <option value="title" selected>Title</option>
-    </select>
+    <mat-select formControlName="searchBy">
+      <mat-option value="author">Author</mat-option>
+      <mat-option value="title">Title</mat-option>
+    </mat-select>
   </mat-form-field>
   <!-- SortBy -->
   <mat-form-field appearance="fill" *ngIf="view.value !== 'table'">
     <mat-label>Sort by</mat-label>
-    <select matNativeControl formControlName="sortBy">
-      <option value="author">Author</option>
-      <option value="alphabet">Alphabet</option>
-      <option value="" selected>Update Date</option>
-    </select>
+    <mat-select formControlName="sortBy">
+      <mat-option value="author">Author</mat-option>
+      <mat-option value="alphabet">Alphabet</mat-option>
+      <mat-option value="">Update Date</mat-option>
+    </mat-select>
   </mat-form-field>
   <!-- Show Columns-->
   <mat-form-field appearance="fill" *ngIf="view.value === 'table'">
@@ -31,20 +31,20 @@
   <!-- View -->
   <mat-form-field appearance="fill">
     <mat-label>Select view</mat-label>
-    <select matNativeControl formControlName="view">
-      <option value="list" selected>List</option>
-      <option value="grid">Grid</option>
-      <option value="table">Table</option>
-    </select>
+    <mat-select formControlName="view">
+      <mat-option value="list">List</mat-option>
+      <mat-option value="grid">Grid</mat-option>
+      <mat-option value="table">Table</mat-option>
+    </mat-select>
   </mat-form-field>
   <!-- Cols for Table -->
   <mat-form-field *ngIf="view.value === 'grid'" [ngStyle]="{width: '70px'}">
     <mat-label>Cols</mat-label>
-    <select matNativeControl [formControl]="cols">
-      <option value="4" selected>4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+    <mat-select [formControl]="cols">
+      <mat-option value="4">4</mat-option>
+      <mat-option value="5">5</mat-option>
+      <mat-option value="6">6</mat-option>
+    </mat-select>
   </mat-form-field>
   <!--Select labels to search by, multiselect-->
 </form>
@@ -66,6 +66,10 @@
 </mat-grid-list>
 <div class="container">
   <!--Posts table-->
-  <posts-table (confirmDeletePost)="deletePost($event)" (paginateTable)="paginateTable($event)" (sortTable)="sortTable($event)" [posts]="posts" [tableColumns]="tableColumns.value" [length]="length" *ngIf="view.value === 'table'"></posts-table>
-  <button mat-raised-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'" [disabled]="loading" >Load More Posts</button>
+  <posts-table (confirmDeletePost)="deletePost($event)" (paginateTable)="paginateTable($event)"
+               (sortTable)="sortTable($event)" [posts]="posts" [tableColumns]="tableColumns.value" [length]="length"
+               *ngIf="view.value === 'table'"></posts-table>
+  <button mat-raised-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'"
+          [disabled]="loading">Load More Posts
+  </button>
 </div>

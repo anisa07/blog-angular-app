@@ -5,6 +5,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from './models/Error';
 import {SnackbarComponent} from './components/snackbar/snackbar.component';
 import {LocalstoreService} from './services/localstore.service';
+import {OverlayContainer} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,9 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService,
               private storeService: StoreService,
               private _snackBar: MatSnackBar,
-              private localstroreService: LocalstoreService) {}
+              private localstroreService: LocalstoreService,
+              private overlay: OverlayContainer
+              ) {}
 
   ngOnInit(): void {
     this.userService.isAuth()
@@ -39,5 +42,10 @@ export class AppComponent implements OnInit {
   switchTheme(theme: string) {
     this.appTheme = theme;
     this.localstroreService.setTheme(theme);
+    if (theme === 'light') {
+      this.overlay.getContainerElement().classList.add('alternate-theme');
+    } else {
+      this.overlay.getContainerElement().classList.remove('alternate-theme');
+    }
   }
 }

@@ -1,11 +1,20 @@
 <div class="container">
   <h1>{{ownProfile() ? 'My Profile Info' : userData.name + '\'s Profile Info' }}</h1>
   <img *ngIf="image" [src]="image" class="user-photo"/>
-  <p *ngIf="userData.email">Email: {{userData.email}}</p>
-  <p *ngIf="userData.name">Name: {{userData.name}}</p>
-  <div *ngIf="userData.bio">
-    <p>Bio:</p>
-    <p>{{userData.bio}}</p>
+  <div class="info">
+    <div *ngIf="userData.email">
+      <p class="item">Email:</p>
+      <p>
+        {{userData.email}}
+      </p>
+    </div>
+    <div *ngIf="userData.name">
+      <p class="item">Name:</p>
+      <p>{{userData.name}}</p>
+    <div *ngIf="userData.bio">
+      <p class="item">Bio:</p>
+      <p>{{userData.bio}}</p>
+    </div>
   </div>
   <div class="action" *ngIf="ownProfile() && (isLoggedIn$ | async)">
     <button mat-flat-button color="accent" (click)="onEdit()">{{showEditForm ? 'Hide' : 'Show'}} Edit Form</button>

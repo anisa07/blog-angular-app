@@ -16,7 +16,7 @@
     </div>
     <img class="post-image" *ngIf="image" [src]="image" />
     <h4 class="text">{{post.text}}</h4>
-    <div class="author">{{post.author}}</div>
+    <a class="author" [routerLink]="'/user/profile/' + post.authorId">{{post.author}}</a>
     <div class="action">
       <button mat-flat-button color="accent" [disabled]="isDisabled()" (click)="showComment()" *ngIf="!showCommentForm">Comment Post</button>
       <button mat-flat-button color="primary" [disabled]="isDisabled()" (click)="editPost()" *ngIf="isPostAuthor()">Edit Post</button>
