@@ -12,6 +12,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {UserService} from '../../services/user.service';
 import {DialogComponent} from '../../components/dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {STATE, User, USER_TYPE} from '../../models/User';
+import {StoreService} from '../../services/store.service';
 
 @Component({
   selector: 'post',
@@ -20,6 +22,8 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class PostComponent implements OnInit {
   post: Post = null;
+  authorData: User;
+  authorPhoto: string;
   currentUserLike: number;
   loginRequired: boolean;
   postData = [];
@@ -28,9 +32,11 @@ export class PostComponent implements OnInit {
   showCommentForm: boolean = false;
   errorMessage: string = '';
   currentUserId: string = '';
+  currentUser: User;
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
+              private storeService: StoreService,
               private postService: PostService,
               private _snackBar: MatSnackBar,
               private router: Router,
@@ -51,10 +57,21 @@ export class PostComponent implements OnInit {
     } else {
       this.loginRequired = true;
     }
+
+    this.userService.getUserInfo(this.post.authorId).subscribe(response => {
+      this.authorData = response;
+      if (this.authorData.filename) {
+        this.authorPhoto = this.userService.getUserPhoto(this.authorData.filename);
+      }
+    });
+
+    this.storeService.currentUser$.subscribe(response => {
+      this.currentUser = response;
+    })
   }
 
   isPostAuthor() {
-    return this.post.authorId === this.currentUserId;
+    return this.post.authorId === this.currentUserId || (this.currentUser?.type === USER_TYPE.SUPER && this.currentUser?.state === STATE.ACTIVE);
   }
 
   likePost(l: number) {

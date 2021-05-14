@@ -10,6 +10,12 @@ import {StoreService} from './store.service';
 import {User} from '../models/User';
 import {AllPosts} from './post.service';
 
+interface LoginResponse {
+  id: string,
+  token: string,
+  status: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,40 +27,45 @@ export class UserService {
   createHeaders() {
     const userObject = this.storageService.getData(STORE_USER_KEY);
     return new HttpHeaders({
-      'Authorization': `Bearer ${userObject.token || ""}`,
-      'id': userObject.id || ""
-    })
+      'Authorization': `Bearer ${userObject.token || ''}`,
+      'id': userObject.id || ''
+    });
   }
 
   signup(data: Signup) {
     return this.http.post(this.urlService.signupUrl, data)
-      .pipe(tap((response) => {
+      .pipe(tap((response: LoginResponse) => {
         this.storageService.setData(STORE_USER_KEY, response || '');
         this.storeService.setLoggedState(true);
+        this.getUserInfo(response.id).subscribe(response2 => this.storeService.setCurrentUser(response2));
       }));
   }
 
   login(data: Login) {
     return this.http.post(this.urlService.loginUrl, data)
-      .pipe(tap((response) => {
-        this.storageService.setData(STORE_USER_KEY, response || '');
-        this.storeService.setLoggedState(true);
-      }));
+      .pipe(
+        tap((response: LoginResponse) => {
+          this.storageService.setData(STORE_USER_KEY, response || '');
+          this.storeService.setLoggedState(true);
+          this.getUserInfo(response.id).subscribe(response2 => this.storeService.setCurrentUser(response2));
+        })
+      );
   }
 
   logout() {
-    const userObject = this.storageService.getData(STORE_USER_KEY);
     const headers = this.createHeaders();
     return this.http.post(this.urlService.logoutUrl, {}, {headers})
-      .pipe(tap((response) => {
-        this.storageService.setData(STORE_USER_KEY, response || '');
-        this.storeService.setLoggedState(false);
-      }));
+      .pipe(
+        tap(() => {
+          this.storageService.setData(STORE_USER_KEY, '');
+          this.storeService.setLoggedState(false);
+          this.storeService.setCurrentUser(null);
+        }));
   }
 
   isAuth() {
     const headers = this.createHeaders();
-    return this.http.get<boolean>(this.urlService.authUrl, {headers});
+    return this.http.get<boolean>(this.urlService.authUrl, {headers})
   }
 
   getUserId() {
@@ -64,7 +75,7 @@ export class UserService {
 
   getUserInfo(id?: string) {
     const headers = this.createHeaders();
-    return this.http.get<User>(`${this.urlService.userInfoUrl}/${id  || this.getUserId()}`, {headers});
+    return this.http.get<User>(`${this.urlService.userInfoUrl}/${id || this.getUserId()}`, {headers});
   }
 
   getUserPhoto(filename: string) {
@@ -73,12 +84,12 @@ export class UserService {
 
   deleteUser() {
     const headers = this.createHeaders();
-    return this.http.delete(this.urlService.userUrl, {headers})
+    return this.http.delete(this.urlService.userUrl, {headers});
   }
 
   doIFollowUser(followId: string) {
     const headers = this.createHeaders();
-    return this.http.get<boolean>(`${this.urlService.followUrl}/${followId}`, {headers})
+    return this.http.get<boolean>(`${this.urlService.followUrl}/${followId}`, {headers});
   }
 
   followUser(followId: string) {
@@ -88,16 +99,16 @@ export class UserService {
 
   unFollowUser(followId: string) {
     const headers = this.createHeaders();
-    return this.http.delete(`${this.urlService.followUrl}/${followId}`, {headers})
+    return this.http.delete(`${this.urlService.followUrl}/${followId}`, {headers});
   }
 
   updateUser(formData: FormData) {
-    const options = { headers: this.createHeaders()};
-    return this.http.post(`${this.urlService.userInfoUrl}`, formData, options)
+    const options = {headers: this.createHeaders()};
+    return this.http.post(`${this.urlService.userInfoUrl}`, formData, options);
   }
 
   getFollowPosts(page: number, size: number) {
-    const options = { headers: this.createHeaders()};
-    return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options)
+    const options = {headers: this.createHeaders()};
+    return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options);
   }
 }

@@ -1,0 +1,13 @@
+.columns {
+  display: flex;
+  padding: 0 1rem;
+  margin: 1rem 0;
+
+  .persons {
+    width: 50%;
+  }
+
+  .posts {
+    width: 50%;
+  }
+}

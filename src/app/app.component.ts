@@ -6,6 +6,8 @@ import {Error} from './models/Error';
 import {SnackbarComponent} from './components/snackbar/snackbar.component';
 import {LocalstoreService} from './services/localstore.service';
 import {OverlayContainer} from '@angular/cdk/overlay';
+import {switchMap, take, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -25,8 +27,19 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.isAuth()
+      .pipe(
+        take(1),
+        switchMap((val) => {
+          this.storeService.setLoggedState(!!val);
+          if(val) {
+            return this.userService.getUserInfo(this.userService.getUserId());
+          } else {
+            return of(null)
+          }
+        })
+      )
       .subscribe((response) => {
-        this.storeService.setLoggedState(response);
+        this.storeService.setCurrentUser(response);
       }, (error: Error) => {
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {

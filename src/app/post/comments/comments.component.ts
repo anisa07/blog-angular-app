@@ -2,8 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommentModel} from '../../models/CommentModel';
 import {UserService} from '../../services/user.service';
 import {PostService} from '../../services/post.service';
-import {catchError, finalize, switchMap} from 'rxjs/operators';
+import {finalize, switchMap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {StoreService} from '../../services/store.service';
+import {STATE, User, USER_TYPE} from '../../models/User';
 
 @Component({
   selector: 'comments',
@@ -23,17 +25,21 @@ export class CommentsComponent implements OnInit {
   isAuth = undefined;
   size: number = 10;
   page: number = 1;
+  currentUser: User;
 
-  constructor(private userService: UserService, private postService: PostService) {
+  constructor(private userService: UserService, private postService: PostService , private storeService: StoreService) {
     this.currentUserId = userService.getUserId();
   }
 
   isCommentAuthor(authorId: string) {
-    return authorId === this.currentUserId;
+    return authorId === this.currentUserId || (this.currentUser?.state === STATE.ACTIVE && this.currentUser?.type === USER_TYPE.SUPER);
   }
 
   ngOnInit(): void {
     this.userService.isAuth().subscribe((response) => this.isAuth = response);
+    this.storeService.currentUser$.subscribe(response => {
+      this.currentUser = response;
+    })
   }
 
   showEditFormForComment(comment: CommentModel) {

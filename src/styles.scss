@@ -28,6 +28,10 @@ button.mat-stroked-button.mat-primary {
   border-color: $primary;
 }
 
+button.mat-stroked-button.mat-accent {
+  border-color: $accent;
+}
+
 .link {
   display: inline-block;
   text-decoration: none;
@@ -121,6 +125,9 @@ a {
   }
   button.mat-stroked-button.mat-primary {
     border-color: $alt-primary;
+  }
+  button.mat-stroked-button.mat-accent {
+    border-color: $alt-accent;
   }
   .label {
     background: $alt-primary;
@@ -226,7 +233,7 @@ div.mat-select-panel {
 }
 
 .action {
-  align-items: center;
+  align-items: baseline;
   display: flex;
   margin: 1rem 0;
   flex-wrap: wrap;

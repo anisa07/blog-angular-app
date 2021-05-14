@@ -7,6 +7,7 @@ import {Error} from '../models/Error';
 import {SnackbarComponent} from '../components/snackbar/snackbar.component';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {Location} from '@angular/common';
+import {STATE, User, USER_TYPE} from '../models/User';
 
 @Component({
   selector: 'app-header',
@@ -18,15 +19,15 @@ export class HeaderComponent implements OnInit {
   currentTheme: string = '';
   @Output()
   switchTheme = new EventEmitter<string>();
-  isLoggedOut$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
+  currentUser$: Observable<User>
 
   constructor(private storeService: StoreService,
               private userService: UserService,
               private _location: Location,
               private _snackBar: MatSnackBar) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
-    this.isLoggedOut$ = this.storeService.isLoggedOut$;
+    this.currentUser$ = this.storeService.currentUser$;
   }
 
   ngOnInit(): void {
@@ -51,5 +52,9 @@ export class HeaderComponent implements OnInit {
           }
         });
       });
+  }
+
+  checkUser(u: User) {
+    return u?.type === USER_TYPE.SUPER && u?.state === STATE.ACTIVE;
   }
 }

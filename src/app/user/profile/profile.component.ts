@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {User} from '../../models/User';
+import {STATE, User, USER_TYPE} from '../../models/User';
 import {UserService} from '../../services/user.service';
 import {StoreService} from '../../services/store.service';
 import {Observable, of} from 'rxjs';
@@ -11,7 +11,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Post} from '../../models/Post';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
-import {LocalstoreService} from '../../services/localstore.service';
 
 @Component({
   selector: 'profile',
@@ -20,12 +19,13 @@ import {LocalstoreService} from '../../services/localstore.service';
 })
 export class ProfileComponent implements OnInit {
   userData: User;
+  currentUser: User;
   posts: Post[] = [];
   showMorePosts: boolean = false;
   image: string;
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
-  iFollow$: Observable<boolean>
+  iFollow$: Observable<boolean>;
   showEditForm: boolean = false;
   page: number = 0;
   size: number = 10;
@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
               public dialog: MatDialog,
               private userService: UserService,
               private storeService: StoreService,
-              private _snackBar: MatSnackBar, private localstoreService: LocalstoreService) {
+              private _snackBar: MatSnackBar,) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
     this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }
@@ -48,11 +48,16 @@ export class ProfileComponent implements OnInit {
       this.image = this.userService.getUserPhoto(this.userData.filename);
     }
 
-    console.log(this.userData);
+    this.storeService.currentUser$.subscribe(response => {
+      this.currentUser = response;
+    });
   }
 
   ownProfile() {
-    return this.userService.getUserId() === this.userData.id;
+    return this.userService.getUserId() === this.userData.id ||
+      (this.currentUser?.type === USER_TYPE.SUPER
+        && this.currentUser?.state === STATE.ACTIVE
+        && this.userData?.type === USER_TYPE.USER);
   }
 
   onEdit() {
@@ -72,7 +77,7 @@ export class ProfileComponent implements OnInit {
             message: error.message, type: 'ERROR'
           }
         });
-      })
+      });
   }
 
   onFollow() {
@@ -116,10 +121,10 @@ export class ProfileComponent implements OnInit {
     this.confirmDelete().pipe(
       take(1),
       switchMap((val) => {
-        if(val) {
-          return this.userService.deleteUser()
+        if (val) {
+          return this.userService.deleteUser();
         } else {
-          return of(false)
+          return of(false);
         }
       })
     ).subscribe((response) => {
@@ -132,15 +137,16 @@ export class ProfileComponent implements OnInit {
           message: error.message, type: 'ERROR'
         }
       });
-    })
+    });
   }
 
   checkFollow() {
-    return this.userService.doIFollowUser(this.userData.id).pipe(shareReplay(1))
+    return this.userService.doIFollowUser(this.userData.id).pipe(shareReplay(1));
   }
 
   getUserInfo(id: string) {
     this.userService.getUserInfo(id).subscribe((response) => {
+      this.storeService.setCurrentUser(response);
       this.showEditForm = false;
       if (response.filename) {
         this.image = this.userService.getUserPhoto(response.filename);
@@ -152,6 +158,6 @@ export class ProfileComponent implements OnInit {
           message: error.message, type: 'ERROR'
         }
       });
-    })
+    });
   }
 }

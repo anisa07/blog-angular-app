@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AllPosts} from './post.service';
+import {User} from '../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ import {AllPosts} from './post.service';
 export class StoreService {
   private loggedSubject = new BehaviorSubject<boolean>(false);
   private posts = new BehaviorSubject<AllPosts>({posts: [], hasNextPage: false, totalDocs: 0})
+  private currentUser = new BehaviorSubject<User>(null);
 
   posts$: Observable<AllPosts> = this.posts.asObservable();
+  currentUser$: Observable<User> = this.currentUser.asObservable();
   isLoggedIn$: Observable<boolean> = this.loggedSubject.asObservable();
   isLoggedOut$: Observable<boolean>;
 
@@ -27,5 +30,9 @@ export class StoreService {
 
   setPosts(state: AllPosts) {
     this.posts.next(state);
+  }
+
+  setCurrentUser(state: User) {
+    this.currentUser.next(state);
   }
 }

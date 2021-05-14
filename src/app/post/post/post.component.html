@@ -16,7 +16,10 @@
     </div>
     <img class="post-image" *ngIf="image" [src]="image" />
     <h4 class="text">{{post.text}}</h4>
-    <a class="author" [routerLink]="'/user/profile/' + post.authorId">{{post.author}}</a>
+    <a class="author" [routerLink]="'/user/profile/' + post.authorId">
+      {{post.author}}
+      <img class="authorPhoto" *ngIf="authorPhoto" [src]="authorPhoto" />
+    </a>
     <div class="action">
       <button mat-flat-button color="accent" [disabled]="isDisabled()" (click)="showComment()" *ngIf="!showCommentForm">Comment Post</button>
       <button mat-flat-button color="primary" [disabled]="isDisabled()" (click)="editPost()" *ngIf="isPostAuthor()">Edit Post</button>
