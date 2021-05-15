@@ -251,3 +251,8 @@ div.mat-select-panel {
     color: $light-color-2;
   }
 }
+
+.user-item {
+  @include transparent-background;
+  @include bottom-shadow;
+}

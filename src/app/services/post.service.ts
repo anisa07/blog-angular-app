@@ -73,37 +73,8 @@ export class PostService {
 
   readPosts(query?: PostsQuery) {
     let url = `${this.urlService.postUrl}`;
-    const generateUrl = (wOSearchText?: boolean) => {
-      if (query.page) {
-        url = `${url}&page=${query.page}`
-      }
-      if (query.size) {
-        url = `${url}&size=${query.size}`
-      }
-      if (query.labelIds) {
-        url = `${url}&labelIds=${query.labelIds}`
-      }
-      if (query.authorId) {
-        url = `${url}&authorId=${query.authorId}`
-      }
-      if (query.searchBy) {
-        url = `${url}&searchBy=${query.searchBy}`
-      }
-      if (query.searchText && !wOSearchText) {
-        url = `${url}&searchText=${query.searchText}`
-      }
-    }
-
-    if(query?.sortBy) {
-      url = `${url}/?sortBy=${query.sortBy}`;
-      url = `${url}&sortDir=${query.sortDir}`;
-      generateUrl();
-    } else if (query?.searchText) {
-      url = `${url}/?searchText=${query.searchText}`;
-      generateUrl(true);
-    } else if (query?.size && query?.page) {
-      url = `${url}?page=${query.page}`
-      url = `${url}&size=${query.size}`
+    if (query) {
+      url = `${url}/?sortBy=${query.sortBy || ''}&sortDir=${query.sortDir || ''}&searchBy=${query.searchBy || ''}&searchText=${query.searchText || ''}&page=${query.page || 1}&size=${query.size || 10}&labelIds=${query.labelIds || ''}&authorId=${query.authorId || ''}`
     }
 
     return this.http.get<AllPosts>(url)
@@ -138,14 +109,8 @@ export class PostService {
 
   readAllComments(query: CommentsQuery) {
     let url = `${this.urlService.commentUrl}/post/${query.postId}`;
-    if (query.updatedAt) {
-      url = `${url}/?updatedAt=${query.updatedAt}`;
-      if (query.size) {
-        url = `${url}&size=${query.size}`
-      }
-      if (query.page) {
-        url = `${url}&page=${query.page}`
-      }
+    if (query) {
+      url = `${url}/?updatedAt=${query.updatedAt|| ''}&size=${query.size || 10}&page=${query.page || 1}`;
     }
     return this.http.get<{comments: CommentModel[], showMoreComments: boolean}>(url)
   }

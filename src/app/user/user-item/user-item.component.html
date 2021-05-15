@@ -1,0 +1,25 @@
+<div class="user-item">
+  <h4>
+    <a class="author" [routerLink]="'/user/profile/' + user._id">{{user.name}}</a>
+    <span>{{user.email}}</span>
+  </h4>
+
+  <form novalidate [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let t of types" [value]="t">{{t}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>State</mat-label>
+      <mat-select formControlName="state">
+        <mat-option *ngFor="let s of states" [value]="s">{{s}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  <div>
+    <button mat-flat-button color="warn" (click)="updateUser()" *ngIf="canUpdateUser()" [disabled]="!changed">Update User</button>
+  </div>
+</div>

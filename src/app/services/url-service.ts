@@ -15,6 +15,8 @@ export class UrlService {
   commentUrl: string = this.url + '/comment';
   userInfoUrl: string = this.url + '/user-info';
   userPhotoUrl: string = this.url + '/user-photo';
-  followUrl: string = this.url + '/follow'
-  userUrl: string = this.url + '/user'
+  followUrl: string = this.url + '/follow';
+  userUrl: string = this.url + '/user';
+  usersUrl: string = this.url + '/users';
+  manageUserUrl: string = this.url + '/manage-user'
 }

@@ -12,6 +12,7 @@ import {ComponentsModule} from '../components/components.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UserRoutingModule} from './user-routing.module';
 import {PostModule} from '../post/post.module';
+import { UserItemComponent } from './user-item/user-item.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {PostModule} from '../post/post.module';
     SignupComponent,
     LoginComponent,
     UserProfileComponent,
+    UserItemComponent,
   ],
   imports: [
     CommonModule,

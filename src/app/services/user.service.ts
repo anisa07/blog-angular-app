@@ -9,11 +9,24 @@ import {switchMap, tap} from 'rxjs/operators';
 import {StoreService} from './store.service';
 import {User} from '../models/User';
 import {AllPosts} from './post.service';
+import {Post} from '../models/Post';
 
 interface LoginResponse {
   id: string,
   token: string,
   status: string
+}
+
+interface UsersQuery {
+  text?: string,
+  size?: number,
+  page?: number,
+}
+
+export interface AllUsers {
+  users: User[],
+  hasNextPage: boolean,
+  totalDocs: number
 }
 
 @Injectable({
@@ -107,8 +120,23 @@ export class UserService {
     return this.http.post(`${this.urlService.userInfoUrl}`, formData, options);
   }
 
+  manageUser(user: User){
+    const options = {headers: this.createHeaders()};
+    return this.http.post(`${this.urlService.manageUserUrl}`, user, options);
+  }
+
   getFollowPosts(page: number, size: number) {
     const options = {headers: this.createHeaders()};
     return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options);
+  }
+
+  getUsers(query?: UsersQuery) {
+    const options = {headers: this.createHeaders()};
+    let url = this.urlService.usersUrl;
+    if (query) {
+      url = `${url}/?searchText=${query.text || ''}&size=${query.size || 10}&page=${query.page || 1}`
+    }
+
+    return this.http.get<AllUsers>(url, options);
   }
 }

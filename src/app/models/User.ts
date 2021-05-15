@@ -10,6 +10,7 @@ export enum USER_TYPE {
 }
 export interface User {
   id?: string;
+  _id?: string;
   name?: string;
   email?: string;
   filename?: string;

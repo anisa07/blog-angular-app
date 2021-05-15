@@ -1,0 +1,23 @@
+.user-item {
+  padding: 1rem;
+
+  h4 {
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    margin-right: 1rem;
+  }
+
+  margin: 1rem 0;
+}

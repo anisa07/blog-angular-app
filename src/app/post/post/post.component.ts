@@ -130,11 +130,7 @@ export class PostComponent implements OnInit {
     this.confirmDelete().pipe(
       take(1),
       switchMap((val) => {
-        if(val) {
-          return this.postService.deletePost(this.post.id)
-        } else {
-          return of(false)
-        }
+        return  val ? this.postService.deletePost(this.post.id) : of(false)
       })
     ).subscribe((response) => {
         if (response === null) {

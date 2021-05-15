@@ -1,7 +1,7 @@
 <div>
   <div class="columns">
     <div class="persons">
-
+      <user-item *ngFor="let user of users" [user]="user"></user-item>
     </div>
     <div class="posts">
 
