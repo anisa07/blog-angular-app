@@ -11,23 +11,33 @@
     <div *ngIf="userData.name">
       <p class="item">Name:</p>
       <p>{{userData.name}}</p>
-    <div *ngIf="userData.bio">
-      <p class="item">Bio:</p>
-      <p>{{userData.bio}}</p>
+      <div *ngIf="userData.bio">
+        <p class="item">Bio:</p>
+        <p>{{userData.bio}}</p>
+      </div>
     </div>
+    <ng-container *ngIf="{
+      isLoggedIn: isLoggedIn$ | async,
+      isFollow: iFollow$ | async
+    } as state">
+      <div class="action" *ngIf="(ownProfile() || superUser()) && state.isLoggedIn ">
+        <button mat-flat-button color="accent" (click)="onEdit()">{{showEditForm ? 'Hide' : 'Show'}} Edit Form</button>
+        <button mat-flat-button color="primary" (click)="onOpenFollowPosts()" *ngIf="ownProfile()">Show Follow Posts List</button>
+        <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
+      </div>
+      <div class="action" *ngIf="!ownProfile()">
+        <button mat-flat-button color="accent" (click)="onFollow()" *ngIf="!state.isFollow"
+                [disabled]="!state.isLoggedIn">Follow This User
+        </button>
+        <button mat-flat-button color="warn" (click)="onUnFollow()" *ngIf="state.isFollow"
+                [disabled]="!state.isLoggedIn">Unfollow This User
+        </button>
+      </div>
+      <edit-user-profile [userData]="userData" (getUserInfo)="getUserInfo($event)"
+                         *ngIf="showEditForm"></edit-user-profile>
+      <div *ngFor="let post of posts; index as i">
+        <post-list-item [post]="post"></post-list-item>
+      </div>
+      <button mat-flat-button color="accent" (click)="onOpenFollowPosts()" *ngIf="showMorePosts">Load More Posts</button>
+    </ng-container>
   </div>
-  <div class="action" *ngIf="ownProfile() && (isLoggedIn$ | async)">
-    <button mat-flat-button color="accent" (click)="onEdit()">{{showEditForm ? 'Hide' : 'Show'}} Edit Form</button>
-    <button mat-flat-button color="primary" (click)="onOpenFollowPosts()">Show Follow Posts List</button>
-    <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
-  </div>
-  <div class="action" *ngIf="!ownProfile()">
-    <button mat-flat-button color="accent" (click)="onFollow()" *ngIf="!(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Follow This User</button>
-    <button mat-flat-button color="warn" (click)="onUnFollow()" *ngIf="(iFollow$ | async)" [disabled]="isLoggedOut$ | async">Unfollow This User</button>
-  </div>
-  <edit-user-profile [userData]="userData" (getUserInfo)="getUserInfo($event)" *ngIf="showEditForm"></edit-user-profile>
-  <div *ngFor="let post of posts; index as i">
-    <post-list-item [post]="post"></post-list-item>
-  </div>
-  <button mat-flat-button color="accent" (click)="onOpenFollowPosts()" *ngIf="showMorePosts">Load More Posts</button>
-</div>

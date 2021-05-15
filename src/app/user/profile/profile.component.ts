@@ -53,11 +53,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  superUser() {
+    return this.currentUser?.type === USER_TYPE.SUPER && this.currentUser?.state === STATE.ACTIVE && this.userData?.type === USER_TYPE.USER
+  }
+
   ownProfile() {
-    return this.userService.getUserId() === this.userData.id ||
-      (this.currentUser?.type === USER_TYPE.SUPER
-        && this.currentUser?.state === STATE.ACTIVE
-        && this.userData?.type === USER_TYPE.USER);
+    return this.userService.getUserId() === this.userData.id
   }
 
   onEdit() {
@@ -122,7 +123,7 @@ export class ProfileComponent implements OnInit {
       take(1),
       switchMap((val) => {
         if (val) {
-          return this.userService.deleteUser();
+          return this.userService.deleteUser(this.userData.id);
         } else {
           return of(false);
         }
@@ -146,8 +147,11 @@ export class ProfileComponent implements OnInit {
 
   getUserInfo(id: string) {
     this.userService.getUserInfo(id).subscribe((response) => {
-      this.storeService.setCurrentUser(response);
+      if(this.userService.getUserId() === id) {
+        this.storeService.setCurrentUser(response);
+      }
       this.showEditForm = false;
+      console.log(response)
       if (response.filename) {
         this.image = this.userService.getUserPhoto(response.filename);
       }

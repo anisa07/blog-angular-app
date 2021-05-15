@@ -21,15 +21,13 @@ export class UserProfileComponent implements OnInit {
   getUserInfo = new EventEmitter<string>();
   submitCalled: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private _snackBar: MatSnackBar,) {
-
-  }
+  constructor(private fb: FormBuilder, private userService: UserService, private _snackBar: MatSnackBar,) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       name: [this.userData.name, [Validators.required, Validators.pattern(NAME_REGEXP)]],
-      bio: [this.userData.bio || '', [Validators.required, emptyValueValidator]],
-      fileUpload: [this.userData.filename, [Validators.required]]
+      bio: [this.userData.bio || '', []],
+      fileUpload: [this.userData.filename, []]
     })
   }
 
@@ -38,6 +36,7 @@ export class UserProfileComponent implements OnInit {
     const formData: FormData = new FormData();
     formData.append('name', this.name.value);
     formData.append('bio', this.bio.value);
+    formData.append('id', this.userData.id)
 
     const file: File = this.form.value.fileUpload;
 

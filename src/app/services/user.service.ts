@@ -95,9 +95,9 @@ export class UserService {
     return `${this.urlService.userPhotoUrl}/${filename}`;
   }
 
-  deleteUser() {
+  deleteUser(id: string) {
     const headers = this.createHeaders();
-    return this.http.delete(this.urlService.userUrl, {headers});
+    return this.http.delete(`${this.urlService.userUrl}/${id}`, {headers});
   }
 
   doIFollowUser(followId: string) {

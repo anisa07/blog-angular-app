@@ -9,11 +9,10 @@
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Bio</mat-label>
-      <textarea matInput type="text" formControlName="bio" required rows="10" class="static" ></textarea>
-      <mat-error *ngIf="bio.invalid">{{getBioErrorMessage()}}</mat-error>
+      <textarea matInput type="text" formControlName="bio" rows="10" class="static" ></textarea>
     </mat-form-field>
   </div>
-  <file-upload formControlName="fileUpload" [validationRequired]="true"></file-upload>
+  <file-upload formControlName="fileUpload" [validationRequired]="false"></file-upload>
   <button mat-flat-button color="primary" (click)="onSave()"
           [disabled]="form.invalid || submitCalled">
     Save post

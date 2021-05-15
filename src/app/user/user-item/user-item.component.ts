@@ -60,7 +60,7 @@ export class UserItemComponent implements OnInit {
   }
 
   canUpdateUser() {
-    return this.user.type !== USER_TYPE.SUPER || this.userService.getUserId() === this.user._id;
+    return this.user.type !== USER_TYPE.SUPER || this.userService.getUserId() === this.user.id;
   }
 
   updateUser() {
