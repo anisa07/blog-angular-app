@@ -1,7 +1,16 @@
 <div>
   <div class="columns">
     <div class="persons">
+      <form novalidate [formGroup]="userForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Search users</mat-label>
+          <input matInput formControlName="searchText">
+        </mat-form-field>
+      </form>
       <user-item *ngFor="let user of users" [user]="user"></user-item>
+      <button mat-flat-button color="primary" *ngIf="hasNextUsersPage" (click)="getNextUserPage()">
+        Load More Users
+      </button>
     </div>
     <div class="posts">
 

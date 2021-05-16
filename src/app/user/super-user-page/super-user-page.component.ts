@@ -8,6 +8,10 @@ import {AllPosts} from '../../services/post.service';
 import {User} from '../../models/User';
 import {Post} from '../../models/Post';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Error} from '../../models/Error';
+import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+import {debounce, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'super-user-page',
@@ -41,6 +45,32 @@ export class SuperUserPageComponent implements OnInit {
     this.userForm = this.fb.group({
       searchText: ['']
     });
+
+    this.onUserFormChanges();
+  }
+
+  onUserFormChanges():void {
+    this.userForm.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounce(() => timer(700)),
+      switchMap(v => {
+          this.userPage = 1;
+          return this.userService.getUsers({
+            page: this.userPage,
+            text: this.searchText.value
+          })
+        }
+      )
+    ).subscribe((response) => {
+      this.users = response.users;
+      this.hasNextUsersPage = response.hasNextPage;
+    }, (error: Error) => {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: error.message, type: 'ERROR'
+        }
+      });
+    })
   }
 
   get searchText() {
@@ -48,6 +78,19 @@ export class SuperUserPageComponent implements OnInit {
   }
 
   getNextUserPage() {
-
+    this.userPage++;
+    this.userService.getUsers({
+      page: this.userPage,
+      text: this.searchText.value
+    }).subscribe((response) => {
+      this.users = [...this.users, ...response.users];
+      this.hasNextUsersPage = response.hasNextPage;
+    }, (error: Error) => {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: error.message, type: 'ERROR'
+        }
+      });
+    })
   }
 }
