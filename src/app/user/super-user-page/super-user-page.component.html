@@ -4,7 +4,7 @@
       <form novalidate [formGroup]="userForm">
         <mat-form-field appearance="fill">
           <mat-label>Search users</mat-label>
-          <input matInput formControlName="searchText">
+          <input matInput formControlName="userSearch">
         </mat-form-field>
       </form>
       <user-item *ngFor="let user of users" [user]="user"></user-item>
@@ -13,7 +13,18 @@
       </button>
     </div>
     <div class="posts">
-
+      <form novalidate [formGroup]="postForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Search posts</mat-label>
+          <input matInput formControlName="postSearch">
+        </mat-form-field>
+      </form>
+      <div *ngFor="let post of posts; index as i">
+        <post-list-item [post]="post"></post-list-item>
+      </div>
+      <button mat-flat-button color="primary" *ngIf="hasNextPostsPage" (click)="getNextPostPage()">
+        Load More Posts
+      </button>
     </div>
   </div>
 </div>

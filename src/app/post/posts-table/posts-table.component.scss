@@ -11,5 +11,11 @@ td, th {
 
 .action {
   display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin: 0;
+  button {
+    margin: 0;
+  }
 }
 
