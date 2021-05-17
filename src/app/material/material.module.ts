@@ -16,6 +16,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {OverlayModule} from '@angular/cdk/overlay';
+
 // noinspection AngularInvalidImportedOrDeclaredSymbol
 @NgModule({
   exports: [
@@ -33,7 +35,8 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    OverlayModule
   ],
   declarations: [],
   imports: [
@@ -52,13 +55,14 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    OverlayModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {duration: 2000}
-    }
+    },
   ]
 })
 export class MaterialModule {

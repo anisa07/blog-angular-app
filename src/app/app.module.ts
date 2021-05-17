@@ -10,6 +10,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
 import { MaterialModule } from './material/material.module';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [
@@ -26,9 +27,9 @@ import { MaterialModule } from './material/material.module';
     UserModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    OverlayModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
