@@ -9,10 +9,9 @@ import { HeaderComponent } from './header/header.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
-import {MaterialModule} from './material/material.module';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
-  exports: [],
   declarations: [
     AppComponent,
     HeaderComponent,

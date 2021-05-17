@@ -201,6 +201,11 @@ a {
       }
     }
   }
+  .post-image-frame {
+    outline: 6px solid rgba(0, 0, 0, 0.45);
+    outline-offset: -5px;
+    @include bottom-shadow;
+  }
 }
 
 .accent {
@@ -254,5 +259,11 @@ div.mat-select-panel {
 
 .user-item {
   @include transparent-background;
+  @include bottom-shadow;
+}
+
+.post-image-frame {
+  outline: 6px solid rgba(255, 255, 255, 0.55);
+  outline-offset: -5px;
   @include bottom-shadow;
 }

@@ -11,14 +11,13 @@ import {MaterialModule} from '../material/material.module';
 import {ComponentsModule} from '../components/components.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PostRoutingModule} from './post-routing.module';
-import {OnlyLoggedInUsersGuard} from '../services/only-logged-in-users.guard';
-import {PostResolver} from '../services/post.resolver';
 import {CreateCommentComponent} from './create-comment/create-comment.component';
 import {CommentsComponent} from './comments/comments.component';
 import {PostListItemComponent} from './post-list-item/post-list-item.component';
 import {PostGridItemComponent} from './post-grid-item/post-grid-item.component';
 import {PostsTableComponent} from './posts-table/posts-table.component';
 import {UpdatePostComponent} from './update-post/update-post.component';
+import { DefaultImagePipe } from '../utils/pipes/default-image.pipe';
 
 @NgModule({
     declarations: [
@@ -35,6 +34,7 @@ import {UpdatePostComponent} from './update-post/update-post.component';
         PostGridItemComponent,
         PostsTableComponent,
         UpdatePostComponent,
+        DefaultImagePipe,
     ],
     imports: [
         CommonModule,
