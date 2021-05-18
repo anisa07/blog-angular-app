@@ -9,6 +9,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {By} from '@angular/platform-browser';
 import {UserService} from '../../services/user.service';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MatInputHarness} from '@angular/material/input/testing';
+import {MatButtonHarness} from '@angular/material/button/testing';
 
 class Router {
   navigate(r: string) {
@@ -20,6 +24,7 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let userService = jasmine.createSpyObj('UserService', ['login']);
   let loginSpy = userService.login.and.returnValue(of());
+  let loader: HarnessLoader;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,6 +37,7 @@ describe('LoginComponent', () => {
       .compileComponents();
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
   });
 
@@ -44,5 +50,22 @@ describe('LoginComponent', () => {
     submit.nativeElement.click();
     fixture.detectChanges();
     expect(loginSpy).toHaveBeenCalledOnceWith({ email: 'test@test.com', password: 'TestTest1234' })
-  })
+  });
+
+  it('login form should be invalid', async () => {
+    const emailField = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: '[data-testid=email]',
+    }));
+    const passwordField = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: '[data-testid=password]',
+    }));
+    const button = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
+      selector: '[data-testid=submit]',
+    }))
+    await emailField.setValue('test');
+    await passwordField.setValue('  ');
+    expect(component.loginForm.valid).toBeFalse();
+    const isDisabled = await button.isDisabled();
+    expect(isDisabled).toBeTrue()
+  });
 });

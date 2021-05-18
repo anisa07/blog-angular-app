@@ -4,19 +4,19 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email" required>
+                <input matInput type="email" formControlName="email" required data-testid="email">
                 <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password" required>
+                <input matInput type="password" formControlName="password" required data-testid="password">
                 <mat-error *ngIf="password.invalid">{{getPasswordError()}}</mat-error>
             </mat-form-field>
         </div>
         <div class="action">
-            <button mat-flat-button color="accent" type="submit" [disabled]="loginForm.invalid">Submit</button>
+            <button mat-flat-button color="accent" type="submit" [disabled]="loginForm.invalid" data-testid="submit">Submit</button>
             <a class="link" routerLink="/user/forgot-password">Forgot password?</a>
             <a class="link accent" routerLink="/user/sign-up">No account yet?</a>
         </div>

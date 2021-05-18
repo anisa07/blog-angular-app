@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
 
 @Component({
   selector: 'login',
@@ -22,8 +23,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, emptyValueValidator]]
     })
   }
 
