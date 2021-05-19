@@ -8,7 +8,6 @@ import {StoreService} from '../../services/store.service';
 import {Router} from '@angular/router';
 import {DialogComponent} from '../../components/dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {switchMap, take} from 'rxjs/operators';
 
 @Component({
   selector: 'posts-table',

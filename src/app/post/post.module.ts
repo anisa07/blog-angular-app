@@ -45,7 +45,8 @@ import { DefaultImagePipe } from '../utils/pipes/default-image.pipe';
         FormsModule,
     ],
     exports: [
-        PostListItemComponent
+        PostListItemComponent,
+        PostsTableComponent
     ]
 })
 export class PostModule {

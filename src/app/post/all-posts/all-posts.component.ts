@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AllPosts, PostService} from '../../services/post.service';
-import {StoreService} from '../../services/store.service';
-import {debounce, distinctUntilChanged, switchMap, take} from 'rxjs/operators';
-import {Observable, of, timer} from 'rxjs';
+import {debounce, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Observable, timer} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Error} from '../../models/Error';
@@ -22,8 +21,8 @@ export class AllPostsComponent implements OnInit {
   dataSource: MatTableDataSource<Post>;
   showMorePosts: boolean = false;
   postData: AllPosts;
-  posts: Post[];
-  labels: Label[];
+  posts: Post[] = [];
+  labels: Label[] = [];
   author: User;
   size = 10;
   length = 0;
@@ -35,7 +34,12 @@ export class AllPostsComponent implements OnInit {
   tableColumns = new FormControl(this.columnsList);
   cols = new FormControl('4');
 
-  constructor(private postService: PostService, private userService: UserService, private storeService: StoreService, private _snackBar: MatSnackBar, private fb: FormBuilder) {
+  constructor(
+    private postService: PostService,
+    private userService: UserService,
+    private _snackBar: MatSnackBar,
+    private fb: FormBuilder
+  ) {
     this.form = this.fb.group({
       search: [''],
       sortBy: [''],
@@ -159,16 +163,15 @@ export class AllPostsComponent implements OnInit {
     observable$.subscribe((response) => {
       const userId = this.userService.getUserId();
       this.posts = addPosts ? [...this.posts, ...response.posts] : response.posts;
-      this.posts = this.posts.map(p => {
+      this.posts = (this.posts || []).map(p => {
         p.canUpdate = p.authorId === userId;
         return p;
       })
       this.dataSource = new MatTableDataSource(this.posts);
       this.showMorePosts = response.hasNextPage;
-      this.storeService.setPosts(response);
+      // this.storeService.setPosts(response);
       this.loading = false;
       this.length = response.totalDocs;
-      console.log('response', response);
     }, (error: Error) => {
       this._snackBar.openFromComponent(SnackbarComponent, {
         data: {

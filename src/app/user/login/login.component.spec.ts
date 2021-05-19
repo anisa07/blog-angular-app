@@ -32,8 +32,8 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       providers: [{
         provide: UserService, useValue: userService
-      }, Router, FormBuilder, MatSnackBar, MaterialModule,]
-    })
+      }, Router, FormBuilder, MatSnackBar,]
+    })// MaterialModule
       .compileComponents();
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
