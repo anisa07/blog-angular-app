@@ -20,7 +20,7 @@ const routes: Routes = [
     { path: 'login', canActivate: [NotLoggedInUsersGuard], component: LoginComponent },
     { path: 'sign-up', canActivate: [NotLoggedInUsersGuard], component: SignupComponent },
     { path: 'forgot-password', canActivate: [NotLoggedInUsersGuard], component: ForgotPasswordComponent },
-    { path: 'change-password', component: ChangePasswordComponent },
+    { path: 'reset-password', component: ChangePasswordComponent },
     { path: 'super', canActivate: [OnlyLoggedInUsersGuard, SuperUsersGuard], resolve: {
       superData: SuperResolver
       }, component: SuperUserPageComponent },

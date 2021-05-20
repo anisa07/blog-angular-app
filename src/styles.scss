@@ -162,52 +162,6 @@ a {
   }
 }
 
-.alternate-theme {
-  div.mat-select-panel {
-    background: $light-color-2;
-
-    mat-option.mat-option {
-      color: $dark-color-1 !important;
-
-      .mat-pseudo-checkbox {
-        color: $alt-accent !important;
-      }
-      .mat-pseudo-checkbox::after {
-        color: $light-color-2;
-      }
-
-      .mat-pseudo-checkbox-checked {
-        background: $alt-accent !important;
-      }
-    }
-  }
-  .mat-dialog-container {
-    padding: 0 !important;
-
-    dialog.ng-star-inserted {
-      border-color: $alt-accent;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-top: -40px;
-      color: $dark-color-1;
-      background: $light-color-1;
-      width: 250px;
-
-      .mat-dialog-actions {
-        button.mat-accent {
-          background: $alt-accent;
-        }
-      }
-    }
-  }
-  .post-image-frame {
-    outline: 6px solid rgba(0, 0, 0, 0.45);
-    outline-offset: -5px;
-    @include bottom-shadow;
-  }
-}
-
 .accent {
   color: $accent;
 }
@@ -266,4 +220,54 @@ div.mat-select-panel {
   outline: 6px solid rgba(255, 255, 255, 0.55);
   outline-offset: -5px;
   @include bottom-shadow;
+}
+
+.alternate-theme {
+  div.mat-select-panel {
+    background: $light-color-2;
+
+    mat-option.mat-option {
+      color: $dark-color-1 !important;
+
+      .mat-pseudo-checkbox {
+        color: $alt-accent !important;
+      }
+      .mat-pseudo-checkbox::after {
+        color: $light-color-2;
+      }
+
+      .mat-pseudo-checkbox-checked {
+        background: $alt-accent !important;
+      }
+    }
+  }
+  .mat-dialog-container {
+    padding: 0 !important;
+
+    dialog.ng-star-inserted {
+      border-color: $alt-accent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: -40px;
+      color: $dark-color-1;
+      background: $light-color-1;
+      width: 250px;
+
+      .mat-dialog-actions {
+        button.mat-accent {
+          background: $alt-accent;
+        }
+      }
+    }
+  }
+  .post-image-frame {
+    outline: 6px solid rgba(0, 0, 0, 0.45);
+    outline-offset: -5px;
+    @include bottom-shadow;
+  }
+
+  .accent {
+    color: $alt-accent;
+  }
 }

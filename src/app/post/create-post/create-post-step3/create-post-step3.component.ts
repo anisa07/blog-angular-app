@@ -14,11 +14,11 @@ export class CreatePostStep3Component implements OnInit {
   labels: Label[] = [];
 
   constructor(private postService: PostService, private fb: FormBuilder) {
-    this.form = this.fb.group({
-      labels: [[], emptyLabelsValidator]
-    });
   }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      labels: [[], emptyLabelsValidator]
+    });
   }
 }

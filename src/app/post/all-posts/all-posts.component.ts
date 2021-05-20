@@ -12,7 +12,6 @@ import {Label} from '../../models/Label';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user.service';
 import {LocalstoreService} from '../../services/localstore.service';
-import {stringify} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'all-posts',
@@ -44,13 +43,6 @@ export class AllPostsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
-    this.storagePostView = this.localstroreService.getPostsView();
-    this.form = this.fb.group({
-      search: [''],
-      sortBy: [''],
-      searchBy: ['title'],
-      view: [this.storagePostView || 'list'],
-    });
   }
 
   get search() {
@@ -101,6 +93,14 @@ export class AllPostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.storagePostView = this.localstroreService.getPostsView();
+    this.form = this.fb.group({
+      search: [''],
+      sortBy: [''],
+      searchBy: ['title'],
+      view: [this.storagePostView || 'list'],
+    });
+
     this.loading = true;
     this.getPosts(
       this.postService.readPosts()

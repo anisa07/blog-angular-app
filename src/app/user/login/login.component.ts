@@ -37,11 +37,17 @@ export class LoginComponent implements OnInit {
   }
 
   getEmailErrorMessage() {
-    return this.email.hasError('required') ? 'This field is required' : ''
+    if (this.email.hasError('required')) return 'This field is required';
+    if (this.email.hasError('email')) return 'This email is incorrect';
+    return  ''
   }
 
   getPasswordError() {
-    return this.password.hasError('required') ? 'This field is required' : '';
+    if (this.password.hasError('required')) return 'This field is required';
+    if (this.password.errors.cannotContainSpace) {
+      return "Seems this filed has only spaces"
+    }
+    return ""
   }
 
   submit() {

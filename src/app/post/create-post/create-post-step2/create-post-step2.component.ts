@@ -11,13 +11,12 @@ export class CreatePostStep2Component implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      text: ['', [Validators.required, emptyValueValidator]]
-    });
   }
 
   ngOnInit(): void {
-   
+    this.form = this.fb.group({
+      text: ['', [Validators.required, emptyValueValidator]]
+    });
   }
 
   get text() {

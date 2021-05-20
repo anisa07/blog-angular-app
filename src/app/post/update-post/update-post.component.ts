@@ -29,20 +29,6 @@ export class UpdatePostComponent implements OnInit {
               private router: Router,
               private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
-    this.postData = this.route.snapshot.data['postData'];
-    if (!(this.postData[0] instanceof HttpErrorResponse)) {
-      this.post = this.postData[0];
-    }
-
-    this.form = this.fb.group({
-      title: [this.post.title, [
-        Validators.required,
-        emptyValueValidator
-      ]],
-      text: [this.post.text, [Validators.required, emptyValueValidator]],
-      labels: [this.post.labels, [emptyLabelsValidator]],
-      fileUpload: [this.post.filename]
-    });
   }
 
   get title() {
@@ -94,7 +80,20 @@ export class UpdatePostComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.postData = this.route.snapshot.data['postData'];
+    if (!(this.postData[0] instanceof HttpErrorResponse)) {
+      this.post = this.postData[0];
+    }
 
+    this.form = this.fb.group({
+      title: [this.post.title, [
+        Validators.required,
+        emptyValueValidator
+      ]],
+      text: [this.post.text, [Validators.required, emptyValueValidator]],
+      labels: [this.post.labels, [emptyLabelsValidator]],
+      fileUpload: [this.post.filename]
+    });
   }
 
   onSave() {

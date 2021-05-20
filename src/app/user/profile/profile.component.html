@@ -22,6 +22,9 @@
     } as state">
       <div class="action" *ngIf="(ownProfile() || superUser()) && state.isLoggedIn ">
         <button mat-flat-button color="accent" (click)="onEdit()">{{showEditForm ? 'Hide' : 'Show'}} Edit Form</button>
+        <button mat-flat-button color="warn" [disabled]="!state.isLoggedIn" routerLink="/user/reset-password"
+                *ngIf="ownProfile()">Change password
+        </button>
         <button mat-flat-button color="primary" (click)="onOpenFollowPosts()" *ngIf="ownProfile()">Show Follow Posts
           List
         </button>

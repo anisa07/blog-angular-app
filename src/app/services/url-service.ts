@@ -18,5 +18,7 @@ export class UrlService {
   followUrl: string = this.url + '/follow';
   userUrl: string = this.url + '/user';
   usersUrl: string = this.url + '/users';
-  manageUserUrl: string = this.url + '/manage-user'
+  manageUserUrl: string = this.url + '/manage-user';
+  forgotPasswordUrl: string = this.url + '/forgot-password';
+  changePasswordUrl: string = this.url + '/change-password';
 }

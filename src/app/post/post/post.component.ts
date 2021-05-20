@@ -40,10 +40,10 @@ export class PostComponent implements OnInit {
               private _snackBar: MatSnackBar,
               private router: Router,
               public dialog: MatDialog) {
-    this.currentUserId = userService.getUserId();
   }
 
   ngOnInit(): void {
+    this.currentUserId = this.userService.getUserId();
     this.postData = this.route.snapshot.data['postData'];
     if (!(this.postData[0] instanceof HttpErrorResponse)) {
       this.post = this.postData[0];

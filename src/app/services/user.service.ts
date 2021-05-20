@@ -9,7 +9,7 @@ import {switchMap, tap} from 'rxjs/operators';
 import {StoreService} from './store.service';
 import {User} from '../models/User';
 import {AllPosts} from './post.service';
-import {Post} from '../models/Post';
+import {ChangePassword} from '../models/ChangePassword';
 
 interface LoginResponse {
   id: string,
@@ -138,5 +138,14 @@ export class UserService {
     }
 
     return this.http.get<AllUsers>(url, options);
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(this.urlService.forgotPasswordUrl, {email})
+  }
+
+  changePassword(changePassword: ChangePassword) {
+    const options = {headers: this.createHeaders()};
+    return this.http.post(this.urlService.changePasswordUrl, changePassword, options);
   }
 }

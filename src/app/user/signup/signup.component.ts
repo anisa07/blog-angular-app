@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { passwordIdentityValidator } from '../../utils/validators/password-identity-validator';
 import { Signup } from '../../models/Signup';
 import { UserService } from '../../services/user.service';
@@ -7,7 +7,6 @@ import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../uti
 import { distinctUntilChanged } from 'rxjs/operators';
 import { LocalstoreService } from '../../services/localstore.service';
 import { Router } from '@angular/router';
-import {PostService} from '../../services/post.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from '../../models/Error';
 import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
@@ -19,17 +18,8 @@ import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  signupError: string = '';
 
   constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router, private _snackBar: MatSnackBar) { }
-
-  onChanges(): void {
-    this.signupForm.valueChanges.pipe(
-      distinctUntilChanged()
-    ).subscribe(() => {
-      this.signupError = "";
-    })
-  }
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
@@ -38,8 +28,6 @@ export class SignupComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(PWD_REGEXP)]],
       repeatPassword: ['']
     }, { validators: [passwordIdentityValidator] });
-
-    this.onChanges();
   }
 
   get name() {
@@ -99,11 +87,10 @@ export class SignupComponent implements OnInit {
       }
 
       this.userService.signup(signupData).subscribe(() => {
-        this.signupForm.reset();
-        this.signupForm.markAsPristine();
+        // this.signupForm.reset();
+        // this.signupForm.markAsPristine();
         this.router.navigate([""]);
       }, (error: Error) => {
-        this.signupError = error.message;
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {
             message: error.message, type: 'ERROR'

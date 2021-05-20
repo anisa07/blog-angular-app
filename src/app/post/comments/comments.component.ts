@@ -28,7 +28,6 @@ export class CommentsComponent implements OnInit {
   currentUser: User;
 
   constructor(private userService: UserService, private postService: PostService , private storeService: StoreService) {
-    this.currentUserId = userService.getUserId();
   }
 
   isCommentAuthor(authorId: string) {
@@ -36,6 +35,7 @@ export class CommentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUserId = this.userService.getUserId();
     this.userService.isAuth().subscribe((response) => this.isAuth = response);
     this.storeService.currentUser$.subscribe(response => {
       this.currentUser = response;
