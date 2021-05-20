@@ -1,14 +1,12 @@
-<div>
-  <form novalidate [formGroup]="commentForm" (ngSubmit)="submit()">
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Comment</mat-label>
-        <textarea matInput type="text" formControlName="comment" required rows="5" class="static"></textarea>
-        <mat-error *ngIf="comment.invalid">{{getCommentErrorMessage()}}</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="action">
-      <button mat-flat-button color="accent" type="submit" [disabled]="commentForm.invalid">Submit</button>
-    </div>
-  </form>
-</div>
+<form novalidate [formGroup]="commentForm" (ngSubmit)="submit()" data-testId="create-comment-form">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Comment</mat-label>
+      <textarea matInput type="text" formControlName="comment" required rows="5" class="static"></textarea>
+      <mat-error *ngIf="comment.invalid">{{getCommentErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="action">
+    <button mat-flat-button color="accent" type="submit" [disabled]="commentForm.invalid">Submit</button>
+  </div>
+</form>

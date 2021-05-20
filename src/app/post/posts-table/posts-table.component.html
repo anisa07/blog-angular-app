@@ -1,4 +1,4 @@
-<table class="table" mat-table [dataSource]="dataSource" matSort *ngIf="dataSource" (matSortChange)="changeSort($event)">
+<table class="table" mat-table [dataSource]="dataSource" matSort *ngIf="dataSource" (matSortChange)="changeSort($event)" data-testid="table-view">
 
   <ng-container matColumnDef="Title">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>

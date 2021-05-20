@@ -1,4 +1,4 @@
-<form novalidate [formGroup]="form" class="search-sort">
+<form novalidate [formGroup]="form" class="search-sort" data-testid="search-sort-form">
   <!-- Search && Search title or author for table view -->
   <mat-form-field appearance="fill">
     <mat-label>Search</mat-label>
@@ -46,9 +46,10 @@
       <mat-option value="6">6</mat-option>
     </mat-select>
   </mat-form-field>
-  <!--Select labels to search by, multiselect-->
+  <!--TODO Select labels to search by, multiselect-->
 </form>
-<div class="container">
+
+<div class="container" data-testid="list-view">
   <!--List Representation-->
   <ng-container *ngIf="view.value === 'list'">
     <div *ngFor="let post of posts; index as i">
@@ -57,19 +58,20 @@
   </ng-container>
 </div>
 <!--Grid Representation cols.value -->
-<mat-grid-list [cols]="cols.value" [rowHeight]="rowHeight" *ngIf="view.value === 'grid'">
+<mat-grid-list [cols]="cols.value" [rowHeight]="rowHeight" *ngIf="view.value === 'grid'" data-testid="grid-view">
   <ng-container *ngFor="let post of posts; index as i">
     <mat-grid-tile>
       <post-grid-item [post]="post"></post-grid-item>
     </mat-grid-tile>
   </ng-container>
 </mat-grid-list>
+
 <div class="container">
   <!--Posts table-->
   <posts-table (confirmDeletePost)="deletePost($event)" (paginateTable)="paginateTable($event)"
                (sortTable)="sortTable($event)" [posts]="posts" [tableColumns]="tableColumns.value" [length]="length"
                *ngIf="view.value === 'table'"></posts-table>
   <button mat-raised-button color="accent" (click)="getMorePosts()" *ngIf="showMorePosts && view.value !== 'table'"
-          [disabled]="loading">Load More Posts
+          [disabled]="loading" data-testid="load-more-posts">Load More Posts
   </button>
 </div>

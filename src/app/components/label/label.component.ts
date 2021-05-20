@@ -1,7 +1,6 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {
-  ControlValueAccessor,
   FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,

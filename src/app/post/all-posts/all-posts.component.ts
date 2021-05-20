@@ -11,6 +11,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Label} from '../../models/Label';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user.service';
+import {LocalstoreService} from '../../services/localstore.service';
+import {stringify} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'all-posts',
@@ -33,18 +35,21 @@ export class AllPostsComponent implements OnInit {
   columnsList: string[] = ['Author', 'Title', 'Updated Date', 'Comments Count', 'Likes Value', 'Edit/Delete'];
   tableColumns = new FormControl(this.columnsList);
   cols = new FormControl('4');
+  storagePostView: string = "";
 
   constructor(
     private postService: PostService,
     private userService: UserService,
+    private localstroreService: LocalstoreService,
     private _snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
+    this.storagePostView = this.localstroreService.getPostsView();
     this.form = this.fb.group({
       search: [''],
       sortBy: [''],
       searchBy: ['title'],
-      view: ['list'],
+      view: [this.storagePostView || 'list'],
     });
   }
 
@@ -73,8 +78,12 @@ export class AllPostsComponent implements OnInit {
         switchMap(v => {
             this.currentPage = 1;
             let searchBy = this.searchBy.value;
-            if (this.view.value !== 'table') {
+            const newView = this.view.value;
+            if (newView !== 'table') {
               searchBy = '';
+            }
+            if (this.storagePostView !== newView) {
+              this.localstroreService.setPostsView(newView)
             }
             return this.postService.readPosts({
               size: this.size,

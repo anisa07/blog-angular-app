@@ -30,7 +30,6 @@ export class PostComponent implements OnInit {
   image: string = '';
   isLoading: boolean = false;
   showCommentForm: boolean = false;
-  errorMessage: string = '';
   currentUserId: string = '';
   currentUser: User;
 
@@ -140,11 +139,10 @@ export class PostComponent implements OnInit {
   }
 
   showComment() {
-    this.showCommentForm = true;
+    this.showCommentForm = !this.showCommentForm;
   }
 
   submitComment(e) {
-    this.errorMessage = undefined;
     this.isLoading = true;
     const createCommentObservable$ = this.postService.createComment({
       text: e.comment,
@@ -167,7 +165,6 @@ export class PostComponent implements OnInit {
   }
 
   getComments(observable$: Observable<any>, addComments?: boolean) {
-    this.errorMessage = undefined;
     observable$.subscribe((response) => {
       this.showCommentForm = false;
       this.post.comments = addComments ? [...this.post.comments, ...response.comments] : response.comments;

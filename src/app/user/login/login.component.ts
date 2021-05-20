@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.userService.login(this.loginForm.value).subscribe(() => {
-      this.loginForm.reset();
-      this.loginForm.markAsPristine();
+      // this.loginForm.reset();
+      // this.loginForm.markAsPristine();
       this.router.navigate([""]);
     }, (error: Error) => {
       this._snackBar.openFromComponent(SnackbarComponent, {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpErrorComponent } from './http-error/http-error.component';
 import { CustomBaseComponent } from './custom-base/custom-base.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { MaterialModule } from '../material/material.module';
@@ -10,7 +9,6 @@ import { LabelComponent } from './label/label.component';
 
 @NgModule({
   declarations: [
-    HttpErrorComponent,
     FileUploadComponent,
     CustomBaseComponent,
     DialogComponent,
@@ -18,7 +16,6 @@ import { LabelComponent } from './label/label.component';
     LabelComponent,
   ],
   exports: [
-    HttpErrorComponent,
     FileUploadComponent,
     CustomBaseComponent,
     LabelComponent,

@@ -22,8 +22,8 @@
     <img class="authorPhoto" *ngIf="authorPhoto" [src]="authorPhoto"/>
   </a>
   <div class="action">
-    <button mat-flat-button color="accent" [disabled]="isDisabled()" (click)="showComment()" *ngIf="!showCommentForm">
-      Comment Post
+    <button mat-flat-button color="accent" [disabled]="isDisabled()" (click)="showComment()">
+      {{showCommentForm ? 'Hide Comment Post Form' : 'Comment Post'}}
     </button>
     <button mat-flat-button color="primary" [disabled]="isDisabled()" (click)="editPost()" *ngIf="isPostAuthor()">Edit
       Post
@@ -33,7 +33,6 @@
     </button>
   </div>
   <create-comment *ngIf="showCommentForm" (leaveComment)="submitComment($event)"></create-comment>
-  <http-error *ngIf="errorMessage" [errorMessage]="errorMessage"></http-error>
   <comments [comments]="post.comments" [moreButton]="post.showMoreComments"
             (loadComments)="showMoreComments($event)"></comments>
 </div>

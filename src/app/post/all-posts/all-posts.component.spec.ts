@@ -85,13 +85,15 @@ describe('AllPostsComponent', () => {
     const viewSelect = await loader.getHarness(MatSelectHarness.with({
       selector: '[data-testid=select-view]'
     }));
-    expect(await viewSelect.getValueText()).toBe('List');
-    expect(readPostsSpy).toHaveBeenCalledTimes(1);
     await viewSelect.open();
     const viewOptions = await viewSelect.getOptions();
+    await viewOptions[0].click();
+    expect(await viewSelect.getValueText()).toBe('List');
+    expect(readPostsSpy).toHaveBeenCalledTimes(2);
+    await viewSelect.open();
     await viewOptions[1].click();
     expect(await viewSelect.getValueText()).toBe('Grid');
-    expect(readPostsSpy).toHaveBeenCalledTimes(2);
+    expect(readPostsSpy).toHaveBeenCalledTimes(3);
     const colsSelect = await loader.getHarness(MatSelectHarness.with({
       selector: '[data-testid=select-cols]'
     }));
@@ -100,12 +102,13 @@ describe('AllPostsComponent', () => {
     const colsSelectOption = await colsSelect.getOptions();
     await colsSelectOption[1].click();
     expect(await colsSelect.getValueText()).toBe('5');
+    await viewSelect.open();
     await viewOptions[2].click();
     expect(await viewSelect.getValueText()).toBe('Table');
     const tableColumnsSelect = await loader.getHarness(MatSelectHarness.with({
       selector: '[data-testid=select-table-columns]'
     }));
-    expect(readPostsSpy).toHaveBeenCalledTimes(3);
+    expect(readPostsSpy).toHaveBeenCalledTimes(4);
     expect(await tableColumnsSelect.getValueText()).toBe('Author, Title, Updated Date, Comments Count, Likes Value, Edit/Delete');
     await tableColumnsSelect.open();
     const tableSelectOption = await tableColumnsSelect.getOptions();

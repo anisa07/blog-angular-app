@@ -18,7 +18,6 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/materia
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {OverlayModule} from '@angular/cdk/overlay';
 
-// noinspection AngularInvalidImportedOrDeclaredSymbol
 @NgModule({
   exports: [
     MatFormFieldModule,

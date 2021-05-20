@@ -1,4 +1,4 @@
-<mat-form-field class="example-chip-list" appearance="fill">
+<mat-form-field class="example-chip-list" appearance="fill" data-testid="labels">
   <mat-label>Tags separated by commas</mat-label>
   <mat-chip-list #chipList aria-label="Tags selection">
     <mat-chip *ngFor="let label of labels" [selectable]="selectable"
@@ -14,4 +14,4 @@
            (matChipInputTokenEnd)="add($event)">
   </mat-chip-list>
 </mat-form-field>
-<div *ngIf="error" class="chips-error">{{getLabelErrorMessage()}}</div>
+<div *ngIf="error" class="chips-error" data-testid="labels-error">{{getLabelErrorMessage()}}</div>

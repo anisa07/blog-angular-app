@@ -1,4 +1,4 @@
-<div *ngFor="let comment of comments; index as i" class="comment">
+<div *ngFor="let comment of comments; index as i" class="comment" data-testid="comment">
   <h4>{{comment.text}}</h4>
   <create-comment *ngIf="comment.id === selectedComment?.id" (leaveComment)="submitComment($event)" [current]="comment"></create-comment>
   <h5 class="user">
