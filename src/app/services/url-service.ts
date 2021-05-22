@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UrlService {
-  private url: string =  'http://localhost:3000';
+  private url: string =  'http://localhost:3000/api/v1';
   signupUrl: string = this.url + '/signup';
   loginUrl: string = this.url + '/login';
   logoutUrl: string = this.url + '/logout';
