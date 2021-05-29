@@ -13,12 +13,11 @@ export class UrlService {
   authUrl: string = this.url + '/auth';
   likeUrl: string = this.url + '/like';
   commentUrl: string = this.url + '/comment';
-  userInfoUrl: string = this.url + '/user-info';
-  userPhotoUrl: string = this.url + '/user-photo';
-  followUrl: string = this.url + '/follow';
+  userInfoUrl: string = this.url + '/user/info';
+  userPhotoUrl: string = this.url + '/user/photo';
+  followUrl: string = this.url + '/user/follow';
   userUrl: string = this.url + '/user';
-  usersUrl: string = this.url + '/users';
-  manageUserUrl: string = this.url + '/manage-user';
+  manageUserUrl: string = this.url + '/user/manage';
   forgotPasswordUrl: string = this.url + '/forgot-password';
   changePasswordUrl: string = this.url + '/change-password';
 }

@@ -132,7 +132,7 @@ export class UserService {
 
   getUsers(query?: UsersQuery) {
     const options = {headers: this.createHeaders()};
-    let url = this.urlService.usersUrl;
+    let url = this.urlService.userUrl;
     if (query) {
       url = `${url}/?searchText=${query.text || ''}&size=${query.size || 10}&page=${query.page || 1}`
     }

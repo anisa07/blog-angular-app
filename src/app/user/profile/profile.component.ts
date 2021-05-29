@@ -151,7 +151,6 @@ export class ProfileComponent implements OnInit {
         this.storeService.setCurrentUser(response);
       }
       this.showEditForm = false;
-      console.log(response)
       if (response.filename) {
         this.image = this.userService.getUserPhoto(response.filename);
       }
