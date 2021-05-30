@@ -7,9 +7,9 @@ import { EMAIL_REGEXP, NAME_REGEXP, PWD_REGEXP, STORE_USER_KEY } from '../../uti
 import { distinctUntilChanged } from 'rxjs/operators';
 import { LocalstoreService } from '../../services/localstore.service';
 import { Router } from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
 
 @Component({
   selector: 'signup',
@@ -19,7 +19,9 @@ import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
-  constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router, private _snackBar: MatSnackBar) { }
+  constructor(private userService: UserService, private localstoreService: LocalstoreService, private formBuilder: FormBuilder, private router: Router,
+              // private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
@@ -91,11 +93,11 @@ export class SignupComponent implements OnInit {
         // this.signupForm.markAsPristine();
         this.router.navigate([""]);
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       })
     }
   }

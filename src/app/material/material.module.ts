@@ -14,6 +14,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {OverlayModule} from '@angular/cdk/overlay';
@@ -35,9 +36,11 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatSortModule,
     MatPaginatorModule,
     MatButtonToggleModule,
-    OverlayModule
+    OverlayModule,
+    MatTooltipModule
   ],
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -55,12 +58,13 @@ import {OverlayModule} from '@angular/cdk/overlay';
     MatSortModule,
     MatPaginatorModule,
     MatButtonToggleModule,
-    OverlayModule
+    OverlayModule,
+    MatTooltipModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {duration: 2000}
+      useValue: {duration: 3500}
     },
   ]
 })

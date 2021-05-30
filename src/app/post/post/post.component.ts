@@ -7,8 +7,6 @@ import {Post} from '../../models/Post';
 import {PostService} from '../../services/post.service';
 import {Observable, of} from 'rxjs';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {UserService} from '../../services/user.service';
 import {DialogComponent} from '../../components/dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -37,7 +35,7 @@ export class PostComponent implements OnInit {
               private userService: UserService,
               private storeService: StoreService,
               private postService: PostService,
-              private _snackBar: MatSnackBar,
+              // private _snackBar: MatSnackBar,
               private router: Router,
               public dialog: MatDialog) {
   }
@@ -170,11 +168,11 @@ export class PostComponent implements OnInit {
       this.post.comments = addComments ? [...this.post.comments, ...response.comments] : response.comments;
       this.post.showMoreComments = response.showMoreComments;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     });
   }
 }

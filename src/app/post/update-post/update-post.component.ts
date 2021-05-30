@@ -5,9 +5,9 @@ import {emptyValueValidator} from '../../utils/validators/empty-value-validator'
 import {Post} from '../../models/Post';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
 import {PostService} from '../../services/post.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
 import {emptyLabelsValidator} from '../../utils/validators/empty-labels-validator';
@@ -27,7 +27,7 @@ export class UpdatePostComponent implements OnInit {
               private fb: FormBuilder,
               private postService: PostService,
               private router: Router,
-              private _snackBar: MatSnackBar,
+              // private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
   }
 
@@ -116,11 +116,11 @@ export class UpdatePostComponent implements OnInit {
       .subscribe((response) => {
         this.router.navigate(['post', response.id]);
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 }

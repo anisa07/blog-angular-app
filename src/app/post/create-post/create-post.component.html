@@ -3,7 +3,7 @@
 
   <mat-vertical-stepper linear labelPosition="bottom">
 
-    <mat-step [stepControl]="step1.form">
+    <mat-step>
       <ng-template matStepLabel>Post Title</ng-template>
       <create-post-step1 #step1></create-post-step1>
       <div class="action-container">
@@ -11,7 +11,7 @@
       </div>
     </mat-step>
 
-    <mat-step [stepControl]="step2.form">
+    <mat-step>
       <ng-template matStepLabel>Post Text</ng-template>
       <create-post-step2 #step2></create-post-step2>
       <div class="action-container">
@@ -20,7 +20,7 @@
       </div>
     </mat-step>
 
-    <mat-step [stepControl]="step3.form">
+    <mat-step>
       <ng-template matStepLabel>Post Tags</ng-template>
       <create-post-step3 #step3></create-post-step3>
       <div class="action-container">
@@ -29,13 +29,14 @@
       </div>
     </mat-step>
 
-    <mat-step [stepControl]="step4.form" optional>
+    <mat-step optional>
       <ng-template matStepLabel>Post Image</ng-template>
       <create-post-step4 #step4></create-post-step4>
       <div class="action-container">
         <button mat-flat-button color="default" matStepperPrevious>Previous</button>
         <button mat-flat-button color="primary" (click)="onSave()"
-          [disabled]="step1.form.invalid || step2.form.invalid || step3.form.invalid">
+          [disabled]="step1.form.invalid || step2.form.invalid || step3.form.invalid"
+        >
           Save post
         </button>
       </div>

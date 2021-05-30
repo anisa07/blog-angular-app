@@ -17,25 +17,28 @@ import {PostListItemComponent} from './post-list-item/post-list-item.component';
 import {PostGridItemComponent} from './post-grid-item/post-grid-item.component';
 import {PostsTableComponent} from './posts-table/posts-table.component';
 import {UpdatePostComponent} from './update-post/update-post.component';
-import { DefaultImagePipe } from '../utils/pipes/default-image.pipe';
+import {DefaultImagePipe} from '../utils/pipes/default-image.pipe';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpConfigInterceptor} from '../services/httpconfig.interceptor';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
-    declarations: [
-        CreatePostComponent,
-        CreatePostStep1Component,
-        CreatePostStep2Component,
-        CreatePostStep3Component,
-        CreatePostStep4Component,
-        AllPostsComponent,
-        PostComponent,
-        CreateCommentComponent,
-        CommentsComponent,
-        PostListItemComponent,
-        PostGridItemComponent,
-        PostsTableComponent,
-        UpdatePostComponent,
-        DefaultImagePipe,
-    ],
+  declarations: [
+    CreatePostComponent,
+    CreatePostStep1Component,
+    CreatePostStep2Component,
+    CreatePostStep3Component,
+    CreatePostStep4Component,
+    AllPostsComponent,
+    PostComponent,
+    CreateCommentComponent,
+    CommentsComponent,
+    PostListItemComponent,
+    PostGridItemComponent,
+    PostsTableComponent,
+    UpdatePostComponent,
+    DefaultImagePipe,
+  ],
     imports: [
         CommonModule,
         MaterialModule,
@@ -43,11 +46,15 @@ import { DefaultImagePipe } from '../utils/pipes/default-image.pipe';
         ReactiveFormsModule,
         PostRoutingModule,
         FormsModule,
+        MatTooltipModule,
     ],
-    exports: [
-        PostListItemComponent,
-        PostsTableComponent
-    ]
+  exports: [
+    PostListItemComponent,
+    PostsTableComponent
+  ],
+  // providers: [
+  //   {provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true}
+  // ]
 })
 export class PostModule {
 }

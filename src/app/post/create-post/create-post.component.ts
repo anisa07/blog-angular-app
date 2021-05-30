@@ -4,9 +4,6 @@ import {Router} from '@angular/router';
 import {PostService} from '../../services/post.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 
 @Component({
   selector: 'create-post',
@@ -14,17 +11,20 @@ import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent {
-  @ViewChild('step1', {static: true}) formStep1: NgForm;
-  @ViewChild('step2', {static: true}) formStep2: NgForm;
-  @ViewChild('step3', {static: true}) formStep3: NgForm;
-  @ViewChild('step4', {static: true}) formStep4: NgForm;
+  @ViewChild('step1', {static: true})
+  formStep1: NgForm;
+  @ViewChild('step2', {static: true})
+  formStep2: NgForm;
+  @ViewChild('step3', {static: true})
+  formStep3: NgForm;
+  @ViewChild('step4', {static: true})
+  formStep4: NgForm;
 
   loading: boolean = false;
   submitCalled: boolean = false;
 
   constructor(private postService: PostService,
               private router: Router,
-              private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
   }
 
@@ -55,12 +55,6 @@ export class CreatePostComponent {
     this.postService.createPost(formData)
       .subscribe((response: { id: string }) => {
         this.router.navigate(['post', response.id]);
-      }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
       });
   }
 }
