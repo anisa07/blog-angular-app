@@ -5,9 +5,7 @@ import {Observable, timer} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
 import {Post} from '../../models/Post';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {Label} from '../../models/Label';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user.service';
@@ -40,7 +38,6 @@ export class AllPostsComponent implements OnInit {
     private postService: PostService,
     private userService: UserService,
     private localstroreService: LocalstoreService,
-    private _snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
   }
@@ -157,7 +154,6 @@ export class AllPostsComponent implements OnInit {
     this.currentPage++;
     this.getPosts(
       this.postService.readPosts({
-        // updatedAt: this.posts[this.posts.length - 1].updatedAt,
         size: this.size,
         labelIds: this.labels?.map(l => l.id),
         authorId: this.author?.id,
@@ -178,15 +174,8 @@ export class AllPostsComponent implements OnInit {
       })
       this.dataSource = new MatTableDataSource(this.posts);
       this.showMorePosts = response.hasNextPage;
-      // this.storeService.setPosts(response);
       this.loading = false;
       this.length = response.totalDocs;
-    }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
     });
   }
 }

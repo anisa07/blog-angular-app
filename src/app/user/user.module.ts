@@ -13,6 +13,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {UserRoutingModule} from './user-routing.module';
 import {PostModule} from '../post/post.module';
 import { UserItemComponent } from './user-item/user-item.component';
+// import {HTTP_INTERCEPTORS} from '@angular/common/http';
+// import {HttpConfigInterceptor} from '../services/httpconfig.interceptor';
+// import {SnackbarComponent} from '../snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { UserItemComponent } from './user-item/user-item.component';
     LoginComponent,
     UserProfileComponent,
     UserItemComponent,
+    // SnackbarComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,10 @@ import { UserItemComponent } from './user-item/user-item.component';
     ComponentsModule,
     UserRoutingModule,
     PostModule
-  ]
+  ],
+  // providers: [
+  //   { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+  // ]
 })
 export class UserModule {
 }

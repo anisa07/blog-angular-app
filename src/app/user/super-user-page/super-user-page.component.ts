@@ -3,13 +3,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {AllUsers, UserService} from '../../services/user.service';
 import {StoreService} from '../../services/store.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {AllPosts, PostService} from '../../services/post.service';
 import {User} from '../../models/User';
 import {Post} from '../../models/Post';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
 import {debounce, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {timer} from 'rxjs';
 
@@ -35,7 +35,8 @@ export class SuperUserPageComponent implements OnInit {
               private postService: PostService,
               private userService: UserService,
               private storeService: StoreService,
-              private _snackBar: MatSnackBar, private fb: FormBuilder) { }
+              // private _snackBar: MatSnackBar,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.superData = this.route.snapshot.data['superData'];
@@ -72,11 +73,11 @@ export class SuperUserPageComponent implements OnInit {
       this.posts = response.posts;
       this.hasNextPostsPage = response.hasNextPage;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     })
   }
 
@@ -96,11 +97,11 @@ export class SuperUserPageComponent implements OnInit {
       this.users = response.users;
       this.hasNextUsersPage = response.hasNextPage;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     })
   }
 
@@ -121,11 +122,11 @@ export class SuperUserPageComponent implements OnInit {
       this.posts = [...this.posts, ...response.posts];
       this.hasNextPostsPage = response.hasNextPage;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     })
   }
 
@@ -138,11 +139,11 @@ export class SuperUserPageComponent implements OnInit {
       this.users = [...this.users, ...response.users];
       this.hasNextUsersPage = response.hasNextPage;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     })
   }
 }

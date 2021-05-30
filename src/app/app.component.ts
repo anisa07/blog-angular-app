@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from './services/user.service';
 import {StoreService} from './services/store.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from './models/Error';
-import {SnackbarComponent} from './components/snackbar/snackbar.component';
+// import {SnackbarComponent} from './snackbar/snackbar.component';
 import {LocalstoreService} from './services/localstore.service';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {switchMap, take, tap} from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
 
   constructor(private userService: UserService,
               private storeService: StoreService,
-              private _snackBar: MatSnackBar,
+              // private _snackBar: MatSnackBar,
               private localstroreService: LocalstoreService,
               private overlay: OverlayContainer
               ) {}
@@ -41,11 +41,11 @@ export class AppComponent implements OnInit {
       .subscribe((response) => {
         this.storeService.setCurrentUser(response);
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
 
     const theme = this.localstroreService.getTheme() || 'dark';

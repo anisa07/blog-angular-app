@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {UrlService} from './url-service';
 import {Signup} from '../models/Signup';
 import {Login} from '../models/Login';
 import {LocalstoreService} from './localstore.service';
 import {STORE_USER_KEY} from '../utils/constants';
-import {switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {StoreService} from './store.service';
 import {User} from '../models/User';
 import {AllPosts} from './post.service';
@@ -37,14 +37,6 @@ export class UserService {
 
   }
 
-  createHeaders() {
-    const userObject = this.storageService.getData(STORE_USER_KEY);
-    return new HttpHeaders({
-      'Authorization': `Bearer ${userObject.token || ''}`,
-      'id': userObject.id || ''
-    });
-  }
-
   signup(data: Signup) {
     return this.http.post(this.urlService.signupUrl, data)
       .pipe(tap((response: LoginResponse) => {
@@ -66,8 +58,7 @@ export class UserService {
   }
 
   logout() {
-    const headers = this.createHeaders();
-    return this.http.post(this.urlService.logoutUrl, {}, {headers})
+    return this.http.post(this.urlService.logoutUrl, {})
       .pipe(
         tap(() => {
           this.storageService.setData(STORE_USER_KEY, '');
@@ -77,8 +68,7 @@ export class UserService {
   }
 
   isAuth() {
-    const headers = this.createHeaders();
-    return this.http.get<boolean>(this.urlService.authUrl, {headers})
+    return this.http.get<boolean>(this.urlService.authUrl)
   }
 
   getUserId() {
@@ -87,8 +77,7 @@ export class UserService {
   }
 
   getUserInfo(id?: string) {
-    const headers = this.createHeaders();
-    return this.http.get<User>(`${this.urlService.userInfoUrl}/${id || this.getUserId()}`, {headers});
+    return this.http.get<User>(`${this.urlService.userInfoUrl}/${id || this.getUserId()}`);
   }
 
   getUserPhoto(filename: string) {
@@ -96,48 +85,40 @@ export class UserService {
   }
 
   deleteUser(id: string) {
-    const headers = this.createHeaders();
-    return this.http.delete(`${this.urlService.userUrl}/${id}`, {headers});
+    return this.http.delete(`${this.urlService.userUrl}/${id}`);
   }
 
   doIFollowUser(followId: string) {
-    const headers = this.createHeaders();
-    return this.http.get<boolean>(`${this.urlService.followUrl}/${followId}`, {headers});
+    return this.http.get<boolean>(`${this.urlService.followUrl}/${followId}`);
   }
 
   followUser(followId: string) {
-    const headers = this.createHeaders();
-    return this.http.post(`${this.urlService.followUrl}`, {follow: followId}, {headers});
+    return this.http.post(`${this.urlService.followUrl}`, {follow: followId});
   }
 
   unFollowUser(followId: string) {
-    const headers = this.createHeaders();
-    return this.http.delete(`${this.urlService.followUrl}/${followId}`, {headers});
+    return this.http.delete(`${this.urlService.followUrl}/${followId}`);
   }
 
   updateUser(formData: FormData) {
-    const options = {headers: this.createHeaders()};
-    return this.http.post(`${this.urlService.userInfoUrl}`, formData, options);
+    return this.http.post(`${this.urlService.userInfoUrl}`, formData);
   }
 
   manageUser(user: User){
-    const options = {headers: this.createHeaders()};
-    return this.http.post(`${this.urlService.manageUserUrl}`, user, options);
+    return this.http.post(`${this.urlService.manageUserUrl}`, user);
   }
 
   getFollowPosts(page: number, size: number) {
-    const options = {headers: this.createHeaders()};
-    return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`, options);
+    return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`);
   }
 
   getUsers(query?: UsersQuery) {
-    const options = {headers: this.createHeaders()};
     let url = this.urlService.userUrl;
     if (query) {
       url = `${url}/?searchText=${query.text || ''}&size=${query.size || 10}&page=${query.page || 1}`
     }
 
-    return this.http.get<AllUsers>(url, options);
+    return this.http.get<AllUsers>(url);
   }
 
   forgotPassword(email: string) {
@@ -145,7 +126,6 @@ export class UserService {
   }
 
   changePassword(changePassword: ChangePassword) {
-    const options = {headers: this.createHeaders()};
-    return this.http.post(this.urlService.changePasswordUrl, changePassword, options);
+    return this.http.post(this.urlService.changePasswordUrl, changePassword);
   }
 }

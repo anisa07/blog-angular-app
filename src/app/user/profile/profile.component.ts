@@ -6,8 +6,8 @@ import {StoreService} from '../../services/store.service';
 import {Observable, of} from 'rxjs';
 import {shareReplay, switchMap, take} from 'rxjs/operators';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {Post} from '../../models/Post';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
@@ -35,14 +35,15 @@ export class ProfileComponent implements OnInit {
               public dialog: MatDialog,
               private userService: UserService,
               private storeService: StoreService,
-              private _snackBar: MatSnackBar,) {
+              // private _snackBar: MatSnackBar,
+              ) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
     this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }
 
   ngOnInit(): void {
     this.userData = this.route.snapshot.data['userInfo'];
-    this.iFollow$ = this.checkFollow();
+    this.iFollow$ = this.ownProfile() ? undefined : this.checkFollow();
 
     if (this.userData.filename) {
       this.image = this.userService.getUserPhoto(this.userData.filename);
@@ -73,11 +74,11 @@ export class ProfileComponent implements OnInit {
         this.posts = [...this.posts, ...response.posts];
         this.showMorePosts = response.hasNextPage;
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 
@@ -86,11 +87,11 @@ export class ProfileComponent implements OnInit {
       .subscribe(() => {
         this.iFollow$ = this.checkFollow();
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 
@@ -99,11 +100,11 @@ export class ProfileComponent implements OnInit {
       .subscribe(() => {
         this.iFollow$ = this.checkFollow();
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 
@@ -133,11 +134,11 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['post']);
       }
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     });
   }
 
@@ -156,11 +157,11 @@ export class ProfileComponent implements OnInit {
       }
       this.userData = response;
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     });
   }
 }

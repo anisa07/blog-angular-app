@@ -4,8 +4,8 @@ import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {distinctUntilChanged, switchMap, take} from 'rxjs/operators';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
 import {of} from 'rxjs';
@@ -25,7 +25,7 @@ export class UserItemComponent implements OnInit {
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
-              private _snackBar: MatSnackBar,
+              // private _snackBar: MatSnackBar,
               public dialog: MatDialog) {
   }
 
@@ -77,11 +77,11 @@ export class UserItemComponent implements OnInit {
       })
     ).subscribe(() => {
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     });
   }
 

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {emptyValueValidator} from '../../utils/validators/empty-value-validator';
 
 @Component({
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar) { }
+    // private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -56,11 +57,11 @@ export class LoginComponent implements OnInit {
       // this.loginForm.markAsPristine();
       this.router.navigate([""]);
     }, (error: Error) => {
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: error.message, type: 'ERROR'
-        }
-      });
+      // this._snackBar.openFromComponent(SnackbarComponent, {
+      //   data: {
+      //     message: error.message, type: 'ERROR'
+      //   }
+      // });
     })
   }
 }

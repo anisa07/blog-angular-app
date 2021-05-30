@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,12 +11,16 @@ import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
 import { MaterialModule } from './material/material.module';
 import { OverlayModule } from '@angular/cdk/overlay';
+import {HttpConfigInterceptor} from './services/httpconfig.interceptor';
+// import {SnackbarComponent} from './snackbar/snackbar.component';
+// import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     NotFoundComponent,
+    // SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +34,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MaterialModule,
     OverlayModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
+  ]
 })
 export class AppModule { }

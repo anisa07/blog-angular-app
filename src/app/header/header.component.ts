@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {StoreService} from '../services/store.service';
 import {UserService} from '../services/user.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from '../models/Error';
-import {SnackbarComponent} from '../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../snackbar/snackbar.component';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {Location} from '@angular/common';
 import {STATE, User, USER_TYPE} from '../models/User';
@@ -25,7 +25,8 @@ export class HeaderComponent implements OnInit {
   constructor(private storeService: StoreService,
               private userService: UserService,
               private _location: Location,
-              private _snackBar: MatSnackBar) {
+              // private _snackBar: MatSnackBar
+  ) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
     this.currentUser$ = this.storeService.currentUser$;
   }
@@ -46,11 +47,11 @@ export class HeaderComponent implements OnInit {
     this.userService.logout().subscribe(
       () => {
       }, (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 

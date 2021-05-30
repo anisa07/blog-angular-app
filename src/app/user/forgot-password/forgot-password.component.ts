@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
 
 @Component({
   selector: 'forgot-password',
@@ -39,11 +39,11 @@ export class ForgotPasswordComponent implements OnInit {
       .subscribe(() => {
         this.message = `Link was sent to ${emailValue}. Follow this link to change password`;
       },(error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 }

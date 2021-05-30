@@ -3,11 +3,11 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
+// import {MatSnackBar} from '@angular/material/snack-bar';
 import {PWD_REGEXP} from '../../utils/constants';
 import {passwordIdentityValidator} from '../../utils/validators/password-identity-validator';
 import {Error} from '../../models/Error';
-import {SnackbarComponent} from '../../components/snackbar/snackbar.component';
+// import {SnackbarComponent} from '../../snackbar/snackbar.component';
 
 @Component({
   selector: 'change-password',
@@ -21,7 +21,8 @@ export class ChangePasswordComponent implements OnInit {
   constructor(private route: ActivatedRoute, private userService: UserService,
               private router: Router,
               private fb: FormBuilder,
-              private _snackBar: MatSnackBar, private location: Location) {
+              // private _snackBar: MatSnackBar,
+              private location: Location) {
   }
 
   ngOnInit(): void {
@@ -73,11 +74,11 @@ export class ChangePasswordComponent implements OnInit {
         !!this.params?.id ? this.router.navigate(['user', 'login']) : this.location.back();
       },
       (error: Error) => {
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: error.message, type: 'ERROR'
-          }
-        });
+        // this._snackBar.openFromComponent(SnackbarComponent, {
+        //   data: {
+        //     message: error.message, type: 'ERROR'
+        //   }
+        // });
       });
   }
 
