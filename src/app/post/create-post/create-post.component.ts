@@ -42,7 +42,10 @@ export class CreatePostComponent {
   onSave(): void {
     this.submitCalled = true;
     const formData: FormData = new FormData();
-    formData.append('labels', JSON.stringify(this.formStep3.form.value.labels));
+    formData.append('labels', JSON.stringify(this.formStep3.form.value.labels.map(l => ({
+      id: l.id,
+      name: l.name
+    }))));
     formData.append('text', this.formStep2.form.value.text);
     formData.append('title', this.formStep1.form.value.title);
 

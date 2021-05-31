@@ -99,7 +99,10 @@ export class UpdatePostComponent implements OnInit {
   onSave() {
     this.submitCalled = true;
     const formData: FormData = new FormData();
-    formData.append('labels', JSON.stringify(this.labels.value));
+    formData.append('labels', JSON.stringify(this.labels.value.map(l => ({
+      id: l.id,
+      name: l.name
+    }))));
     formData.append('text', this.text.value);
     formData.append('title', this.title.value);
     formData.append('id', this.post.id);

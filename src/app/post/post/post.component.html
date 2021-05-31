@@ -2,20 +2,22 @@
   <div class="title">
     <h1>{{post.title}}</h1>
     <span class="likes-value">
-            <button mat-icon-button aria-label="dislike" (click)="likePost(-1)" [disabled]="likeIsDisabled(-1)">
-                <mat-icon aria-hidden="false">thumb_down</mat-icon>
-            </button>
-      {{post.likesValue}}
       <button mat-icon-button aria-label="like" (click)="likePost(1)" [disabled]="likeIsDisabled(1)">
                 <mat-icon aria-hidden="false">thumb_up</mat-icon>
+            </button>
+      {{post.likesValue}}
+      <button mat-icon-button aria-label="dislike" (click)="likePost(-1)" [disabled]="likeIsDisabled(-1)">
+                <mat-icon aria-hidden="false">thumb_down</mat-icon>
             </button>
         </span>
   </div>
   <div class="labels">
     <span class="label" *ngFor="let label of post.labels">{{label.name}}</span>
   </div>
-  <img [ngClass]="{'post-image-frame': !image}" class="post-image" [src]="image | defaultImage:'assets/default-post-image.jpeg'"/>
-  <a class="small-link" *ngIf="!image" href="https://www.pexels.com/photo/mookup-notebook-2382242">Photo by Dominika Roseclay from Pexels</a>
+  <img [ngClass]="{'post-image-frame': !image}" class="post-image"
+       [src]="image | defaultImage:'assets/default-post-image.jpeg'"/>
+  <a class="small-link" *ngIf="!image" href="https://www.pexels.com/photo/mookup-notebook-2382242">Photo by Dominika
+    Roseclay from Pexels</a>
   <h4 class="text">{{post.text}}</h4>
   <a class="author" [routerLink]="'/user/profile/' + post.authorId">
     {{post.author}}

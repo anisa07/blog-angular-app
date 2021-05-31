@@ -4,7 +4,7 @@ import {
   HttpRequest,
   HttpResponse,
   HttpHandler,
-  HttpEvent, HttpHeaders
+  HttpEvent, HttpHeaders, HttpErrorResponse
 } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
@@ -40,11 +40,11 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         }
         return event;
       }),
-      catchError((error: Error) => {
-        console.log(error)
+      catchError((error: HttpErrorResponse) => {
+        console.log('Error', error)
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {
-            message: error.message, type: 'ERROR'
+            message: error?.error?.message || 'Something went wrong', type: 'ERROR'
           }
         });
         return throwError(error);

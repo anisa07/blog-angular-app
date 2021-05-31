@@ -2,10 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommentModel} from '../../models/CommentModel';
 import {UserService} from '../../services/user.service';
 import {PostService} from '../../services/post.service';
-import {finalize, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {finalize, switchMap, take} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {StoreService} from '../../services/store.service';
 import {STATE, User, USER_TYPE} from '../../models/User';
+import {DialogComponent} from '../../components/dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'comments',
@@ -27,7 +29,7 @@ export class CommentsComponent implements OnInit {
   page: number = 1;
   currentUser: User;
 
-  constructor(private userService: UserService, private postService: PostService , private storeService: StoreService) {
+  constructor(private userService: UserService, private postService: PostService , private storeService: StoreService, public dialog: MatDialog) {
   }
 
   isCommentAuthor(authorId: string) {
@@ -59,13 +61,37 @@ export class CommentsComponent implements OnInit {
     this.loadComments.emit({observable$: showMore$, addComments: true});
   }
 
+  confirmDelete() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {
+        text: 'Are you sure you want to delete this comment?',
+      }
+    });
+
+    return dialogRef.afterClosed();
+  }
+
   deleteComment(comment: CommentModel) {
-    const deleteObservable$ = this.postService.deleteComment(comment.id).pipe(
-      switchMap(() => this.postService.readAllComments({postId: comment.postId, updatedAt: this.comments[0].updatedAt, size: this.size, page: this.page})),
+    const deleteObservable$ = this.confirmDelete().pipe(
+      take(1),
+      switchMap((val) => {
+        return  val ? this.postService.deleteComment(comment.id) : of(false)
+      }),
+      switchMap((val) =>
+        val ? this.postService.readAllComments(
+          {
+            postId: comment.postId,
+            updatedAt: this.comments[0].updatedAt,
+            size: this.size,
+            page: this.page
+          }
+        ) : of(false)
+      ),
       finalize(() => {
         this.closeCommentForm();
       })
-    );
+    )
     this.loadComments.emit({observable$: deleteObservable$});
   }
 

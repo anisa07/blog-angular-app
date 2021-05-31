@@ -8,6 +8,7 @@ import {Error} from '../models/Error';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {Location} from '@angular/common';
 import {STATE, User, USER_TYPE} from '../models/User';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(private storeService: StoreService,
               private userService: UserService,
               private _location: Location,
+              private router: Router,
               // private _snackBar: MatSnackBar
   ) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
@@ -46,6 +48,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.userService.logout().subscribe(
       () => {
+        this.router.navigate(['user', 'login']);
       }, (error: Error) => {
         // this._snackBar.openFromComponent(SnackbarComponent, {
         //   data: {

@@ -3,7 +3,7 @@
   <div class="title">
     <h3>{{post.title}}</h3>
     <div class="labels">
-      <span class="label">{{post.labels[0].name}}</span>
+      <span class="label">{{post.labels[0]?.name}}</span>
       <span
         matTooltip="Click 'Read post' to see more labels"
         *ngIf="post.labels.length > 1" class="label">...</span>
