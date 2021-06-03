@@ -29,6 +29,12 @@ export interface AllUsers {
   totalDocs: number
 }
 
+export interface AllFollowUsers {
+  users: Record<string, string>[],
+  hasNextPage: boolean,
+  totalDocs: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -110,6 +116,10 @@ export class UserService {
 
   getFollowPosts(page: number, size: number) {
     return this.http.get<AllPosts>(`${this.urlService.followUrl}/posts/?size=${size}&page=${page}`);
+  }
+
+  getAllFollowUsers(page: number, size: number) {
+    return this.http.get<AllFollowUsers>(`${this.urlService.userUrl}/all/follow/?size=${size}&page=${page}`);
   }
 
   getUsers(query?: UsersQuery) {

@@ -5,9 +5,6 @@ import {UserService} from '../../services/user.service';
 import {StoreService} from '../../services/store.service';
 import {Observable, of} from 'rxjs';
 import {shareReplay, switchMap, take} from 'rxjs/operators';
-import {Error} from '../../models/Error';
-// import {SnackbarComponent} from '../../snackbar/snackbar.component';
-// import {MatSnackBar} from '@angular/material/snack-bar';
 import {Post} from '../../models/Post';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
@@ -21,14 +18,18 @@ export class ProfileComponent implements OnInit {
   userData: User;
   currentUser: User;
   posts: Post[] = [];
+  users: Record<string, string>[] = [];
   showMorePosts: boolean = false;
+  showMoreUsers: boolean = false;
   image: string;
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
   iFollow$: Observable<boolean>;
   showEditForm: boolean = false;
-  page: number = 0;
-  size: number = 10;
+  postPage: number = 0;
+  postSize: number = 10;
+  followPage: number = 0;
+  followSize: number = 10;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -68,17 +69,20 @@ export class ProfileComponent implements OnInit {
 
   onOpenFollowPosts() {
     this.showEditForm = false;
-    this.page += 1;
-    this.userService.getFollowPosts(this.page, this.size)
+    this.postPage += 1;
+    this.userService.getFollowPosts(this.postPage, this.postSize)
       .subscribe(response => {
         this.posts = [...this.posts, ...response.posts];
         this.showMorePosts = response.hasNextPage;
-      }, (error: Error) => {
-        // this._snackBar.openFromComponent(SnackbarComponent, {
-        //   data: {
-        //     message: error.message, type: 'ERROR'
-        //   }
-        // });
+      });
+  }
+
+  onShowAllFollowUsers() {
+    this.followPage +=1;
+    this.userService.getAllFollowUsers(this.followPage, this.followSize)
+      .subscribe(response => {
+        this.users = [...this.users, ...response.users];
+        this.showMoreUsers = response.hasNextPage;
       });
   }
 
@@ -86,12 +90,6 @@ export class ProfileComponent implements OnInit {
     this.userService.followUser(this.userData.id)
       .subscribe(() => {
         this.iFollow$ = this.checkFollow();
-      }, (error: Error) => {
-        // this._snackBar.openFromComponent(SnackbarComponent, {
-        //   data: {
-        //     message: error.message, type: 'ERROR'
-        //   }
-        // });
       });
   }
 
@@ -99,12 +97,6 @@ export class ProfileComponent implements OnInit {
     this.userService.unFollowUser(this.userData.id)
       .subscribe(() => {
         this.iFollow$ = this.checkFollow();
-      }, (error: Error) => {
-        // this._snackBar.openFromComponent(SnackbarComponent, {
-        //   data: {
-        //     message: error.message, type: 'ERROR'
-        //   }
-        // });
       });
   }
 
@@ -133,12 +125,6 @@ export class ProfileComponent implements OnInit {
       if (response === null) {
         this.router.navigate(['post']);
       }
-    }, (error: Error) => {
-      // this._snackBar.openFromComponent(SnackbarComponent, {
-      //   data: {
-      //     message: error.message, type: 'ERROR'
-      //   }
-      // });
     });
   }
 
@@ -156,12 +142,6 @@ export class ProfileComponent implements OnInit {
         this.image = this.userService.getUserPhoto(response.filename);
       }
       this.userData = response;
-    }, (error: Error) => {
-      // this._snackBar.openFromComponent(SnackbarComponent, {
-      //   data: {
-      //     message: error.message, type: 'ERROR'
-      //   }
-      // });
     });
   }
 }

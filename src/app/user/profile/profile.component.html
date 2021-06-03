@@ -28,6 +28,8 @@
         <button mat-flat-button color="primary" (click)="onOpenFollowPosts()" *ngIf="ownProfile()">Show Follow Posts
           List
         </button>
+        <button mat-flat-button color="primary" (click)="onShowAllFollowUsers()" *ngIf="ownProfile()">Show Users I Follow
+        </button>
         <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
       </div>
       <div class="action" *ngIf="!ownProfile()">
@@ -40,6 +42,11 @@
       </div>
       <edit-user-profile [userData]="userData" (getUserInfo)="getUserInfo($event)"
                          *ngIf="showEditForm"></edit-user-profile>
+      <div *ngFor="let user of users">
+        <div>
+          <a [routerLink]="'/user/profile/' + user.id">{{user.name}}</a>
+        </div>
+      </div>
       <div *ngFor="let post of posts; index as i">
         <post-list-item [post]="post"></post-list-item>
       </div>
