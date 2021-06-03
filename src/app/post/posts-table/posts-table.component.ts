@@ -3,7 +3,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {Post} from '../../models/Post';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {StoreService} from '../../services/store.service';
 import {Router} from '@angular/router';
 import {DialogComponent} from '../../components/dialog/dialog.component';

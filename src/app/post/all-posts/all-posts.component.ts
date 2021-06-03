@@ -54,10 +54,6 @@ export class AllPostsComponent implements OnInit {
     return this.form.controls['view'];
   }
 
-  get searchBy() {
-    return this.form.controls['searchBy'];
-  }
-
   onChanges(): void {
     this.loading = true;
     this.getPosts(
@@ -66,11 +62,7 @@ export class AllPostsComponent implements OnInit {
         debounce(() => timer(700)),
         switchMap(v => {
             this.currentPage = 1;
-            let searchBy = this.searchBy.value;
             const newView = this.view.value;
-            if (newView !== 'table') {
-              searchBy = '';
-            }
             if (this.storagePostView !== newView) {
               this.localstroreService.setPostsView(newView)
             }
@@ -81,7 +73,6 @@ export class AllPostsComponent implements OnInit {
               searchText: v.search,
               sortBy: v.sortBy,
               page: this.currentPage,
-              searchBy,
             });
           }
         )

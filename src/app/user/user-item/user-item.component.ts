@@ -30,7 +30,6 @@ export class UserItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.user);
     this.form = this.fb.group({
       type: [this.user.type],
       state: [this.user.state]
@@ -76,6 +75,7 @@ export class UserItemComponent implements OnInit {
         }
       })
     ).subscribe(() => {
+      this.changed = false;
     }, (error: Error) => {
       // this._snackBar.openFromComponent(SnackbarComponent, {
       //   data: {

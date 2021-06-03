@@ -2,21 +2,12 @@
   <!-- Search && Search title or author for table view -->
   <mat-form-field appearance="fill">
     <mat-label>Search</mat-label>
-    <input matInput formControlName="search">
-  </mat-form-field>
-  <!-- Select search field -->
-  <mat-form-field appearance="fill" *ngIf="view.value === 'table'">
-    <mat-label>Search by</mat-label>
-    <mat-select formControlName="searchBy">
-      <mat-option value="author">Author</mat-option>
-      <mat-option value="title">Title</mat-option>
-    </mat-select>
+    <input matInput formControlName="search" placeholder="Title or text">
   </mat-form-field>
   <!-- SortBy -->
   <mat-form-field appearance="fill" *ngIf="view.value !== 'table'">
     <mat-label>Sort by</mat-label>
     <mat-select formControlName="sortBy" data-testid="sort">
-      <mat-option value="author">Author</mat-option>
       <mat-option value="alphabet">Alphabet</mat-option>
       <mat-option value="">Update Date</mat-option>
     </mat-select>
