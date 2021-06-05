@@ -222,6 +222,11 @@ div.mat-select-panel {
   @include bottom-shadow;
 }
 
+.profile-borders {
+  border-color: $light-color-2 !important;
+  padding: 1rem;
+}
+
 .alternate-theme {
   div.mat-select-panel {
     background: $light-color-2;
@@ -241,6 +246,7 @@ div.mat-select-panel {
       }
     }
   }
+
   .mat-dialog-container {
     padding: 0 !important;
 
@@ -261,6 +267,7 @@ div.mat-select-panel {
       }
     }
   }
+
   .post-image-frame {
     outline: 6px solid rgba(0, 0, 0, 0.45);
     outline-offset: -5px;
@@ -269,5 +276,9 @@ div.mat-select-panel {
 
   .accent {
     color: $alt-accent;
+  }
+
+  .profile-borders {
+    border-color: $light-color-1 !important;
   }
 }

@@ -8,6 +8,7 @@ import {shareReplay, switchMap, take} from 'rxjs/operators';
 import {Post} from '../../models/Post';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../../components/dialog/dialog.component';
+import {PostService} from '../../services/post.service';
 
 @Component({
   selector: 'profile',
@@ -18,8 +19,10 @@ export class ProfileComponent implements OnInit {
   userData: User;
   currentUser: User;
   posts: Post[] = [];
+  myPosts: Post[] = [];
   users: Record<string, string>[] = [];
   showMorePosts: boolean = false;
+  showMoreMyPosts: boolean = false;
   showMoreUsers: boolean = false;
   image: string;
   isLoggedIn$: Observable<boolean>;
@@ -28,31 +31,51 @@ export class ProfileComponent implements OnInit {
   showEditForm: boolean = false;
   postPage: number = 0;
   postSize: number = 10;
+  myPostPage: number = 0;
+  myPostSize: number = 10;
   followPage: number = 0;
   followSize: number = 10;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dialog: MatDialog,
+              private postService: PostService,
               private userService: UserService,
-              private storeService: StoreService,
-              // private _snackBar: MatSnackBar,
+              private storeService: StoreService
               ) {
     this.isLoggedIn$ = this.storeService.isLoggedIn$;
     this.isLoggedOut$ = this.storeService.isLoggedOut$;
   }
 
+  onChange() {
+    this.image = '';
+    this.postPage = 0;
+    this.followPage = 0;
+    this.myPostPage = 0;
+    this.showEditForm = false;
+    this.showMorePosts = false;
+    this.showMoreUsers = false;
+    this.showMoreMyPosts = false;
+    this.posts = [];
+    this.users = [];
+    this.myPosts = [];
+
+    this.route.url.subscribe(() => {
+      this.userData = this.route.snapshot.data['userInfo'];
+      this.iFollow$ = this.ownProfile() ? undefined : this.checkFollow();
+
+      if (this.userData.filename) {
+        this.image = this.userService.getUserPhoto(this.userData.filename);
+      }
+
+      this.storeService.currentUser$.subscribe(response => {
+        this.currentUser = response;
+      });
+    })
+  }
+
   ngOnInit(): void {
-    this.userData = this.route.snapshot.data['userInfo'];
-    this.iFollow$ = this.ownProfile() ? undefined : this.checkFollow();
-
-    if (this.userData.filename) {
-      this.image = this.userService.getUserPhoto(this.userData.filename);
-    }
-
-    this.storeService.currentUser$.subscribe(response => {
-      this.currentUser = response;
-    });
+    this.onChange();
   }
 
   superUser() {
@@ -65,6 +88,16 @@ export class ProfileComponent implements OnInit {
 
   onEdit() {
     this.showEditForm = !this.showEditForm;
+  }
+
+  onShowMyPosts() {
+    this.showEditForm = false;
+    this.myPostPage +=1;
+    this.postService.readPosts({authorId: this.currentUser.id, page: this.myPostPage, size: this.myPostSize})
+      .subscribe(response => {
+        this.myPosts = [...this.myPosts, ...response.posts];
+        this.showMoreMyPosts = response.hasNextPage;
+      });
   }
 
   onOpenFollowPosts() {

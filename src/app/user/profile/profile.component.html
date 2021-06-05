@@ -25,13 +25,19 @@
         <button mat-flat-button color="warn" [disabled]="!state.isLoggedIn" routerLink="/user/reset-password"
                 *ngIf="ownProfile()">Change password
         </button>
-        <button mat-flat-button color="primary" (click)="onOpenFollowPosts()" *ngIf="ownProfile()">Show Follow Posts
+        <button mat-flat-button color="primary" (click)="onOpenFollowPosts()" *ngIf="ownProfile()">
+          Show Follow Posts
           List
         </button>
-        <button mat-flat-button color="primary" (click)="onShowAllFollowUsers()" *ngIf="ownProfile()">Show Users I Follow
+        <button mat-flat-button color="primary" (click)="onShowAllFollowUsers()" *ngIf="ownProfile()">
+          Show Users I Follow
+        </button>
+        <button mat-flat-button color="primary" (click)="onShowMyPosts()" *ngIf="ownProfile()">
+          Show My Posts
         </button>
         <button mat-flat-button color="warn" (click)="onDeleteProfile()">Delete Profile</button>
       </div>
+
       <div class="action" *ngIf="!ownProfile()">
         <button mat-flat-button color="accent" (click)="onFollow()" *ngIf="!state.isFollow"
                 [disabled]="!state.isLoggedIn">Follow This User
@@ -40,18 +46,36 @@
                 [disabled]="!state.isLoggedIn">Unfollow This User
         </button>
       </div>
+
       <edit-user-profile [userData]="userData" (getUserInfo)="getUserInfo($event)"
                          *ngIf="showEditForm"></edit-user-profile>
-      <div *ngFor="let user of users">
-        <div>
-          <a [routerLink]="'/user/profile/' + user.id">{{user.name}}</a>
+
+      <div class="profile-borders" *ngIf="users.length > 0">
+        <h4>Users I Follow</h4>
+        <div *ngFor="let user of users">
+          <div>
+            <a [routerLink]="'/user/profile/' + user.id">{{user.name}}</a>
+          </div>
         </div>
+        <button mat-flat-button color="accent" (click)="onShowAllFollowUsers()" *ngIf="showMoreUsers">Load More Users</button>
       </div>
-      <div *ngFor="let post of posts; index as i">
-        <post-list-item [post]="post"></post-list-item>
+
+      <div class="profile-borders" *ngIf="posts.length > 0">
+        <h4>Posts To Read</h4>
+        <div *ngFor="let post of posts; index as i">
+          <post-list-item [post]="post"></post-list-item>
+        </div>
+        <button mat-flat-button color="accent" (click)="onOpenFollowPosts()" *ngIf="showMorePosts">Load More Posts</button>
       </div>
-      <button mat-flat-button color="accent" (click)="onOpenFollowPosts()" *ngIf="showMorePosts">Load More Posts
-      </button>
+
+      <div class="profile-borders" *ngIf="myPosts.length > 0">
+        <h4>My Posts</h4>
+        <div *ngFor="let post of myPosts; index as i">
+          <post-list-item [post]="post"></post-list-item>
+        </div>
+        <button mat-flat-button color="accent" (click)="onShowMyPosts()" *ngIf="showMoreMyPosts">Load More My Posts</button>
+      </div>
+
     </ng-container>
   </div>
 </div>
